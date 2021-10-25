@@ -1,0 +1,6 @@
+class timeManager{
+
+
+  //Playlist object
+  //
+}
