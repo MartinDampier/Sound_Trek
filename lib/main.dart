@@ -1,3 +1,4 @@
+import 'package:basic/clockevent.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -49,6 +50,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  DateTime _dateToday = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day) ;
+  int _time = DateTime.now().millisecondsSinceEpoch;
+  String startTime = "22:00";
+  var _startTimeUpdated;
+
 
   void _incrementCounter() {
     setState(() {
@@ -58,6 +64,19 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      var test1 = ClockEvent("00:00", "22:00");
+      var test2 = ClockEvent("22:00", "3:00");
+
+    /*
+      _dateToday = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day) ;
+      _time = DateTime.now().millisecondsSinceEpoch;
+      startTime = "22:00";
+      //startTime = startTime.substring(startTime.indexOf(":"));
+      var now = DateTime.now();
+      _startTimeUpdated = startTime.substring(0, startTime.indexOf(":"));//startTime.substring(startTime.indexOf(":")+1)
+      _startTimeUpdated = DateTime(now.year, now.month, now.day, int.parse(startTime.substring(0, startTime.indexOf(":"))), int.parse(startTime.substring(startTime.indexOf(":")+1)), 0, 0);
+
+     */
     });
   }
 
@@ -100,6 +119,18 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+            Text(
+              '$_dateToday',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              '$_time',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              '$_startTimeUpdated',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
