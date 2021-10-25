@@ -45,5 +45,8 @@ class ClockEvent implements Event{
     _duration = _calculateDuration();
   }
 
-
+  @override
+  String toString(){
+    return "Start Time: " + _startTime + "\nEnd Time: " + _endTime + "\nDuration: " + _duration.toString();
+  }
 }

@@ -30,4 +30,8 @@ class WeatherEvent implements Event{
     return _weather;
   }
 
+  @override
+  String toString(){
+    return "Weather: " + _weather.toString() + " " + isHappening().toString();
+  }
 }

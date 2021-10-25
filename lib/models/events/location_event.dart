@@ -30,4 +30,8 @@ class LocationEvent implements Event{
     return _location;
   }
 
+  @override
+  String toString(){
+    return "Location: " + _location.toString() + " " + isHappening().toString();
+  }
 }

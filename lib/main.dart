@@ -1,4 +1,4 @@
-import 'package:basic/clockevent.dart';
+import 'package:basic/models/events/clock_event.dart';
 import 'package:flutter/material.dart';
 
 void main() {
