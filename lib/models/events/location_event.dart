@@ -1,4 +1,4 @@
-import 'package:basic/Event.dart';
+import 'package:basic/models/events/event.dart';
 
 class LocationEvent implements Event{
 

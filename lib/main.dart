@@ -1,5 +1,6 @@
 import 'package:basic/models/events/clock_event.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,12 +49,21 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+//THIS IS WHERE WE PUT
+//THE
+//VARIABLES
+//THAT WE USE
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   DateTime _dateToday = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day) ;
   int _time = DateTime.now().millisecondsSinceEpoch;
   String startTime = "22:00";
   var _startTimeUpdated;
+  Location _location = new Location();
+  bool _isServiceEnabled = false;
+  late PermissionStatus _permissionStatus;
+  late LocationData _locationData;
+  bool _isListenLocation=false,_isGetLocation=false;
 
 
   void _incrementCounter() {
@@ -133,6 +143,25 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_startTimeUpdated',
               style: Theme.of(context).textTheme.headline4,
             ),
+            ElevatedButton(onPressed: () async{
+              _isServiceEnabled = await _location.serviceEnabled();
+              if(!_isServiceEnabled){
+                _isServiceEnabled = await _location.requestService();
+                if(_isServiceEnabled) return;
+              }
+
+              _permissionStatus = await _location.requestPermission();
+              if(_permissionStatus == PermissionStatus.denied){
+                _isServiceEnabled = await _location.requestService();
+                if(_isServiceEnabled != PermissionStatus.granted) return;
+              }
+
+              _locationData = await _location.getLocation();
+              setState(() {
+                _isGetLocation = true;
+              });
+            }, child: Text('Get Location')),
+            _isGetLocation ? Text('Location: ${_locationData.longitude}/${_locationData.latitude}') : Container(),
           ],
         ),
       ),
