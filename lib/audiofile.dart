@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +25,7 @@ class _AudioFileState extends State<AudioFile> {
   void initState(){
     super.initState();
     widget.advancedPlayer.onDurationChanged.listen((d) {setState(() {_duration = d;});});
-    widget.advancedPlayer.onAudioPositionChanged.listen((p) {setState(() {_position = p;});})
+    widget.advancedPlayer.onAudioPositionChanged.listen((p) {setState(() {_position = p;});});
     widget.advancedPlayer.setUrl(widget.audioPath);
     widget.advancedPlayer.onPlayerCompletion.listen((event) {setState(() {
       _position = Duration(seconds: 0);
@@ -38,23 +40,78 @@ class _AudioFileState extends State<AudioFile> {
   }
 
   Widget startButton() {
-    return IconButton(onPressed: onPressed, icon: icon);
+    return IconButton(
+      padding: const EdgeInsets.only(bottom: 10),
+      icon: isPlaying == false?Icon(_icons[0]):Icon(_icons[1]),
+      onPressed: () {
+        if (isPlaying == false) {
+          widget.advancedPlayer.play(widget.audioPath);
+          setState(() {
+            isPlaying = true;
+          });
+        } else if (isPlaying == true) {
+          widget.advancedPlayer.pause();
+          setState(() {
+            isPlaying = false;
+          });
+        }
+      }
+      );
   }
 
-  Widget fastforwardButton() {
-    return IconButton(onPressed: onPressed, icon: icon);
-  }
+  // Widget skipButton() {
+  //   return IconButton(
+  //     icon: ImageIcon(
+  //       AssetImage('img/forward.png'),
+  //       size: 15,
+  //       color: Colors.black,
+  //     ),
+  //     onPressed: () {
+  //       widget.advancedPlayer.setPlaybackRate(); //will deal with it later
+  //     },
+  //   );
+  // }
 
-  Widget slowButton() {
-    return IconButton(onPressed: onPressed, icon: icon);
-  }
+  // Widget previousButton() {
+  //   return IconButton(
+  //     icon: ImageIcon(
+  //       AssetImage('img/backward.png'),
+  //       size: 15,
+  //       color: Colors.black,
+  //     ),
+  //     onPressed: () {
+  //       widget.advancedPlayer.setPlaybackRate(); //will deal with it later
+  //     },
+  //   );
+  // }
 
-  Widget loopButton() {
-    return IconButton(onPressed: onPressed, icon: icon);
-  }
+  //Will implement shuffle button later
+  // Widget shuffleButton() {
+  //   return IconButton(onPressed: onPressed, icon: icon);
+  // }
 
   Widget repeatButton() {
-    return IconButton(onPressed: onPressed, icon: icon);
+    return IconButton(
+      icon: ImageIcon(
+        AssetImage('img/repeat.png'),
+        size: 15,
+        color: color,
+      ),
+      onPressed: () {
+        if(isRepeat == false){
+          widget.advancedPlayer.setReleaseMode(ReleaseMode.LOOP);
+          setState(() {
+            isRepeat = true;
+            color = Colors.blue;
+          });
+        }
+        else if (isRepeat == true) {
+          widget.advancedPlayer.setReleaseMode(ReleaseMode.RELEASE);
+          color = Colors.black;
+          isRepeat = false;
+        }
+      },
+    );
   }
 
   Widget slider() {
@@ -79,21 +136,19 @@ class _AudioFileState extends State<AudioFile> {
   }
 
   Widget loadAsset() {
-    return Container(
-      child: Column(
-        children: [
-          Padding(padding: const EdgeInsets.only(left: 20, right: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(_position.toString().split(".")[0], style: TextStyle(fontSize: 16),),
-              Text(_duration.toString().split(".")[0], style: TextStyle(fontSize: 16),),
-            ],
-          ),),
-          slider(),
-          loadAsset(),
-        ],
-      ),
+    return Column(
+      children: [
+        Padding(padding: const EdgeInsets.only(left: 20, right: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(_position.toString().split(".")[0], style: TextStyle(fontSize: 16),),
+            Text(_duration.toString().split(".")[0], style: TextStyle(fontSize: 16),),
+          ],
+        ),),
+        slider(),
+        loadAsset(),
+      ],
     );
   }
 
