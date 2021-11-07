@@ -1,6 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:basic/utilities/appcolors.dart' as AppColors;
+import 'package:SoundTrek/utilities/appcolors.dart' as AppColors;
 import 'audiofile.dart';
 
 class MusicPlayer extends StatefulWidget {
