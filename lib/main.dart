@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget
         primarySwatch: Colors.blue,
         canvasColor: Colors.grey,
       ),
-      home: const MyHomePage(title: 'Welcome to Sound Trek'),
+      home: MusicPlayer(),
     );
   }
 }
