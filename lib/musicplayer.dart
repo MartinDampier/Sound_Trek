@@ -4,8 +4,9 @@ import 'package:SoundTrek/utilities/appcolors.dart' as AppColors;
 import 'audiofile.dart';
 
 class MusicPlayer extends StatefulWidget {
-
-  const MusicPlayer({Key? key}) : super(key: key);
+  final booksData;
+  final int index;
+  const MusicPlayer({Key? key, this.booksData, required this.index}) : super(key: key);
 
   @override
   _MusicPlayerState createState() => _MusicPlayerState();
@@ -37,9 +38,9 @@ class _MusicPlayerState extends State<MusicPlayer> {
               color: Colors.white,
               ),
               child: Column(
-                // children: [
-                //   AudioFile(advancedPlayer: advancedPlayer, audioPath: widget.booksData[widget.index]["audio"])
-                // ],
+                children: [
+                  AudioFile(advancedPlayer: advancedPlayer, audioPath: widget.booksData[widget.index]["audio"])
+                ],
               ),
             )),
         Positioned(
@@ -59,10 +60,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 5),
-                    // image: DecorationImage(
-                    //   image: AssetImage(widget.booksData[widget.index]["img"]),
-                    //   fit: BoxFit.cover
-                    // )
+                    image: DecorationImage(
+                      image: AssetImage(widget.booksData[widget.index]["img"]),
+                      fit: BoxFit.cover
+                    )
                   ),
                 ),
               ),
