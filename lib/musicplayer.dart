@@ -37,9 +37,9 @@ class _MusicPlayerState extends State<MusicPlayer> {
               color: Colors.white,
               ),
               child: Column(
-                // children: [
-                //   AudioFile(advancedPlayer: advancedPlayer, audioPath: widget.booksData[widget.index]["audio"])
-                // ],
+                children: [
+                  AudioFile(advancedPlayer: advancedPlayer, audioPath: "C:\Users\Kalob\Documents\AndroidStudioProjects\Sound_Trek\assets\musicsample\acoustic.mp3",)
+                ],
               ),
             )),
         Positioned(
