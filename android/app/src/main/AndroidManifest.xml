@@ -3,9 +3,11 @@
    <application
         android:label="Sound Trek"
         android:icon="@mipmap/ic_launcher">
-<!--       <meta-data android:name="com.google.android.geo.API_KEY"-->
-<!--           android:value="AIzaSyCDinf6R_6ut9bP8uJPv9c5VoFyDmvTSLs"/>-->
-        <activity
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyCAmxmKgCkF9xpKbezP8x5w5HwXzLrkTig"/>
+
+       <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
