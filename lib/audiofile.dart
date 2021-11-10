@@ -20,6 +20,7 @@ class _AudioFileState extends State<AudioFile> {
   bool isRepeat = false;
   Color color = Colors.black;
   List<IconData> _icons = [Icons.play_circle_fill, Icons.pause_circle_filled,];
+  final song = AudioCache();
 
   @override
   void initState(){
@@ -37,27 +38,28 @@ class _AudioFileState extends State<AudioFile> {
         isRepeat = false;
       }
     });});
+    song.play('acoustic.mp3');
   }
 
-  Widget startButton() {
-    return IconButton(
-      padding: const EdgeInsets.only(bottom: 10),
-      icon: isPlaying == false?Icon(_icons[0]):Icon(_icons[1]),
-      onPressed: () {
-        if (isPlaying == false) {
-          widget.advancedPlayer.play(widget.audioPath);
-          setState(() {
-            isPlaying = true;
-          });
-        } else if (isPlaying == true) {
-          widget.advancedPlayer.pause();
-          setState(() {
-            isPlaying = false;
-          });
-        }
-      }
-      );
-  }
+  // Widget startButton() {
+  //   return IconButton(
+  //     padding: const EdgeInsets.only(bottom: 10),
+  //     icon: isPlaying == false?Icon(_icons[0]):Icon(_icons[1]),
+  //     onPressed: () {
+  //       if (isPlaying == false) {
+  //         widget.advancedPlayer.play(widget.audioPath);
+  //         setState(() {
+  //           isPlaying = true;
+  //         });
+  //       } else if (isPlaying == true) {
+  //         widget.advancedPlayer.pause();
+  //         setState(() {
+  //           isPlaying = false;
+  //         });
+  //       }
+  //     }
+  //     );
+  // }
 
   // Widget skipButton() {
   //   return IconButton(
