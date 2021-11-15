@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:basic/screens/event_view.dart';
 import 'package:basic/screens/playlist_view.dart';
+import 'package:location/location.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -37,16 +38,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Completer<GoogleMapController> _controller = Completer();
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+  late GoogleMapController _controller;
+  Location _location = Location();
+  bool _isServiceEnabled = false;
+  late PermissionStatus _permissionStatus;
+  late LocationData _locationData;
+  bool _isListenLocation=false,_isGetLocation=false;
+  static const CameraPosition _ourClass = CameraPosition(
+    target: LatLng(30.40766724145041, -91.17953531915799),
     zoom: 14.4746,
   );
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+
+  @override
+  void initState() {
+    super.initState();
+    _requestLocationPerms();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,12 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Color.fromARGB(255, 149, 215, 201),
                 ),
               ),
-              // DrawerHeader(
-              //   child: Text('Menu',
-              //   style: const TextStyle (
-              //     color: Colors.white,
-              //   )),
-              // ),
               ListTile(
                 leading: const Icon(Icons.event_note),
                 title: Text('Events',
@@ -136,17 +137,51 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+        mapType: MapType.normal,
+        initialCameraPosition: _ourClass,
+        onMapCreated: _onMapCreated,
+        myLocationEnabled: true,
       ),
     );
   }
 
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  void _onMapCreated(GoogleMapController _cntlr)
+  {
+    _controller = _cntlr;
+    _location.onLocationChanged.listen((l) {
+      _controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude as double, l.longitude as double),zoom: 15),
+        ),
+      );
+    });
   }
+
+  Future<void> _requestLocationPerms() async {
+    _isServiceEnabled = await _location.serviceEnabled();
+
+    if(!_isServiceEnabled){
+      _isServiceEnabled = await _location.requestService();
+      if(_isServiceEnabled) return;
+    }
+
+    _permissionStatus = await _location.requestPermission();
+
+    if(_permissionStatus == PermissionStatus.denied){
+      _isServiceEnabled = await _location.requestService();
+      if(_isServiceEnabled != PermissionStatus.granted) return;
+    }
+
+    _locationData = await _location.getLocation();
+
+    setState(() {
+      _isGetLocation = true;
+    });
+
+  }
+
+  // Future<void> _goToTheLake() async {
+  //   final GoogleMapController controller = await _controller.future;
+  //   controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  // }
 }
