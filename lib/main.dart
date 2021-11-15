@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:io';
 import 'dart:async';
-import 'audiofile.dart';
-import 'musicplayer.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:audio_service/audio_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'screens/musicplayer.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +40,7 @@ class MyHomePage extends StatefulWidget
 
 class _MyHomePageState extends State<MyHomePage>
 {
+  late AudioHandler audioHandler;
   final Completer<GoogleMapController> _controller = Completer();
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -90,6 +92,6 @@ class _MyHomePageState extends State<MyHomePage>
   Future<void> _goToTheLake() async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
-
   }
+  
 }

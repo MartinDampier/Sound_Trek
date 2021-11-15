@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:SoundTrek/utilities/appcolors.dart' as AppColors;
-import 'audiofile.dart';
+import '../utilities/audiofile.dart';
 
 class MusicPlayer extends StatefulWidget {
   const MusicPlayer({Key? key}) : super(key: key);
