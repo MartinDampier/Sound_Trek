@@ -43,11 +43,13 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _isServiceEnabled = false;
   late PermissionStatus _permissionStatus;
   late LocationData _locationData;
-  bool _isListenLocation=false,_isGetLocation=false;
+  bool _isListenLocation = false, _isGetLocation = false;
   static const CameraPosition _ourClass = CameraPosition(
     target: LatLng(30.40766724145041, -91.17953531915799),
     zoom: 14.4746,
   );
+  bool playMusicToggle = false;
+  String _title = 'Welcome to Sound Trek';
 
   @override
   void initState() {
@@ -59,21 +61,23 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _drawerKey,
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-        centerTitle: true,
-        title: Text(widget.title,
-            style: const TextStyle(
-              color: Colors.white,
-            )),
-        leading: IconButton(
-          icon: const ImageIcon(
-            AssetImage('assets/logos/SoundTrek_Simplified.png'),
-            size: 300,
-          ),
-          onPressed: () => _drawerKey.currentState?.openDrawer(),
-        ),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100.0),
+          child: AppBar(
+            backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+            centerTitle: true,
+            title: Text(_title,
+                style: const TextStyle(
+                  color: Colors.white,
+                )),
+            leading: IconButton(
+              icon: const ImageIcon(
+                AssetImage('assets/logos/SoundTrek_Simplified.png'),
+                size: 300,
+              ),
+              onPressed: () => _drawerKey.currentState?.openDrawer(),
+            ),
+          )),
       drawer: Drawer(
         child: Container(
           child: ListView(
@@ -81,7 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               const UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage('assets/logos/SoundTrek_Full_Logo.png'),
+                  backgroundImage:
+                      AssetImage('assets/logos/SoundTrek_Full_Logo.png'),
                   backgroundColor: Colors.white,
                 ),
                 accountEmail: Text('i_am_davie@soundtrek.com'),
@@ -96,11 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
                 leading: const Icon(Icons.event_note),
                 title: Text('Events',
-                style: const TextStyle (
-                  color: Colors.white,
-                )),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    )),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder:(context) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return EventsPage();
                   }));
                 },
@@ -108,11 +113,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
                 leading: const Icon(Icons.library_music),
                 title: Text('Playlists',
-                style: const TextStyle (
-                  color: Colors.white,
-                )),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    )),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute (builder: (context) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return PlaylistsPage();
                   }));
                 },
@@ -120,38 +125,83 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
                 leading: const Icon(Icons.account_circle_rounded),
                 title: Text('Account',
-                style: const TextStyle(
-                  color: Colors.white,
-                )),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    )),
               ),
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: Text('Settings',
-                style: const TextStyle(
-                  color: Colors.white,
-                )),
+                    style: const TextStyle(
+                      color: Colors.white,
+                    )),
               ),
             ],
           ),
         ),
       ),
-
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _ourClass,
         onMapCreated: _onMapCreated,
         myLocationEnabled: true,
       ),
+      bottomNavigationBar: BottomAppBar(
+        //backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+        child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.skip_previous_rounded,
+                  color: Colors.black,
+                  size: 30,
+                ),
+                onPressed: () {},
+              ),
+              IconButton(
+                  icon: playMusicToggle
+                      ? Icon(
+                          Icons.pause_rounded,
+                          color: Colors.black,
+                          size: 30,
+                        )
+                      : Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.black,
+                          size: 30,
+                        ),
+                  onPressed: () {
+                    setState(() {
+                      playMusicToggle = !playMusicToggle;
+                      if (playMusicToggle) {
+                        _title = 'Currently playing...';
+                      }
+                      else { _title = 'Music paused'; }
+                    });
+                  }),
+              IconButton(
+                icon: Icon(
+                  Icons.skip_next_rounded,
+                  color: Colors.black,
+                  size: 30,
+                ),
+                onPressed: () {},
+              ),
+            ]),
+      ),
     );
   }
 
-  void _onMapCreated(GoogleMapController _cntlr)
-  {
+  void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
     _location.onLocationChanged.listen((l) {
       _controller.animateCamera(
         CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude as double, l.longitude as double),zoom: 15),
+          CameraPosition(
+              target: LatLng(l.latitude as double, l.longitude as double),
+              zoom: 15),
         ),
       );
     });
@@ -160,16 +210,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _requestLocationPerms() async {
     _isServiceEnabled = await _location.serviceEnabled();
 
-    if(!_isServiceEnabled){
+    if (!_isServiceEnabled) {
       _isServiceEnabled = await _location.requestService();
-      if(_isServiceEnabled) return;
+      if (_isServiceEnabled) return;
     }
 
     _permissionStatus = await _location.requestPermission();
 
-    if(_permissionStatus == PermissionStatus.denied){
+    if (_permissionStatus == PermissionStatus.denied) {
       _isServiceEnabled = await _location.requestService();
-      if(_isServiceEnabled != PermissionStatus.granted) return;
+      if (_isServiceEnabled != PermissionStatus.granted) return;
     }
 
     _locationData = await _location.getLocation();
@@ -177,11 +227,10 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _isGetLocation = true;
     });
-
   }
 
-  // Future<void> _goToTheLake() async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
-  // }
+// Future<void> _goToTheLake() async {
+//   final GoogleMapController controller = await _controller.future;
+//   controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+// }
 }
