@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:basic/screens/event_view.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Sound Trek',
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 98, 98, 98),
@@ -50,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   bool playMusicToggle = false;
   String _title = 'Welcome to Sound Trek';
+  String _currentSong = 'YTCracker - Bitcoin Baron';
 
   @override
   void initState() {
@@ -61,23 +64,44 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _drawerKey,
+      backgroundColor: Color.fromARGB(255, 149, 215, 201),
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
           child: AppBar(
-            backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-            centerTitle: true,
-            title: Text(_title,
-                style: const TextStyle(
-                  color: Colors.white,
-                )),
-            leading: IconButton(
-              icon: const ImageIcon(
-                AssetImage('assets/logos/SoundTrek_Simplified.png'),
-                size: 300,
+              backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+              centerTitle: true,
+              title: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(_title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        )),
+                  ]),
+              leading: Transform.scale(
+                scale: 1.4,
+                child: IconButton(
+                  icon: const ImageIcon(
+                    AssetImage('assets/logos/SoundTrek_Simplified.png'),
+                    size: 150,
+                  ),
+                  onPressed: () => _drawerKey.currentState?.openDrawer(),
+                ),
               ),
-              onPressed: () => _drawerKey.currentState?.openDrawer(),
-            ),
-          )),
+              bottom: PreferredSize(
+                  preferredSize: Size(50.0, 50.0),
+                  child: Container(
+                      height: 50,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new Text(_currentSong,
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 98, 98, 98),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ]))))),
       drawer: Drawer(
         child: Container(
           child: ListView(
@@ -86,12 +110,12 @@ class _MyHomePageState extends State<MyHomePage> {
               const UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
                   backgroundImage:
-                      AssetImage('assets/logos/SoundTrek_Full_Logo.png'),
+                      AssetImage('assets/logos/davyjones.jpg'),
                   backgroundColor: Colors.white,
                 ),
-                accountEmail: Text('i_am_davie@soundtrek.com'),
+                accountEmail: Text('i_am_davy@soundtrek.com'),
                 accountName: Text(
-                  'Davie Jones',
+                  'Davy Jones',
                   style: TextStyle(fontSize: 24.0),
                 ),
                 decoration: BoxDecoration(
@@ -147,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
         myLocationEnabled: true,
       ),
       bottomNavigationBar: BottomAppBar(
-        //backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+        color: const Color.fromARGB(255, 149, 215, 201),
         child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -155,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
               IconButton(
                 icon: Icon(
                   Icons.skip_previous_rounded,
-                  color: Colors.black,
+                  color: Color.fromARGB(255, 98, 98, 98),
                   size: 30,
                 ),
                 onPressed: () {},
@@ -164,12 +188,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: playMusicToggle
                       ? Icon(
                           Icons.pause_rounded,
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 98, 98, 98),
                           size: 30,
                         )
                       : Icon(
                           Icons.play_arrow_rounded,
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 98, 98, 98),
                           size: 30,
                         ),
                   onPressed: () {
@@ -177,14 +201,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       playMusicToggle = !playMusicToggle;
                       if (playMusicToggle) {
                         _title = 'Currently playing...';
+                        _currentSong = 'YTCracker - Bitcoin Baron';
+                      } else {
+                        _title = 'Music paused';
+                        _currentSong = '--';
                       }
-                      else { _title = 'Music paused'; }
                     });
                   }),
               IconButton(
                 icon: Icon(
                   Icons.skip_next_rounded,
-                  color: Colors.black,
+                  color: Color.fromARGB(255, 98, 98, 98),
                   size: 30,
                 ),
                 onPressed: () {},
