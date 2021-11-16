@@ -40,6 +40,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   late GoogleMapController _controller;
   Location _location = Location();
   bool _isServiceEnabled = false;
@@ -50,14 +51,19 @@ class _MyHomePageState extends State<MyHomePage> {
     target: LatLng(30.40766724145041, -91.17953531915799),
     zoom: 14.4746,
   );
+
   bool playMusicToggle = false;
   String _title = 'Welcome to Sound Trek';
   String _currentSong = '';
+
+  Timer? timer;
+  final Duration checkEventsInterval = Duration(seconds: 5);
 
   @override
   void initState() {
     super.initState();
     _requestLocationPerms();
+    checkForCurrentEvent();
   }
 
   @override
@@ -254,6 +260,14 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _isGetLocation = true;
     });
+  }
+
+  void checkForCurrentEvent() {
+    timer = Timer.periodic(checkEventsInterval, (Timer t) => Update());
+  }
+
+  void Update () {
+    //this is a placeholder for Gareth's priority_queue update function
   }
 
 // Future<void> _goToTheLake() async {
