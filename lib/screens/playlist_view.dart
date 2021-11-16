@@ -14,8 +14,8 @@ class PlaylistsPage extends StatelessWidget {
         // automaticallyImplyLeading: true,
         title: Text('Playlists'),
         actions: [
-          Align(
-            alignment: AlignmentDirectional(0, -0.05),
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
             child: GestureDetector(
               onTap: () {},
               child: Icon(
