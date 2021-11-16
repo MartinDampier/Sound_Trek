@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
+import 'package:basic/models/user.dart';
 
 class EventsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -53,7 +56,7 @@ class EventsPage extends StatelessWidget {
             ],
           ),
           child: ListTile(
-            title: Text('Event 1'),
+            title: Text('${user.usersEvents[0].title}'),
             subtitle: Text('event type here...'),
             trailing: Icon(
               Icons.arrow_forward,

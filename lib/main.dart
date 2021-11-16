@@ -6,6 +6,9 @@ import 'dart:async';
 import 'package:basic/screens/event_view.dart';
 import 'package:basic/screens/playlist_view.dart';
 import 'package:location/location.dart';
+import 'package:basic/models/user.dart';
+import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -26,7 +29,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         canvasColor: Colors.grey,
       ),
-      home: const MyHomePage(title: 'Welcome to Sound Trek'),
+      home: ChangeNotifierProvider<User>(
+        create: (context) => User(),
+        child: MyHomePage(title: 'Welcome to Sound Trek')
+      ),
     );
   }
 }
@@ -68,6 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return Scaffold(
       key: _drawerKey,
       backgroundColor: Color.fromARGB(255, 149, 215, 201),
