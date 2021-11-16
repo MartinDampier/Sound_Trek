@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   bool playMusicToggle = false;
   String _title = 'Welcome to Sound Trek';
-  String _currentSong = 'YTCracker - Bitcoin Baron';
+  String _currentSong = '';
 
   @override
   void initState() {
