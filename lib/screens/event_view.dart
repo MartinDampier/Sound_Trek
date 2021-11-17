@@ -56,7 +56,7 @@ class EventsPage extends StatelessWidget {
             ],
           ),
           child: ListTile(
-            title: Text('${user.usersEvents[0].title}'),
+            title: Text('${user.usersEvents[0]}'),
             subtitle: Text('event type here...'),
             trailing: Icon(
               Icons.arrow_forward,

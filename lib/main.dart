@@ -30,9 +30,8 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.grey,
       ),
       home: ChangeNotifierProvider<User>(
-        create: (context) => User(),
-        child: MyHomePage(title: 'Welcome to Sound Trek')
-      ),
+          create: (context) => User(),
+          child: MyHomePage(title: 'Welcome to Sound Trek')),
     );
   }
 }
@@ -46,7 +45,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   late GoogleMapController _controller;
   Location _location = Location();
   bool _isServiceEnabled = false;
@@ -123,8 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               const UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage:
-                      AssetImage('assets/logos/davyjones.jpg'),
+                  backgroundImage: AssetImage('assets/logos/davyjones.jpg'),
                   backgroundColor: Colors.white,
                 ),
                 accountEmail: Text('i_am_davy@soundtrek.com'),
@@ -274,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
     timer = Timer.periodic(checkEventsInterval, (Timer t) => Update());
   }
 
-  void Update () {
+  void Update() {
     //this is a placeholder for Gareth's priority_queue update function
   }
 
