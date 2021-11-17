@@ -1,72 +1,44 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'dart:io';
+
+import 'package:SoundTrek/widgets/musicplayer_buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:SoundTrek/utilities/appcolors.dart' as AppColors;
-import '../utilities/audiofile.dart';
+import 'package:just_audio/just_audio.dart';
 
 class MusicPlayer extends StatefulWidget {
-  const MusicPlayer({Key? key}) : super(key: key);
 
   @override
   _MusicPlayerState createState() => _MusicPlayerState();
 }
 
 class _MusicPlayerState extends State<MusicPlayer> {
-  late AudioPlayer advancedPlayer;
-
+  late AudioPlayer _audioPlayer;
+  
   @override
   void initState(){
     super.initState();
-    advancedPlayer = AudioPlayer();
+    _audioPlayer = AudioPlayer();
+    _audioPlayer.setAudioSource(ConcatenatingAudioSource(children: [
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/beethoven.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/celtic.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/classical.mp3')),
+    ]))
+        .catchError((error){
+          print("An error has occurred");
+    });
+  }
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Stack(children: [
-        Positioned(
-            left: 0,
-            right: 0,
-            top: screenHeight*0.2,
-            height: screenHeight*0.36,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-              color: Colors.white,
-              ),
-              child: Column(
-                children: [
-                  AudioFile(advancedPlayer: advancedPlayer, audioPath: "C:\Users\Kalob\Documents\AndroidStudioProjects\Sound_Trek\assets\musicsample\acoustic.mp3",)
-                ],
-              ),
-            )),
-        Positioned(
-            top: screenHeight*0.12,
-            left: (screenWidth-150)/2,
-            right: (screenWidth-150)/2,
-            height: screenHeight*0.16,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color:Colors.white, width: 2),
-                color: AppColors.audioBackground2,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 5),
-                    // image: DecorationImage(
-                    //   image: AssetImage(widget.musicData[widget.index]["img"]),
-                    //   fit: BoxFit.cover
-                    )
-                  ),
-                ),
-              ),
-            )
-      ],),
+      body: Center(
+        child: PlayerButtons(_audioPlayer),
+      ),
     );
   }
 }

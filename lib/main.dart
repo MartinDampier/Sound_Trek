@@ -1,3 +1,4 @@
+import 'package:SoundTrek/screens/musicplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget
         primarySwatch: Colors.blue,
         canvasColor: Colors.grey,
       ),
-      home: const MyHomePage(title: 'Welcome to Sound Trek'),
+      // home: const MyHomePage(title: 'Welcome to Sound Trek'),
+      home: MusicPlayer(),
     );
   }
 }
