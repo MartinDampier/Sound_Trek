@@ -10,15 +10,15 @@ class EventsPage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 149, 215, 201),
+        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
         // automaticallyImplyLeading: true,
-        title: Text('Events'),
+        title: const Text('Events'),
         actions: [
           Align(
             alignment: AlignmentDirectional(0, -0.05),
             child: GestureDetector(
-              onTap: () {},
-              child: Icon(
+              onTap: () { showEventSelector(context); },
+              child: const Icon(
                 Icons.add_rounded,
                 color: Colors.white,
                 size: 30,
@@ -76,4 +76,36 @@ class EventsPage extends StatelessWidget {
 
   }
 
+  void showEventSelector(BuildContext context) {
+    Widget locationButton = TextButton(
+      child: Text("Location"),
+      onPressed:() {},
+    );
+
+    Widget timeButton = TextButton(
+      child: Text("Time"),
+      onPressed:() {},
+    );
+
+    Widget weatherButton = TextButton(
+      child: Text("Weather"),
+      onPressed:() {},
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Select an Event"),
+      content: Text("remove this text"),
+      actions: [
+        locationButton,
+        timeButton,
+        weatherButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
