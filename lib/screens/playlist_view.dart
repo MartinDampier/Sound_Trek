@@ -91,6 +91,7 @@ class PlaylistsPage extends StatelessWidget {
   }
 
   String findAssociatedEvent(Playlist playlist, PriorityQueue events) {
+
     SoundtrackItem? associatedEvent = events.possibilities.firstWhereOrNull(
         ((item) => item.getPlaylist().title == playlist.title));
 
@@ -99,6 +100,7 @@ class PlaylistsPage extends StatelessWidget {
     } else {
       return associatedEvent.getEventList().elementAt(0).toString();
     }
+
   }
 
   void edit(BuildContext context) {}
