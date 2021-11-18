@@ -1,4 +1,4 @@
-import 'package:basic/models/events/event.dart';
+import 'package:SoundTrek/models/events/event.dart';
 
 class LocationEvent implements Event{
 

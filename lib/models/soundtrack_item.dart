@@ -1,5 +1,5 @@
-import 'package:basic/models/events/event.dart';
-import 'package:basic/models/playlist.dart';
+import 'package:SoundTrek/models/events/event.dart';
+import 'package:SoundTrek/models/playlist.dart';
 
 class SoundtrackItem{
 
