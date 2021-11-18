@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:basic/screens/location_event_builder.dart';
+import 'package:basic/screens/time_event_builder.dart';
+import 'package:basic/screens/weather_event_builder.dart';
 
 class EventsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -79,17 +82,29 @@ class EventsPage extends StatelessWidget {
   void showEventSelector(BuildContext context) {
     Widget locationButton = TextButton(
       child: Text("Location"),
-      onPressed:() {},
+      onPressed:() {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return BuildLocationEvent();
+        }));
+      },
     );
 
     Widget timeButton = TextButton(
       child: Text("Time"),
-      onPressed:() {},
+      onPressed:() {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return BuildTimeEvent();
+        }));
+      },
     );
 
     Widget weatherButton = TextButton(
       child: Text("Weather"),
-      onPressed:() {},
+      onPressed:() {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return BuildWeatherEvent();
+        }));
+      },
     );
 
     AlertDialog alert = AlertDialog(
