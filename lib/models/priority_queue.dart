@@ -1,4 +1,4 @@
-import 'package:basic/models/soundtrack_item.dart';
+import 'package:SoundTrek/models/soundtrack_item.dart';
 
 class PriorityQueue{
   List<SoundtrackItem> _possibilities = [];

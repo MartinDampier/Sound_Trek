@@ -1,7 +1,7 @@
-import 'package:basic/models/events/clock_event.dart';
-import 'package:basic/models/events/event.dart';
-import 'package:basic/models/playlist.dart';
-import 'package:basic/models/priority_queue.dart';
+import 'package:SoundTrek/models/events/clock_event.dart';
+import 'package:SoundTrek/models/events/event.dart';
+import 'package:SoundTrek/models/playlist.dart';
+import 'package:SoundTrek/models/priority_queue.dart';
 import 'package:flutter/foundation.dart';
 
 class User with ChangeNotifier{

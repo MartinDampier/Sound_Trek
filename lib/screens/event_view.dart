@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:basic/models/user.dart';
+import 'package:SoundTrek/models/user.dart';
 
 class EventsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
