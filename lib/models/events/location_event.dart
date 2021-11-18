@@ -34,4 +34,5 @@ class LocationEvent implements Event{
   String toString(){
     return "Location: " + _location.toString() + " " + isHappening().toString();
   }
+
 }

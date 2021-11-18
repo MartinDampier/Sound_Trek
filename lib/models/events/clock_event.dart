@@ -5,8 +5,6 @@ class ClockEvent implements Event{
   String _startTime = "00:00";
   String _endTime = "00:00";
   Duration _duration = const Duration(minutes: 0);
-  // @override
-  // String title = 'Clock Event 1';
 
   ClockEvent(String startTimeIn, String endTimeIn){
     _startTime = startTimeIn;

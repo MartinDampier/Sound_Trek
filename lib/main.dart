@@ -1,18 +1,14 @@
-import 'package:SoundTrek/screens/event_view.dart';
-import 'package:SoundTrek/screens/playlist_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:SoundTrek/screens/event_view.dart';
-import 'package:SoundTrek/screens/playlist_view.dart';
+import 'package:basic/screens/event_view.dart';
+import 'package:basic/screens/playlist_view.dart';
 import 'package:location/location.dart';
-import 'package:SoundTrek/models/user.dart';
+import 'package:basic/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-
-import 'models/user.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
