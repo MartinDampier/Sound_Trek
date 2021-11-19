@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sound_trek/screens/location_event_builder.dart';
 import 'package:sound_trek/screens/time_event_builder.dart';
 import 'package:sound_trek/screens/weather_event_builder.dart';
+import 'package:provider/provider.dart';
 
 class EventsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -17,8 +19,8 @@ class EventsPage extends StatelessWidget {
         // automaticallyImplyLeading: true,
         title: const Text('Events'),
         actions: [
-          Align(
-            alignment: AlignmentDirectional(0, -0.05),
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
             child: GestureDetector(
               onTap: () { showEventSelector(context); },
               child: const Icon(
@@ -33,53 +35,59 @@ class EventsPage extends StatelessWidget {
         elevation: 4,
       ),
       backgroundColor: Color(0xFFDADADA),
-      body: SafeArea(
-        child: Slidable(
-          key: const ValueKey(0),
-          endActionPane: ActionPane(
-            motion: DrawerMotion(),
-            children: [
-              SlidableAction(
-                onPressed: edit,
-                backgroundColor: Color(0xFF6B6B6B),
-                foregroundColor: Colors.white,
-                icon: Icons.edit,
-                label: 'Edit',
-              ),
-              SlidableAction(
-                onPressed: delete,
-                backgroundColor: Color(0xFF6B6B6B),
-                foregroundColor: Colors.white,
-                icon: Icons.delete,
-                label: 'Delete',
-              ),
-            ],
-          ),
-          child: ListTile(
-            title: Text('Event 1'),
-            subtitle: Text('event type here...'),
-            trailing: Icon(
-              Icons.arrow_forward,
-              color: Color(0xFF303030),
-              size: 20,
+      body: ListView.builder(
+        itemCount: eventsPriorityQueue.possibilities.length,
+        itemBuilder: (context, index) {
+          final soundtrackItem = eventsPriorityQueue.possibilities[index];
+
+          return Slidable(
+            key: const ValueKey(0),
+            endActionPane: ActionPane(
+              motion: DrawerMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: edit,
+                  backgroundColor: Color(0xFF6B6B6B),
+                  foregroundColor: Colors.white,
+                  icon: Icons.edit,
+                  label: 'Edit',
+                ),
+                SlidableAction(
+                  onPressed: delete,
+                  backgroundColor: Color(0xFF6B6B6B),
+                  foregroundColor: Colors.white,
+                  icon: Icons.delete,
+                  label: 'Delete',
+                ),
+              ],
             ),
-            tileColor: Color(0xFFDADADA),
-            dense: false,
-          ),
-        ),
+            child: buildListTile(soundtrackItem),
+          );
+        },
       ),
     );
   }
 
-  void edit(BuildContext context) {
-
+  Widget buildListTile(SoundtrackItem item) {
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      title: Text('${item.getEventList().elementAt(0)}'),
+      subtitle: Text('event type here...'),
+      trailing: Icon(
+        Icons.arrow_forward,
+        color: Color(0xFF303030),
+        size: 20,
+      ),
+      tileColor: Color(0xFFDADADA),
+      dense: false,
+    );
   }
 
-  void delete(BuildContext context) {
-
-  }
-
-  void showEventSelector(BuildContext context) {
+  void edit(BuildContext context) {}
+ void showEventSelector(BuildContext context) {
     Widget locationButton = TextButton(
       child: Text("Location"),
       onPressed:() {
@@ -123,4 +131,6 @@ class EventsPage extends StatelessWidget {
       },
     );
   }
+
+  void delete(BuildContext context) {}
 }

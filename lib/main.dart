@@ -1,15 +1,26 @@
+import 'package:basic/models/priority_queue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:sound_trek/screens/event_view.dart';
 import 'package:sound_trek/screens/playlist_view.dart';
 import 'package:location/location.dart';
+import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
+import 'package:basic/models/user.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<PriorityQueue>(create: (_) => PriorityQueue()),
+      ChangeNotifierProvider<User>(create: (_) => User()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,13 +29,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Sound Trek',
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 98, 98, 98),
         primarySwatch: Colors.blue,
         canvasColor: Colors.grey,
       ),
-      home: const MyHomePage(title: 'Welcome to Sound Trek'),
+      home: MyHomePage(title: 'Welcome to Sound Trek'),
     );
   }
 }
@@ -48,36 +60,67 @@ class _MyHomePageState extends State<MyHomePage> {
     target: LatLng(30.40766724145041, -91.17953531915799),
     zoom: 14.4746,
   );
+
   bool playMusicToggle = false;
   String _title = 'Welcome to Sound Trek';
+  String _currentSong = '';
+
+  Timer? timer;
+  final Duration checkEventsInterval = Duration(seconds: 5);
 
   @override
   void initState() {
     super.initState();
     _requestLocationPerms();
+    //call priority_queue utilities functions here
+    // checkForCurrentEvent(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+    final user = Provider.of<User>(context);
+
     return Scaffold(
       key: _drawerKey,
+      backgroundColor: Color.fromARGB(255, 149, 215, 201),
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(100.0),
           child: AppBar(
-            backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-            centerTitle: true,
-            title: Text(_title,
-                style: const TextStyle(
-                  color: Colors.white,
-                )),
-            leading: IconButton(
-              icon: const ImageIcon(
-                AssetImage('assets/logos/SoundTrek_Simplified.png'),
-                size: 300,
+              backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+              centerTitle: true,
+              title: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(_title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                        )),
+                  ]),
+              leading: Transform.scale(
+                scale: 1.4,
+                child: IconButton(
+                  icon: const ImageIcon(
+                    AssetImage('assets/logos/SoundTrek_Simplified.png'),
+                    size: 150,
+                  ),
+                  onPressed: () => _drawerKey.currentState?.openDrawer(),
+                ),
               ),
-              onPressed: () => _drawerKey.currentState?.openDrawer(),
-            ),
-          )),
+              bottom: PreferredSize(
+                  preferredSize: Size(50.0, 50.0),
+                  child: Container(
+                      height: 50,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            new Text(_currentSong,
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 98, 98, 98),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ]))))),
       drawer: Drawer(
         child: Container(
           child: ListView(
@@ -85,13 +128,12 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               const UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage:
-                      AssetImage('assets/logos/SoundTrek_Full_Logo.png'),
+                  backgroundImage: AssetImage('assets/logos/davyjones.jpg'),
                   backgroundColor: Colors.white,
                 ),
-                accountEmail: Text('i_am_davie@soundtrek.com'),
+                accountEmail: Text('i_am_davy@soundtrek.com'),
                 accountName: Text(
-                  'Davie Jones',
+                  'Davy Jones',
                   style: TextStyle(fontSize: 24.0),
                 ),
                 decoration: BoxDecoration(
@@ -147,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
         myLocationEnabled: true,
       ),
       bottomNavigationBar: BottomAppBar(
-        //backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+        color: const Color.fromARGB(255, 149, 215, 201),
         child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -155,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
               IconButton(
                 icon: const Icon(
                   Icons.skip_previous_rounded,
-                  color: Colors.black,
+                  color: Color.fromARGB(255, 98, 98, 98),
                   size: 30,
                 ),
                 onPressed: () {},
@@ -164,12 +206,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: playMusicToggle
                       ? const Icon(
                           Icons.pause_rounded,
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 98, 98, 98),
                           size: 30,
                         )
                       : const Icon(
                           Icons.play_arrow_rounded,
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 98, 98, 98),
                           size: 30,
                         ),
                   onPressed: () {
@@ -177,14 +219,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       playMusicToggle = !playMusicToggle;
                       if (playMusicToggle) {
                         _title = 'Currently playing...';
+                        _currentSong = 'YTCracker - Bitcoin Baron';
+                      } else {
+                        _title = 'Music paused';
+                        _currentSong = '--';
                       }
-                      else { _title = 'Music paused'; }
                     });
                   }),
               IconButton(
                 icon: const Icon(
                   Icons.skip_next_rounded,
-                  color: Colors.black,
+                  color: Color.fromARGB(255, 98, 98, 98),
                   size: 30,
                 ),
                 onPressed: () {},
@@ -228,6 +273,12 @@ class _MyHomePageState extends State<MyHomePage> {
       _isGetLocation = true;
     });
   }
+
+  // void checkForCurrentEvent(BuildContext context) {
+  //   eventsPriorityQueue.FindStarterEvent();
+  //   timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
+  // }
+
 
 // Future<void> _goToTheLake() async {
 //   final GoogleMapController controller = await _controller.future;
