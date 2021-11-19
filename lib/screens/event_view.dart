@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:sound_trek/models/priority_queue.dart';
+import 'package:sound_trek/models/soundtrack_item.dart';
 import 'package:sound_trek/screens/location_event_builder.dart';
 import 'package:sound_trek/screens/time_event_builder.dart';
 import 'package:sound_trek/screens/weather_event_builder.dart';
@@ -85,8 +87,6 @@ class EventsPage extends StatelessWidget {
       dense: false,
     );
   }
-
-  void edit(BuildContext context) {}
  void showEventSelector(BuildContext context) {
     Widget locationButton = TextButton(
       child: Text("Location"),
@@ -131,6 +131,6 @@ class EventsPage extends StatelessWidget {
       },
     );
   }
-
+  void edit(BuildContext context) {}
   void delete(BuildContext context) {}
 }
