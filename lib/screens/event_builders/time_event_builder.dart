@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main.dart';
+import '../../main.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class BuildTimeEvent extends StatelessWidget {
