@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:SoundTrek/widgets/musicplayer_buttons.dart';
+import 'package:sound_trek/widgets/musicplayer_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 

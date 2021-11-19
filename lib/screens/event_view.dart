@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:basic/models/priority_queue.dart';
-import 'package:basic/models/soundtrack_item.dart';
+import 'package:sound_trek/models/priority_queue.dart';
+import 'package:sound_trek/models/soundtrack_item.dart';
 
 class EventsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
