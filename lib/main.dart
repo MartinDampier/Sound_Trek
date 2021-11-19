@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:basic/screens/event_view.dart';
-import 'package:basic/screens/playlist_view.dart';
+import 'package:sound_trek/screens/event_view.dart';
+import 'package:sound_trek/screens/playlist_view.dart';
 import 'package:location/location.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
@@ -142,8 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: const Icon(Icons.event_note),
-                title: Text('Events',
-                    style: const TextStyle(
+                title: const Text('Events',
+                    style: TextStyle(
                       color: Colors.white,
                     )),
                 onTap: () {
@@ -154,8 +154,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: const Icon(Icons.library_music),
-                title: Text('Playlists',
-                    style: const TextStyle(
+                title: const Text('Playlists',
+                    style: TextStyle(
                       color: Colors.white,
                     )),
                 onTap: () {
@@ -164,17 +164,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   }));
                 },
               ),
-              ListTile(
-                leading: const Icon(Icons.account_circle_rounded),
+              const ListTile(
+                leading: Icon(Icons.account_circle_rounded),
                 title: Text('Account',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                     )),
               ),
-              ListTile(
-                leading: const Icon(Icons.settings),
+              const ListTile(
+                leading: Icon(Icons.settings),
                 title: Text('Settings',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                     )),
               ),
@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.skip_previous_rounded,
                   color: Color.fromARGB(255, 98, 98, 98),
                   size: 30,
@@ -204,12 +204,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               IconButton(
                   icon: playMusicToggle
-                      ? Icon(
+                      ? const Icon(
                           Icons.pause_rounded,
                           color: Color.fromARGB(255, 98, 98, 98),
                           size: 30,
                         )
-                      : Icon(
+                      : const Icon(
                           Icons.play_arrow_rounded,
                           color: Color.fromARGB(255, 98, 98, 98),
                           size: 30,
@@ -227,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     });
                   }),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.skip_next_rounded,
                   color: Color.fromARGB(255, 98, 98, 98),
                   size: 30,
