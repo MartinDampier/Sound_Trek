@@ -20,14 +20,24 @@ class BuildWeatherEvent extends StatelessWidget {
       ),
 
       body: Center(
-        child: ElevatedButton(
+        child: TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 25),
+            primary: Colors.white,
+            backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+          ),
           onPressed: () {
-            Navigator.pop(context);
+            createWeatherEvent();
           },
-          child: const Text('Go back!'),
+          child: Text('Create Event'),
         ),
       ),
     );
 
   }
+
+  void createWeatherEvent() {
+
+  }
+
 }
