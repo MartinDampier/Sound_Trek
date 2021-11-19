@@ -1,20 +1,26 @@
-import 'package:SoundTrek/screens/musicplayer.dart';
+import 'package:basic/models/priority_queue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:SoundTrek/screens/event_view.dart';
-import 'package:SoundTrek/screens/playlist_view.dart';
+import 'package:basic/screens/event_view.dart';
+import 'package:basic/screens/playlist_view.dart';
 import 'package:location/location.dart';
-import 'package:SoundTrek/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
+import 'package:basic/models/user.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<PriorityQueue>(create: (_) => PriorityQueue()),
+      ChangeNotifierProvider<User>(create: (_) => User()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -30,10 +36,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         canvasColor: Colors.grey,
       ),
-      // home: ChangeNotifierProvider<User>(
-      //     create: (context) => User(),
-      //     child: MyHomePage(title: 'Welcome to Sound Trek')),
-      home: MusicPlayer(),
+      home: MyHomePage(title: 'Welcome to Sound Trek'),
     );
   }
 }
@@ -69,11 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _requestLocationPerms();
-    checkForCurrentEvent();
+    //call priority_queue utilities functions here
+    // checkForCurrentEvent(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
     final user = Provider.of<User>(context);
 
     return Scaffold(
@@ -269,13 +274,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void checkForCurrentEvent() {
-    timer = Timer.periodic(checkEventsInterval, (Timer t) => Update());
-  }
+  // void checkForCurrentEvent(BuildContext context) {
+  //   eventsPriorityQueue.FindStarterEvent();
+  //   timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
+  // }
 
-  void Update() {
-    //this is a placeholder for Gareth's priority_queue update function
-  }
 
 // Future<void> _goToTheLake() async {
 //   final GoogleMapController controller = await _controller.future;

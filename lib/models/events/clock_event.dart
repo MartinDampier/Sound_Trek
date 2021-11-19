@@ -1,4 +1,6 @@
-import 'package:SoundTrek/models/events/event.dart';
+
+import 'package:basic/models/events/event.dart';
+import 'package:flutter/services.dart';
 
 class ClockEvent implements Event{
 

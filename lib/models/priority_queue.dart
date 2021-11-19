@@ -1,6 +1,9 @@
-import 'package:SoundTrek/models/soundtrack_item.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:basic/models/soundtrack_item.dart';
 
-class PriorityQueue{
+class PriorityQueue with ChangeNotifier{
+
   List<SoundtrackItem> possibilities = [];
   int _currentEventIndex = 0;
 
