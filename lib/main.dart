@@ -1,3 +1,4 @@
+import 'package:SoundTrek/screens/musicplayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -29,9 +30,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         canvasColor: Colors.grey,
       ),
-      home: ChangeNotifierProvider<User>(
-          create: (context) => User(),
-          child: MyHomePage(title: 'Welcome to Sound Trek')),
+      // home: ChangeNotifierProvider<User>(
+      //     create: (context) => User(),
+      //     child: MyHomePage(title: 'Welcome to Sound Trek')),
+      home: MusicPlayer(),
     );
   }
 }

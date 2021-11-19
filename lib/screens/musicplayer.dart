@@ -18,10 +18,16 @@ class _MusicPlayerState extends State<MusicPlayer> {
     super.initState();
     _audioPlayer = AudioPlayer();
     _audioPlayer.setAudioSource(ConcatenatingAudioSource(children: [
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/water.mp3')),
       AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/beethoven.mp3')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/celtic.mp3')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/classical.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
     ]))
         .catchError((error){
           print("An error has occurred");

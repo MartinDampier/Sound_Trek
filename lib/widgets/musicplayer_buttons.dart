@@ -6,7 +6,6 @@ class PlayerButtons extends StatelessWidget {
 
   final AudioPlayer _audioPlayer;
 
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -31,6 +30,12 @@ class PlayerButtons extends StatelessWidget {
             return _playPauseButton(playerState!);
           },
         ),
+        StreamBuilder <SequenceState?> (
+          stream: _audioPlayer.sequenceStateStream,
+          builder: (_, __) {
+            return _nextButton();
+          },
+        ),
         StreamBuilder <LoopMode> (
           stream: _audioPlayer.loopModeStream,
           builder: (context, snapshot) {
@@ -39,6 +44,28 @@ class PlayerButtons extends StatelessWidget {
         )
       ],
     );
+  }
+
+  Widget _playPauseButton(PlayerState playerState) {
+    final processingState = playerState.processingState;
+
+    if(processingState == ProcessingState.loading || processingState == ProcessingState.buffering) {
+      return Container(
+        margin: EdgeInsets.all(8.0),
+        width: 64.0,
+        height: 64.0,
+        child: CircularProgressIndicator(),
+      );
+    }
+    else if (_audioPlayer.playing != true) {
+      return IconButton(onPressed: _audioPlayer.play, icon: Icon(Icons.play_arrow), iconSize: 64.0,);
+    }
+    else if (processingState != ProcessingState.completed) {
+      return IconButton(onPressed: _audioPlayer.pause, icon: Icon(Icons.pause), iconSize: 64.0,);
+    }
+    else {
+      return IconButton(onPressed: () => _audioPlayer.seek(Duration.zero, index: _audioPlayer.effectiveIndices!.first), icon: Icon(Icons.replay), iconSize: 64.0,);
+    }
   }
 
   Widget _shuffleButton(BuildContext context, bool isEnabled) {
@@ -90,27 +117,4 @@ class PlayerButtons extends StatelessWidget {
       },
     );
   }
-
-  Widget _playPauseButton(PlayerState playerState) {
-    final processingState = playerState?.processingState;
-
-    if(processingState == ProcessingState.loading || processingState == ProcessingState.buffering) {
-      return Container(
-        margin: EdgeInsets.all(8.0),
-        width: 64.0,
-        height: 64.0,
-        child: CircularProgressIndicator(),
-      );
-    }
-    else if (_audioPlayer.playing != true) {
-      return IconButton(onPressed: _audioPlayer.play, icon: Icon(Icons.play_arrow), iconSize: 64.0,);
-    }
-    else if (processingState != ProcessingState.completed) {
-      return IconButton(onPressed: _audioPlayer.pause, icon: Icon(Icons.pause), iconSize: 64.0,);
-    }
-    else {
-      return IconButton(onPressed: () => _audioPlayer.seek(Duration.zero, index: _audioPlayer.effectiveIndices!.first), icon: Icon(Icons.replay), iconSize: 64.0,);
-    }
-  }
-
 }
