@@ -5,6 +5,9 @@ import 'package:flutter/foundation.dart';
 class User with ChangeNotifier{
 
   List<Playlist> usersPlaylists = [new Playlist()];
+  String name = 'Lukas Frick';
+  String email = 'lfrick3@lsu.edu';
+  String image = 'assets/pictures/lukas.png';
 
 
   void editEvent(int index) {

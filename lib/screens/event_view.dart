@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
 import 'package:sound_trek/models/priority_queue.dart';
+import 'package:sound_trek/models/slideable_actions.dart';
 import 'package:sound_trek/models/soundtrack_item.dart';
+import 'package:sound_trek/screens/location_event_builder.dart';
+import 'package:sound_trek/screens/time_event_builder.dart';
+import 'package:sound_trek/screens/weather_event_builder.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:sound_trek/screens/date_event_builder.dart';
 
 class EventsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -14,26 +20,13 @@ class EventsPage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 149, 215, 201),
+        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
         // automaticallyImplyLeading: true,
-        title: Text('Events'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.add_rounded,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          )
-        ],
+        title: const Text('Events'),
         centerTitle: true,
         elevation: 4,
       ),
-      backgroundColor: Color(0xFFDADADA),
+      backgroundColor: Colors.white,
       body: ListView.builder(
         itemCount: eventsPriorityQueue.possibilities.length,
         itemBuilder: (context, index) {
@@ -46,23 +39,80 @@ class EventsPage extends StatelessWidget {
               children: [
                 SlidableAction(
                   onPressed: edit,
-                  backgroundColor: Color(0xFF6B6B6B),
+                  backgroundColor: Colors.white,
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
                   label: 'Edit',
                 ),
                 SlidableAction(
-                  onPressed: delete,
+                  onPressed: edit,
                   backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
                   label: 'Delete',
                 ),
               ],
+              dismissible: DismissiblePane(onDismissed: () {}),
             ),
             child: buildListTile(soundtrackItem),
           );
         },
+      ),
+
+      floatingActionButton: SpeedDial(
+        icon: Icons.add,
+        backgroundColor: Color.fromARGB(255, 149, 215, 201),
+        activeBackgroundColor: Color.fromARGB(255, 149, 215, 201),
+        activeForegroundColor: Colors.black26,
+        foregroundColor: Colors.white,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.5,
+        children: [
+          SpeedDialChild(
+              child: Icon(Icons.location_on_sharp),
+              backgroundColor: Colors.white,
+              labelBackgroundColor: Colors.white,
+              label: 'Location',
+              onTap: () => {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return BuildLocationEvent();
+                    })),
+                  }),
+          SpeedDialChild(
+            child: Icon(Icons.access_time_filled_rounded),
+            backgroundColor: Colors.white,
+            labelBackgroundColor: Colors.white,
+            label: 'Time',
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return BuildTimeEvent();
+              })),
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.event_note_rounded),
+            backgroundColor: Colors.white,
+            labelBackgroundColor: Colors.white,
+            label: 'Date',
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return BuildDateEvent();
+              })),
+            },
+          ),
+          SpeedDialChild(
+            child: Icon(Icons.wb_sunny_rounded),
+            backgroundColor: Colors.white,
+            labelBackgroundColor: Colors.white,
+            label: 'Weather',
+            onTap: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return BuildWeatherEvent();
+              })),
+            },
+          )
+        ],
       ),
     );
   }
@@ -80,12 +130,26 @@ class EventsPage extends StatelessWidget {
         color: Color(0xFF303030),
         size: 20,
       ),
-      tileColor: Color(0xFFDADADA),
       dense: false,
     );
   }
 
-  void edit(BuildContext context) {}
+  void onDismissed(int index, SlideableAction action, BuildContext context) {
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
 
-  void delete(BuildContext context) {}
+    switch (action) {
+      case SlideableAction.delete:
+        eventsPriorityQueue.possibilities.removeAt(index);
+        break;
+
+      case SlideableAction.edit:
+        //TODO: implement this
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  void edit(BuildContext context) {}
 }

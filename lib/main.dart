@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _requestLocationPerms();
-    //call priority_queue utilities functions here
+    WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context)});
     // checkForCurrentEvent(context);
   }
 
@@ -130,14 +130,14 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              const UserAccountsDrawerHeader(
+              UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage('assets/logos/davyjones.jpg'),
+                  backgroundImage: AssetImage('${user.image}'),
                   backgroundColor: Colors.white,
                 ),
-                accountEmail: Text('i_am_davy@soundtrek.com'),
+                accountEmail: Text('${user.email}'),
                 accountName: Text(
-                  'Davy Jones',
+                  '${user.name}',
                   style: TextStyle(fontSize: 24.0),
                 ),
                 decoration: BoxDecoration(
@@ -146,8 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: const Icon(Icons.event_note),
-                title: Text('Events',
-                    style: const TextStyle(
+                title: const Text('Events',
+                    style: TextStyle(
                       color: Colors.white,
                     )),
                 onTap: () {
@@ -158,8 +158,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ListTile(
                 leading: const Icon(Icons.library_music),
-                title: Text('Playlists',
-                    style: const TextStyle(
+                title: const Text('Playlists',
+                    style: TextStyle(
                       color: Colors.white,
                     )),
                 onTap: () {
@@ -168,17 +168,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   }));
                 },
               ),
-              ListTile(
-                leading: const Icon(Icons.account_circle_rounded),
+              const ListTile(
+                leading: Icon(Icons.account_circle_rounded),
                 title: Text('Account',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                     )),
               ),
-              ListTile(
-                leading: const Icon(Icons.settings),
+              const ListTile(
+                leading: Icon(Icons.settings),
                 title: Text('Settings',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                     )),
               ),
@@ -199,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.skip_previous_rounded,
                   color: Color.fromARGB(255, 98, 98, 98),
                   size: 30,
@@ -208,12 +208,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               IconButton(
                   icon: playMusicToggle
-                      ? Icon(
+                      ? const Icon(
                           Icons.pause_rounded,
                           color: Color.fromARGB(255, 98, 98, 98),
                           size: 30,
                         )
-                      : Icon(
+                      : const Icon(
                           Icons.play_arrow_rounded,
                           color: Color.fromARGB(255, 98, 98, 98),
                           size: 30,
@@ -231,7 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     });
                   }),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.skip_next_rounded,
                   color: Color.fromARGB(255, 98, 98, 98),
                   size: 30,
@@ -290,10 +290,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // void checkForCurrentEvent(BuildContext context) {
-  //   eventsPriorityQueue.FindStarterEvent();
-  //   timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
-  // }
+  void checkForCurrentEvent(BuildContext context) {
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+
+    eventsPriorityQueue.FindStarterEvent();
+    timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
+  }
 
 
 // Future<void> _goToTheLake() async {
