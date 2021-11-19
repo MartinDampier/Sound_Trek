@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _requestLocationPerms();
-    //call priority_queue utilities functions here
+    WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context)});
     // checkForCurrentEvent(context);
   }
 
@@ -126,14 +126,14 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              const UserAccountsDrawerHeader(
+              UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage('assets/logos/davyjones.jpg'),
+                  backgroundImage: AssetImage('${user.image}'),
                   backgroundColor: Colors.white,
                 ),
-                accountEmail: Text('i_am_davy@soundtrek.com'),
+                accountEmail: Text('${user.email}'),
                 accountName: Text(
-                  'Davy Jones',
+                  '${user.name}',
                   style: TextStyle(fontSize: 24.0),
                 ),
                 decoration: BoxDecoration(
@@ -274,10 +274,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // void checkForCurrentEvent(BuildContext context) {
-  //   eventsPriorityQueue.FindStarterEvent();
-  //   timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
-  // }
+  void checkForCurrentEvent(BuildContext context) {
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+
+    eventsPriorityQueue.FindStarterEvent();
+    timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
+  }
 
 
 // Future<void> _goToTheLake() async {
