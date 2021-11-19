@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 98, 98, 98),
         primarySwatch: Colors.blue,
-        canvasColor: Colors.grey,
+        canvasColor: Colors.white,
       ),
       home: MyHomePage(title: 'Welcome to Sound Trek'),
     );
@@ -95,6 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text(_title,
                         style: const TextStyle(
                           color: Colors.white,
+                          fontSize: 28,
+                          height: 1.75,
                         )),
                   ]),
               leading: Transform.scale(
@@ -131,11 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   backgroundImage: AssetImage('assets/logos/davyjones.jpg'),
                   backgroundColor: Colors.white,
                 ),
-                accountEmail: Text('i_am_davy@soundtrek.com'),
-                accountName: Text(
-                  'Davy Jones',
-                  style: TextStyle(fontSize: 24.0),
-                ),
+                accountEmail: Text('i_am_davy@soundtrek.com', style: TextStyle(color: const Color.fromARGB(255, 98, 98, 98)),),
+                accountName: Text('Davy Jones', style:  TextStyle(fontSize: 24.0, color: const Color.fromARGB(255, 98, 98, 98),),),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 149, 215, 201),
                 ),
@@ -144,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 leading: const Icon(Icons.event_note),
                 title: const Text('Events',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 98, 98, 98),
                     )),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -156,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 leading: const Icon(Icons.library_music),
                 title: const Text('Playlists',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 98, 98, 98),
                     )),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -168,14 +167,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 leading: Icon(Icons.account_circle_rounded),
                 title: Text('Account',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 98, 98, 98),
                     )),
               ),
               const ListTile(
                 leading: Icon(Icons.settings),
                 title: Text('Settings',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 98, 98, 98),
                     )),
               ),
             ],

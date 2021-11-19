@@ -36,7 +36,7 @@ class EventsPage extends StatelessWidget {
         centerTitle: true,
         elevation: 4,
       ),
-      backgroundColor: Color(0xFFDADADA),
+      backgroundColor: Colors.white,
       body: ListView.builder(
         itemCount: eventsPriorityQueue.possibilities.length,
         itemBuilder: (context, index) {
@@ -49,7 +49,7 @@ class EventsPage extends StatelessWidget {
               children: [
                 SlidableAction(
                   onPressed: edit,
-                  backgroundColor: Color(0xFF6B6B6B),
+                  backgroundColor: Colors.white,
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
                   label: 'Edit',
