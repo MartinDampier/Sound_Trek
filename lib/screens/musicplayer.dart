@@ -78,7 +78,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     }));
                   },
                 ),
-                Expanded(child: statelessPlaylist(_audioPlayer)),
+                Expanded(child: playlist(_audioPlayer)),
                 PlayerButtons(_audioPlayer),
               ],
             ),

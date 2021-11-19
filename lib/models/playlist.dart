@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 class Playlist {
-
+  late ConcatenatingAudioSource _playlist;
   String title = 'Unnamed';
 
 }
 
 
-class statelessPlaylist extends StatelessWidget {
-  const statelessPlaylist(this._audioPlayer, {Key? key}) : super(key: key);
+class playlist extends StatelessWidget {
+  const playlist(this._audioPlayer, {Key? key}) : super(key: key);
   final AudioPlayer _audioPlayer;
 
   @override
