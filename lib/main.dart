@@ -1,4 +1,5 @@
 import 'package:basic/models/events/clock_event.dart';
+import 'package:basic/models/weather_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
@@ -64,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late PermissionStatus _permissionStatus;
   late LocationData _locationData;
   bool _isListenLocation=false,_isGetLocation=false;
+  var weatherOne = WeatherHandler().getWeather();
 
 
   void _incrementCounter() {
@@ -76,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
       var test1 = ClockEvent("00:00", "22:00");
       var test2 = ClockEvent("22:00", "3:00");
+      weatherOne = WeatherHandler().getWeather();
 
     /*
       _dateToday = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day) ;
@@ -140,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headline4,
             ),
             Text(
-              '$_startTimeUpdated',
+              '$weatherOne',
               style: Theme.of(context).textTheme.headline4,
             ),
             ElevatedButton(onPressed: () async{

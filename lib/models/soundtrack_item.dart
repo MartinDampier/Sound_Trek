@@ -37,7 +37,7 @@ class SoundtrackItem{
     _eventList = eventListIn;
   }
 
-  List<Event> getEventList(List<Event> eventListIn){
+  List<Event> getEventList(){
     return _eventList;
   }
 
