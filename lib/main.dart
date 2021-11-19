@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:sound_trek/screens/event_view.dart';
+import 'package:sound_trek/screens/musicplayer.dart';
 import 'package:sound_trek/screens/playlist_view.dart';
 import 'package:location/location.dart';
 import 'package:flutter/foundation.dart';
@@ -80,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
     final user = Provider.of<User>(context);
+    final PageController controller = PageController(initialPage: 0);
 
     return Scaffold(
       key: _drawerKey,
@@ -233,6 +237,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   size: 30,
                 ),
                 onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.music_note_rounded,
+                  color: Color.fromARGB(255, 98, 98, 98),
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return MusicPlayer();
+                  }));
+                },
               ),
             ]),
       ),
