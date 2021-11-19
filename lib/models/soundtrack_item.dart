@@ -1,5 +1,6 @@
 import 'package:sound_trek/models/events/event.dart';
 import 'package:sound_trek/models/playlist.dart';
+import 'package:sound_trek/screens/musicplayer.dart';
 
 class SoundtrackItem{
 
