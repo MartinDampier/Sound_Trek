@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'package:basic/screens/event_view.dart';
-import 'package:basic/screens/playlist_view.dart';
+import 'package:sound_trek/screens/event_view.dart';
+import 'package:sound_trek/screens/playlist_view.dart';
 import 'package:location/location.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
