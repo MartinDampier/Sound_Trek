@@ -1,4 +1,4 @@
-import 'package:basic/models/priority_queue.dart';
+import 'package:sound_trek/models/priority_queue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -9,7 +9,7 @@ import 'package:sound_trek/screens/playlist_view.dart';
 import 'package:location/location.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
-import 'package:basic/models/user.dart';
+import 'package:sound_trek/models/user.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 

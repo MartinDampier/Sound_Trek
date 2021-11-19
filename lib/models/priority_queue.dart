@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:basic/models/soundtrack_item.dart';
+import 'package:sound_trek/models/soundtrack_item.dart';
 
 class PriorityQueue with ChangeNotifier{
 

@@ -1,11 +1,11 @@
-import 'package:basic/models/soundtrack_item.dart';
+import 'package:sound_trek/models/soundtrack_item.dart';
 import 'package:collection/src/iterable_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:basic/models/user.dart';
-import 'package:basic/models/playlist.dart';
-import 'package:basic/models/priority_queue.dart';
+import 'package:sound_trek/models/user.dart';
+import 'package:sound_trek/models/playlist.dart';
+import 'package:sound_trek/models/priority_queue.dart';
 
 class PlaylistsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();

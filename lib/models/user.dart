@@ -1,5 +1,5 @@
-import 'package:basic/models/events/event.dart';
-import 'package:basic/models/playlist.dart';
+import 'package:sound_trek/models/events/event.dart';
+import 'package:sound_trek/models/playlist.dart';
 import 'package:flutter/foundation.dart';
 
 class User with ChangeNotifier{

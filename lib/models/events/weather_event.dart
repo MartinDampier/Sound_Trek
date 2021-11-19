@@ -1,4 +1,4 @@
-import 'package:basic/models/events/event.dart';
+import 'package:sound_trek/models/events/event.dart';
 
 class WeatherEvent implements Event{
 
