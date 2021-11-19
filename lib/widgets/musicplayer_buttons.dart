@@ -10,6 +10,7 @@ class PlayerButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         StreamBuilder <bool> (
           stream: _audioPlayer.shuffleModeEnabledStream,
@@ -58,10 +59,10 @@ class PlayerButtons extends StatelessWidget {
       );
     }
     else if (_audioPlayer.playing != true) {
-      return IconButton(onPressed: _audioPlayer.play, icon: Icon(Icons.play_arrow), iconSize: 64.0,);
+      return IconButton(onPressed: _audioPlayer.play, icon: Icon(Icons.play_arrow_rounded), iconSize: 64.0,);
     }
     else if (processingState != ProcessingState.completed) {
-      return IconButton(onPressed: _audioPlayer.pause, icon: Icon(Icons.pause), iconSize: 64.0,);
+      return IconButton(onPressed: _audioPlayer.pause, icon: Icon(Icons.pause_rounded), iconSize: 64.0,);
     }
     else {
       return IconButton(onPressed: () => _audioPlayer.seek(Duration.zero, index: _audioPlayer.effectiveIndices!.first), icon: Icon(Icons.replay), iconSize: 64.0,);
@@ -71,8 +72,8 @@ class PlayerButtons extends StatelessWidget {
   Widget _shuffleButton(BuildContext context, bool isEnabled) {
     return IconButton(
       icon: isEnabled
-          ? Icon(Icons.shuffle, color: Theme.of(context).accentColor)
-          : Icon(Icons.shuffle),
+          ? Icon(Icons.shuffle_rounded, color: Theme.of(context).accentColor)
+          : Icon(Icons.shuffle_rounded),
       onPressed: () async {
         final enable = !isEnabled;
         if (enable) {
@@ -85,23 +86,23 @@ class PlayerButtons extends StatelessWidget {
 
   Widget _previousButton() {
     return IconButton(
-      icon: Icon(Icons.skip_previous),
+      icon: Icon(Icons.skip_previous_rounded),
       onPressed: _audioPlayer.hasPrevious ? _audioPlayer.seekToPrevious : null,
     );
   }
 
   Widget _nextButton() {
     return IconButton(
-      icon: Icon(Icons.skip_next),
+      icon: Icon(Icons.skip_next_rounded),
       onPressed: _audioPlayer.hasNext ? _audioPlayer.seekToNext : null,
     );
   }
 
   Widget _repeatButton(BuildContext context, LoopMode loopMode) {
     final icons = [
-      Icon(Icons.repeat),
-      Icon(Icons.repeat, color: Theme.of(context).accentColor),
-      Icon(Icons.repeat_one, color: Theme.of(context).accentColor),
+      Icon(Icons.repeat_rounded),
+      Icon(Icons.repeat_rounded, color: Theme.of(context).accentColor),
+      Icon(Icons.repeat_one_rounded, color: Theme.of(context).accentColor),
     ];
     const cycleModes = [
       LoopMode.off,
