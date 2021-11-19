@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class BuildLocationEvent extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(appBar: AppBar(
     title: const Text("Location Event"),
+    centerTitle: true,
     backgroundColor: Color.fromARGB(255, 149, 215, 201),
   ),
     body: const MyCustomForm(),);

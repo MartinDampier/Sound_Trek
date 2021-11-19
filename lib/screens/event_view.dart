@@ -67,6 +67,8 @@ class EventsPage extends StatelessWidget {
         foregroundColor: Colors.white,
         overlayColor: Colors.black,
         overlayOpacity: 0.5,
+        spacing: 10,
+        spaceBetweenChildren: 5,
         children: [
           SpeedDialChild(
               child: Icon(Icons.location_on_sharp),
