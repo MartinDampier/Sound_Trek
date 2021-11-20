@@ -9,6 +9,8 @@ import 'package:sound_trek/models/playlist.dart';
 import 'package:sound_trek/models/soundtrack_item.dart';
 import 'package:sound_trek/models/events/event.dart';
 
+import '../event_view.dart';
+
 class BuildTimeEvent extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TimeOfDay startTime = TimeOfDay.now();
@@ -76,6 +78,9 @@ class BuildTimeEvent extends StatelessWidget {
                 ),
                 onPressed: () {
                   createTimeEvent(eventsPriorityQueue);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return EventsPage();
+                  }));
                 },
                 child: Text('Create Event'),
               ),
