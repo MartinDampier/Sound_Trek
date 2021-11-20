@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sound_trek/models/soundtrack_item.dart';
 import '../../main.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:sound_trek/models/events/clock_event.dart';
+import 'package:sound_trek/models/priority_queue.dart';
+import 'package:sound_trek/models/playlist.dart';
+import 'package:sound_trek/models/soundtrack_item.dart';
+import 'package:sound_trek/models/events/event.dart';
 
 class BuildTimeEvent extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  TimeOfDay startTime = TimeOfDay.now();
+  TimeOfDay endTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
-    TimeOfDay startTime = TimeOfDay.now();
-    TimeOfDay endTime = TimeOfDay.now();
-    // TimeOfDay setTime = await showTimePicker(context: context, currentTime: currentTime);
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -39,7 +46,7 @@ class BuildTimeEvent extends StatelessWidget {
                     primary: Colors.black,
                   ),
                   onPressed: () {
-                    startTime = chooseTime(startTime, context);
+                    chooseStartTime(context);
                   },
                   child: Text('${displayTime(startTime)}'),
                 ),
@@ -56,7 +63,7 @@ class BuildTimeEvent extends StatelessWidget {
                     primary: Colors.black,
                   ),
                   onPressed: () {
-                    endTime = chooseTime(endTime, context);
+                    chooseEndTime(context);
                   },
                   child: Text('${displayTime(endTime)}'),
                 ),
@@ -68,7 +75,7 @@ class BuildTimeEvent extends StatelessWidget {
                   backgroundColor: const Color.fromARGB(255, 149, 215, 201),
                 ),
                 onPressed: () {
-                  createTimeEvent();
+                  createTimeEvent(eventsPriorityQueue);
                 },
                 child: Text('Create Event'),
               ),
@@ -79,20 +86,55 @@ class BuildTimeEvent extends StatelessWidget {
     );
   }
 
-  TimeOfDay chooseTime(TimeOfDay time, BuildContext context) {
-    return TimeOfDay.now();
+  Future<void> chooseStartTime(BuildContext context) async {
+
+    startTime = (await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ))!;
+
   }
 
-  void createTimeEvent() {}
+  Future<void> chooseEndTime(BuildContext context) async {
+
+    endTime = (await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ))!;
+
+  }
+
+  void createTimeEvent(PriorityQueue events) {
+    Playlist playlist = Playlist();
+    String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
+    List<Event> eventList = [ClockEvent(displayTime(startTime).substring(0,4), displayTime(endTime).substring(0,4))];
+
+    SoundtrackItem item = SoundtrackItem(playlist, eventList);
+    events.possibilities.add(item);
+  }
 
   String displayTime(TimeOfDay time) {
+    String hour;
+    String minute;
     String period;
+
     if (time.period == DayPeriod.am) {
       period = 'AM';
     } else {
       period = 'PM';
     }
 
-    return time.hour.toString() + ':' + time.minute.toString() + ' ' + period;
+    if (time.hour > 12) {
+      hour = (time.hour%12).toString();
+    }
+    else {hour = time.hour.toString();}
+
+    if (time.minute < 10) {
+      minute = time.minute.toString().padLeft(2, "0");
+    }
+    else {minute = time.minute.toString();}
+
+    return hour + ':' + minute + ' ' + period;
+
   }
 }
