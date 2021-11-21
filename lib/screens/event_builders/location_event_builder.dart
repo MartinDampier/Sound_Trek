@@ -29,6 +29,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   late LocationData _locationData;
   bool _isListenLocation = false, _isGetLocation = false;
   Playlist playlist = Playlist();
+  double eventRadius = 0.5;
 
   static CameraPosition _initialPosition = CameraPosition(
     target: LatLng(30.40766724145041, -91.17953531915799),
@@ -79,11 +80,10 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor:
-                            const Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 0.5 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius();
+                        setEventRadius(0.5);
                       },
                       child: Text('500 ft'),
                     ),
@@ -91,11 +91,11 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor:
-                            const Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 1.0 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
+                            // const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius();
+                        setEventRadius(1.0);
                       },
                       child: Text('1 mile'),
                     ),
@@ -103,11 +103,10 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor:
-                            const Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 5.0 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius();
+                        setEventRadius(5.0);
                       },
                       child: Text('5 miles'),
                     ),
@@ -171,7 +170,11 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     return _location.toString();
   }
 
-  void setEventRadius() {}
+  void setEventRadius(double radius) {
+    setState(() {
+      eventRadius = radius;
+    });
+  }
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
