@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sound_trek/models/soundtrack_item.dart';
 import 'package:sound_trek/screens/add_playlists.dart';
-import '../../main.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sound_trek/models/events/clock_event.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:sound_trek/models/playlist.dart';
-import 'package:sound_trek/models/soundtrack_item.dart';
 import 'package:sound_trek/models/events/event.dart';
 
-import '../event_view.dart';
-
 class BuildTimeEvent extends StatefulWidget {
+  const BuildTimeEvent({Key? key}) : super(key: key);
+
   @override
   BuildTimeEventState createState() {
     return BuildTimeEventState();
@@ -100,6 +97,7 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
                   backgroundColor: const Color.fromARGB(255, 149, 215, 201),
                 ),
                 onPressed: () {
+                  // checkTimesValidity();
                   createTimeEvent(eventsPriorityQueue);
                   Navigator.pop(context);
                 },
@@ -192,4 +190,32 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
     return hour + ':' + minute + ' ' + period;
 
   }
+
+  // AlertDialog checkTimesValidity() {
+  //   double startCheck = (startTime.hour + startTime.minute)/60.0;
+  //   double endCheck = (endTime.hour + endTime.minute)/60.0;
+  //
+  //   if((endTime.period == DayPeriod.am && startTime.period == DayPeriod.pm) || (startTime.period == endTime.period && endCheck > startCheck)) {
+  //     return AlertDialog (
+  //       title: const Text('Invalid Times'),
+  //       content: SingleChildScrollView(
+  //         child: ListBody(
+  //           children: const <Widget>[
+  //             Text('Please choose an end time later than the start time.')
+  //           ],
+  //         ),
+  //       ),
+  //       actions: <Widget>[
+  //         TextButton(
+  //           child: const Text('Close'),
+  //           onPressed: () {
+  //             Navigator.of(context).pop();
+  //           },
+  //         ),
+  //       ]
+  //     );
+  //   }
+  //   else {}
+  // }
+
 }
