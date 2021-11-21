@@ -38,14 +38,14 @@ class EventsPage extends StatelessWidget {
               motion: DrawerMotion(),
               children: [
                 SlidableAction(
-                  onPressed: edit,
+                  onPressed: (context) => edit(eventsPriorityQueue, index),
                   backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
                   label: 'Edit',
                 ),
                 SlidableAction(
-                  onPressed: delete,
+                  onPressed: (context) => delete(eventsPriorityQueue, index),
                   backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
@@ -154,6 +154,10 @@ class EventsPage extends StatelessWidget {
   //   }
   // }
 
-  void edit(BuildContext context) {}
-  void delete(BuildContext context) {}
+  void edit(PriorityQueue events, int index) {}
+
+  void delete(PriorityQueue events, int index) {
+    events.deleteItem(index);
+  }
+
 }

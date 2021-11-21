@@ -36,4 +36,9 @@ class PriorityQueue with ChangeNotifier{
     notifyListeners();
   }
 
+  void deleteItem(int index) {
+    possibilities.removeAt(index);
+    notifyListeners();
+  }
+
 }
