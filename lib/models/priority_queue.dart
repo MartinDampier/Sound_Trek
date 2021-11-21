@@ -30,4 +30,10 @@ class PriorityQueue with ChangeNotifier{
       FindStarterEvent();
     }
   }
+
+  void addItem(SoundtrackItem newItem) {
+    possibilities.add(newItem);
+    notifyListeners();
+  }
+
 }

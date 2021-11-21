@@ -39,20 +39,20 @@ class EventsPage extends StatelessWidget {
               children: [
                 SlidableAction(
                   onPressed: edit,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
                   label: 'Edit',
                 ),
                 SlidableAction(
-                  onPressed: edit,
+                  onPressed: delete,
                   backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
                   label: 'Delete',
                 ),
               ],
-              dismissible: DismissiblePane(onDismissed: () {}),
+              // dismissible: DismissiblePane(onDismissed: () {}),
             ),
             child: buildListTile(soundtrackItem),
           );
@@ -116,6 +116,7 @@ class EventsPage extends StatelessWidget {
           )
         ],
       ),
+
     );
   }
 
@@ -136,22 +137,23 @@ class EventsPage extends StatelessWidget {
     );
   }
 
-  void onDismissed(int index, SlideableAction action, BuildContext context) {
-    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
-
-    switch (action) {
-      case SlideableAction.delete:
-        eventsPriorityQueue.possibilities.removeAt(index);
-        break;
-
-      case SlideableAction.edit:
-        //TODO: implement this
-        break;
-
-      default:
-        break;
-    }
-  }
+  // void onDismissed(int index, SlideableAction action, BuildContext context) {
+  //   final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+  //
+  //   switch (action) {
+  //     case SlideableAction.delete:
+  //       eventsPriorityQueue.possibilities.removeAt(index);
+  //       break;
+  //
+  //     case SlideableAction.edit:
+  //       eventsPriorityQueue.possibilities.removeAt(index);
+  //       break;
+  //
+  //     default:
+  //       break;
+  //   }
+  // }
 
   void edit(BuildContext context) {}
+  void delete(BuildContext context) {}
 }

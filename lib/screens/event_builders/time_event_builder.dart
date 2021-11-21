@@ -78,9 +78,7 @@ class BuildTimeEvent extends StatelessWidget {
                 ),
                 onPressed: () {
                   createTimeEvent(eventsPriorityQueue);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return EventsPage();
-                  }));
+                  Navigator.pop(context);
                 },
                 child: Text('Create Event'),
               ),
@@ -112,10 +110,10 @@ class BuildTimeEvent extends StatelessWidget {
   void createTimeEvent(PriorityQueue events) {
     Playlist playlist = Playlist();
     String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
-    List<Event> eventList = [ClockEvent(displayTime(startTime).substring(0,4), displayTime(endTime).substring(0,4))];
+    List<Event> eventList = [ClockEvent(displayTime(startTime).substring(0,5), displayTime(endTime).substring(0,5))];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
-    events.possibilities.add(item);
+    events.addItem(item);
   }
 
   String displayTime(TimeOfDay time) {

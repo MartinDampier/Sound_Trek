@@ -37,12 +37,14 @@ class PlaylistsPage extends StatelessWidget {
               children: [
                 SlidableAction(
                   onPressed: edit,
+                  backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
                   label: 'Edit',
                 ),
                 SlidableAction(
                   onPressed: delete,
+                  backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
                   label: 'Delete',
