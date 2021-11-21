@@ -64,7 +64,6 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
                     WeatherCondition.drizzle,
                     WeatherCondition.rain,
                     WeatherCondition.snow,
-                    WeatherCondition.mist,
                     WeatherCondition.fog,
                     WeatherCondition.lightCloud,
                     WeatherCondition.heavyCloud,

@@ -3,7 +3,6 @@ enum WeatherCondition {
   drizzle,
   rain,
   snow,
-  mist,
   fog,
   lightCloud,
   heavyCloud,
@@ -53,9 +52,6 @@ class WeatherHandler{
         condition = (cloudiness >= 85)
             ? WeatherCondition.heavyCloud
             : WeatherCondition.lightCloud;
-        break;
-      case 'Mist':
-        condition = WeatherCondition.mist;
         break;
       case 'fog':
         condition = WeatherCondition.fog;
