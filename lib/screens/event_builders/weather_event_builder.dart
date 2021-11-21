@@ -66,7 +66,9 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
                   onChanged: (WeatherCondition? selectedCond) {
                     setState(() {
                       weatherCondition = selectedCond!;
-                      weatherIcon = 'assets/weather_icons/' + displayWeather(weatherCondition) + '.svg';
+                      weatherIcon = 'assets/weather_icons/' +
+                          weatherCondition.toString().split('.').last +
+                          '.svg';
                     });
                   },
                   items: <WeatherCondition>[
@@ -133,7 +135,8 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
   }
 
   void createWeatherEvent(PriorityQueue events) {
-    String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
+    String eventListName =
+        'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [WeatherEvent(displayWeather(weatherCondition))];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
@@ -141,6 +144,38 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
   }
 
   String displayWeather(WeatherCondition weather) {
-    return weather.toString().split('.').last;
+    String weatherText = weather.toString().split('.').last;
+
+    switch (weatherText) {
+      case 'thunderstorm':
+        weatherText = 'Thunderstorm';
+        break;
+      case 'drizzle':
+        weatherText = 'Drizzle';
+        break;
+      case 'rain':
+        weatherText = 'Rain';
+        break;
+      case 'snow':
+        weatherText = 'Snow';
+        break;
+      case 'clear':
+        weatherText = 'Clear';
+        break;
+      case 'heavyCloud':
+        weatherText = 'Heavy Clouds';
+        break;
+      case 'lightCloud':
+        weatherText = 'Light Clouds';
+        break;
+      case 'fog':
+        weatherText = 'Fog';
+        break;
+      default:
+        weatherText = 'Unknown';
+    }
+
+    return weatherText;
   }
+
 }
