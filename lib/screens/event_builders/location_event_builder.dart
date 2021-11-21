@@ -79,7 +79,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor:
+                            const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius();
@@ -90,7 +91,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor:
+                            const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius();
@@ -101,7 +103,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor:
+                            const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius();
@@ -146,7 +149,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
   Future<void> addPlaylists(BuildContext context) async {
     final chosenPlaylist =
-    await Navigator.push(context, MaterialPageRoute(builder: (context) {
+        await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return AddPlaylists();
     }));
 
@@ -156,7 +159,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   }
 
   void createLocationEvent(PriorityQueue events) {
-    String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
+    String eventListName =
+        'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
@@ -167,9 +171,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     return _location.toString();
   }
 
-  void setEventRadius() {
-
-  }
+  void setEventRadius() {}
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
@@ -195,10 +197,10 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     setState(() {
       _isGetLocation = true;
       _initialPosition = CameraPosition(
-        target: LatLng(_locationData.latitude as double, _locationData.longitude as double),
+        target: LatLng(_locationData.latitude as double,
+            _locationData.longitude as double),
         zoom: 15,
       );
     });
   }
-
 }
