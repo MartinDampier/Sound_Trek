@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
-import '../../main.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
+import 'package:sound_trek/models/soundtrack_item.dart';
+import 'package:sound_trek/screens/add_playlists.dart';
+import 'package:sound_trek/models/events/clock_event.dart';
+import 'package:sound_trek/models/priority_queue.dart';
+import 'package:sound_trek/models/playlist.dart';
+import 'package:sound_trek/models/events/event.dart';
 
-class BuildTimeEvent extends StatelessWidget {
+class BuildTimeEvent extends StatefulWidget {
+  const BuildTimeEvent({Key? key}) : super(key: key);
+
+  @override
+  BuildTimeEventState createState() {
+    return BuildTimeEventState();
+  }
+}
+
+class BuildTimeEventState extends State<BuildTimeEvent> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  TimeOfDay startTime = TimeOfDay.now();
+  TimeOfDay endTime = TimeOfDay.now();
+  Playlist playlist = Playlist();
 
   @override
   Widget build(BuildContext context) {
-    TimeOfDay startTime = TimeOfDay.now();
-    TimeOfDay endTime = TimeOfDay.now();
-    // TimeOfDay setTime = await showTimePicker(context: context, currentTime: currentTime);
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -39,7 +54,7 @@ class BuildTimeEvent extends StatelessWidget {
                     primary: Colors.black,
                   ),
                   onPressed: () {
-                    startTime = chooseTime(startTime, context);
+                    chooseStartTime(context);
                   },
                   child: Text('${displayTime(startTime)}'),
                 ),
@@ -49,16 +64,30 @@ class BuildTimeEvent extends StatelessWidget {
                 textScaleFactor: 2,
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 100.0),
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 75.0),
                 child: TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 50),
                     primary: Colors.black,
                   ),
                   onPressed: () {
-                    endTime = chooseTime(endTime, context);
+                    chooseEndTime(context);
                   },
                   child: Text('${displayTime(endTime)}'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 25),
+                    primary: Colors.white,
+                    backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                  ),
+                  onPressed: () {
+                    addPlaylists(context);
+                  },
+                  child: Text('Add Playlists'),
                 ),
               ),
               TextButton(
@@ -68,10 +97,13 @@ class BuildTimeEvent extends StatelessWidget {
                   backgroundColor: const Color.fromARGB(255, 149, 215, 201),
                 ),
                 onPressed: () {
-                  createTimeEvent();
+                  // checkTimesValidity();
+                  createTimeEvent(eventsPriorityQueue);
+                  Navigator.pop(context);
                 },
                 child: Text('Create Event'),
               ),
+
             ],
           ),
         ),
@@ -79,20 +111,111 @@ class BuildTimeEvent extends StatelessWidget {
     );
   }
 
-  TimeOfDay chooseTime(TimeOfDay time, BuildContext context) {
-    return TimeOfDay.now();
+  Future<void> addPlaylists (BuildContext context) async {
+    final chosenPlaylist = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return AddPlaylists();
+    }));
+
+    setState(() {
+      playlist = chosenPlaylist;
+    });
   }
 
-  void createTimeEvent() {}
+  Future<void> chooseStartTime(BuildContext context) async {
+
+    final chosenTime = (await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ))!;
+
+    setState(() {
+      startTime = chosenTime;
+    });
+
+  }
+
+  Future<void> chooseEndTime(BuildContext context) async {
+
+    final chosenTime = (await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ))!;
+
+    setState(() {
+      endTime = chosenTime;
+    });
+
+  }
+
+  void createTimeEvent(PriorityQueue events) {
+    String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
+    List<Event> eventList = [ClockEvent(displayTime(startTime).substring(0,5), displayTime(endTime).substring(0,5))];
+
+    SoundtrackItem item = SoundtrackItem(playlist, eventList);
+    events.addItem(item);
+  }
 
   String displayTime(TimeOfDay time) {
+    String hour;
+    String minute;
     String period;
+
     if (time.period == DayPeriod.am) {
       period = 'AM';
     } else {
       period = 'PM';
     }
 
-    return time.hour.toString() + ':' + time.minute.toString() + ' ' + period;
+    if (time.hour == 00) {
+      hour = '12';
+    }
+    else if (time.hour > 12) {
+      if (time.hour%12 < 10) {
+        hour = (time.hour%12).toString().padLeft(2, '0');
+      }
+      else {hour = (time.hour%12).toString();}
+    }
+    else {
+      if (time.hour < 10) {
+        hour = (time.hour).toString().padLeft(2, '0');
+      }
+      else {hour = (time.hour).toString();}
+    }
+
+    if (time.minute < 10) {
+      minute = time.minute.toString().padLeft(2, "0");
+    }
+    else {minute = time.minute.toString();}
+
+    return hour + ':' + minute + ' ' + period;
+
   }
+
+  // AlertDialog checkTimesValidity() {
+  //   double startCheck = (startTime.hour + startTime.minute)/60.0;
+  //   double endCheck = (endTime.hour + endTime.minute)/60.0;
+  //
+  //   if((endTime.period == DayPeriod.am && startTime.period == DayPeriod.pm) || (startTime.period == endTime.period && endCheck > startCheck)) {
+  //     return AlertDialog (
+  //       title: const Text('Invalid Times'),
+  //       content: SingleChildScrollView(
+  //         child: ListBody(
+  //           children: const <Widget>[
+  //             Text('Please choose an end time later than the start time.')
+  //           ],
+  //         ),
+  //       ),
+  //       actions: <Widget>[
+  //         TextButton(
+  //           child: const Text('Close'),
+  //           onPressed: () {
+  //             Navigator.of(context).pop();
+  //           },
+  //         ),
+  //       ]
+  //     );
+  //   }
+  //   else {}
+  // }
+
 }

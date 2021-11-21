@@ -1,43 +1,164 @@
 import 'package:flutter/material.dart';
-import '../../main.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
+import 'package:sound_trek/models/soundtrack_item.dart';
+import 'package:sound_trek/screens/add_playlists.dart';
+import 'package:sound_trek/models/events/date_event.dart';
+import 'package:sound_trek/models/priority_queue.dart';
+import 'package:sound_trek/models/playlist.dart';
+import 'package:sound_trek/models/events/event.dart';
 
-class BuildDateEvent extends StatelessWidget {
+class BuildDateEvent extends StatefulWidget {
+  const BuildDateEvent({Key? key}) : super(key: key);
+
+  @override
+  BuildDateEventState createState() {
+    return BuildDateEventState();
+  }
+}
+
+class BuildDateEventState extends State<BuildDateEvent> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+  Playlist playlist = Playlist();
 
   @override
   Widget build(BuildContext context) {
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 149, 215, 201),
         title: const Text("Choose a Date"),
         centerTitle: true,
         elevation: 4,
       ),
-
       body: Center(
-        child: TextButton(
-          style: TextButton.styleFrom(
-            textStyle: const TextStyle(fontSize: 25),
-            primary: Colors.white,
-            backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Start Date:',
+                textScaleFactor: 2,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 50),
+                    primary: Colors.black,
+                  ),
+                  onPressed: () {
+                    chooseStartDate(context);
+                  },
+                  child: Text('${displayDate(startDate)}'),
+                ),
+              ),
+              Text(
+                'End Date:',
+                textScaleFactor: 2,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 75.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 50),
+                    primary: Colors.black,
+                  ),
+                  onPressed: () {
+                    chooseEndDate(context);
+                  },
+                  child: Text('${displayDate(endDate)}'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 25),
+                    primary: Colors.white,
+                    backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                  ),
+                  onPressed: () {
+                    addPlaylists(context);
+                  },
+                  child: Text('Add Playlists'),
+                ),
+              ),
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: const TextStyle(fontSize: 25),
+                  primary: Colors.white,
+                  backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                ),
+                onPressed: () {
+                  createDateEvent(eventsPriorityQueue);
+                  Navigator.pop(context);
+                },
+                child: Text('Create Event'),
+              ),
+
+            ],
           ),
-          onPressed: () {
-            createDateEvent();
-          },
-          child: Text('Create Event'),
         ),
       ),
     );
+  }
+
+  Future<void> addPlaylists (BuildContext context) async {
+    final chosenPlaylist = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return AddPlaylists();
+    }));
+
+    setState(() {
+      playlist = chosenPlaylist;
+    });
+  }
+
+  Future<void> chooseStartDate(BuildContext context) async {
+
+    final DateTime chosenDate = (await showDatePicker(
+      context: context,
+      initialDate: startDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
+    ))!;
+
+    setState(() {
+      startDate = chosenDate;
+    });
 
   }
 
-  void createDateEvent() {
+  Future<void> chooseEndDate(BuildContext context) async {
+
+    final DateTime chosenDate = (await showDatePicker(
+      context: context,
+      initialDate: endDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
+    ))!;
+
+    setState(() {
+      endDate = chosenDate;
+    });
 
   }
 
+  void createDateEvent(PriorityQueue events) {
+    String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
+    List<Event> eventList = [DateEvent()];
+
+    SoundtrackItem item = SoundtrackItem(playlist, eventList);
+    events.addItem(item);
+  }
+
+  String displayDate(DateTime date) {
+    return date.toString().substring(0,10);
+  }
 }

@@ -38,27 +38,25 @@ class EventsPage extends StatelessWidget {
               motion: DrawerMotion(),
               children: [
                 SlidableAction(
-                  onPressed: edit,
-                  backgroundColor: Colors.white,
+                  onPressed: (context) => edit(eventsPriorityQueue, index),
+                  backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
                   label: 'Edit',
                 ),
                 SlidableAction(
-                  onPressed: edit,
+                  onPressed: (context) => delete(eventsPriorityQueue, index),
                   backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
                   label: 'Delete',
                 ),
               ],
-              dismissible: DismissiblePane(onDismissed: () {}),
             ),
             child: buildListTile(soundtrackItem),
           );
         },
       ),
-
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         backgroundColor: Color.fromARGB(255, 149, 215, 201),
@@ -136,22 +134,9 @@ class EventsPage extends StatelessWidget {
     );
   }
 
-  void onDismissed(int index, SlideableAction action, BuildContext context) {
-    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+  void edit(PriorityQueue events, int index) {}
 
-    switch (action) {
-      case SlideableAction.delete:
-        eventsPriorityQueue.possibilities.removeAt(index);
-        break;
-
-      case SlideableAction.edit:
-        //TODO: implement this
-        break;
-
-      default:
-        break;
-    }
+  void delete(PriorityQueue events, int index) {
+    events.deleteItem(index);
   }
-
-  void edit(BuildContext context) {}
 }
