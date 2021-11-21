@@ -52,13 +52,11 @@ class EventsPage extends StatelessWidget {
                   label: 'Delete',
                 ),
               ],
-              // dismissible: DismissiblePane(onDismissed: () {}),
             ),
             child: buildListTile(soundtrackItem),
           );
         },
       ),
-
       floatingActionButton: SpeedDial(
         icon: Icons.add,
         backgroundColor: Color.fromARGB(255, 149, 215, 201),
@@ -116,7 +114,6 @@ class EventsPage extends StatelessWidget {
           )
         ],
       ),
-
     );
   }
 
@@ -137,27 +134,9 @@ class EventsPage extends StatelessWidget {
     );
   }
 
-  // void onDismissed(int index, SlideableAction action, BuildContext context) {
-  //   final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
-  //
-  //   switch (action) {
-  //     case SlideableAction.delete:
-  //       eventsPriorityQueue.possibilities.removeAt(index);
-  //       break;
-  //
-  //     case SlideableAction.edit:
-  //       eventsPriorityQueue.possibilities.removeAt(index);
-  //       break;
-  //
-  //     default:
-  //       break;
-  //   }
-  // }
-
   void edit(PriorityQueue events, int index) {}
 
   void delete(PriorityQueue events, int index) {
     events.deleteItem(index);
   }
-
 }
