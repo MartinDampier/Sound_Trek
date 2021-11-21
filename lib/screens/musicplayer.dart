@@ -11,13 +11,6 @@ class MusicPlayer extends StatefulWidget {
   _MusicPlayerState createState() => _MusicPlayerState();
 }
 
-class AudioMetaData {
-  final String title;
-  final String genre;
-
-  AudioMetaData({required this.title, required this.genre});
-}
-
 class _MusicPlayerState extends State<MusicPlayer> {
   late AudioPlayer _audioPlayer;
   
@@ -26,26 +19,16 @@ class _MusicPlayerState extends State<MusicPlayer> {
     super.initState();
     _audioPlayer = AudioPlayer();
     _audioPlayer.setAudioSource(ConcatenatingAudioSource(children: [
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/water.mp3'),
-      tag: AudioMetaData(title: 'Water', genre: 'Study')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3'),
-      tag: AudioMetaData(title: 'Acoustic', genre: 'Study')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3'),
-      tag: AudioMetaData(title: 'Town', genre: 'Study')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3'),
-      tag: AudioMetaData(title: 'Techno', genre: 'Techno Beat')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3'),
-      tag: AudioMetaData(title: 'Sadge', genre: 'Classical')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3'),
-      tag: AudioMetaData(title: 'Piano', genre: 'Classical')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3'),
-      tag: AudioMetaData(title: 'Lofi', genre: 'Techno Beat')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3'),
-      tag: AudioMetaData(title: 'Life', genre: 'Study')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3'),
-      tag: AudioMetaData(title: 'Kleinstadt', genre: 'Foreign')),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3'),
-      tag: AudioMetaData(title: 'Irish', genre: 'Foreign')),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/water.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3'),),
+      AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3'),),
     ]))
         .catchError((error){
           print("An error has occurred");
@@ -78,7 +61,6 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     }));
                   },
                 ),
-                Expanded(child: playlist(_audioPlayer)),
                 PlayerButtons(_audioPlayer),
               ],
             ),

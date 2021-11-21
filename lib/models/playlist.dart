@@ -1,37 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:sound_trek/screens/musicplayer.dart';
+import 'package:sound_trek/widgets/musicplayer_buttons.dart';
 
 class Playlist {
-  late ConcatenatingAudioSource _playlist;
-  String title = 'Unnamed';
+  late String title;
+  late AudioPlayer _audioPlayer;
 
-}
-
-
-class playlist extends StatelessWidget {
-  const playlist(this._audioPlayer, {Key? key}) : super(key: key);
-  final AudioPlayer _audioPlayer;
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder <SequenceState?> (
-        stream: _audioPlayer.sequenceStateStream,
-        builder: (context, snapshot){
-          final state = snapshot.data;
-          final sequence = state?.sequence ?? [];
-          return ListView(
-            children: [
-              for (var i = 0; i < sequence.length; i++)
-                ListTile(
-                  selected: i == state!.currentIndex,
-                  leading: Text(sequence[i].tag.genre),
-                  title: Text (sequence [i].tag.title),
-                  onTap: () {
-                    _audioPlayer.seek(Duration.zero, index: i);
-                  },
-                )
-            ],
-          );
-        });
-  }
 }
