@@ -6,6 +6,7 @@ import 'package:sound_trek/models/events/date_event.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:sound_trek/models/playlist.dart';
 import 'package:sound_trek/models/events/event.dart';
+import 'package:intl/intl.dart';
 
 class BuildDateEvent extends StatefulWidget {
   const BuildDateEvent({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class BuildDateEventState extends State<BuildDateEvent> {
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 50),
+                    textStyle: const TextStyle(fontSize: 40),
                     primary: Colors.black,
                   ),
                   onPressed: () {
@@ -67,7 +68,7 @@ class BuildDateEventState extends State<BuildDateEvent> {
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 75.0),
                 child: TextButton(
                   style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 50),
+                    textStyle: const TextStyle(fontSize: 40),
                     primary: Colors.black,
                   ),
                   onPressed: () {
@@ -159,6 +160,7 @@ class BuildDateEventState extends State<BuildDateEvent> {
   }
 
   String displayDate(DateTime date) {
-    return date.toString().substring(0,10);
+    return DateFormat.yMMMMd('en_US').format(date);
   }
+
 }
