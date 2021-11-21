@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sound_trek/models/soundtrack_item.dart';
+import 'package:sound_trek/screens/add_playlists.dart';
 import '../../main.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sound_trek/models/events/clock_event.dart';
@@ -11,10 +12,18 @@ import 'package:sound_trek/models/events/event.dart';
 
 import '../event_view.dart';
 
-class BuildTimeEvent extends StatelessWidget {
+class BuildTimeEvent extends StatefulWidget {
+  @override
+  BuildTimeEventState createState() {
+    return BuildTimeEventState();
+  }
+}
+
+class BuildTimeEventState extends State<BuildTimeEvent> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
+  Playlist playlist = Playlist();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +67,7 @@ class BuildTimeEvent extends StatelessWidget {
                 textScaleFactor: 2,
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 100.0),
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 75.0),
                 child: TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 50),
@@ -68,6 +77,20 @@ class BuildTimeEvent extends StatelessWidget {
                     chooseEndTime(context);
                   },
                   child: Text('${displayTime(endTime)}'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 25),
+                    primary: Colors.white,
+                    backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                  ),
+                  onPressed: () {
+                    addPlaylists(context);
+                  },
+                  child: Text('Add Playlists'),
                 ),
               ),
               TextButton(
@@ -82,6 +105,7 @@ class BuildTimeEvent extends StatelessWidget {
                 },
                 child: Text('Create Event'),
               ),
+
             ],
           ),
         ),
@@ -89,26 +113,43 @@ class BuildTimeEvent extends StatelessWidget {
     );
   }
 
+  Future<void> addPlaylists (BuildContext context) async {
+    final chosenPlaylist = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return AddPlaylists();
+    }));
+
+    setState(() {
+      playlist = chosenPlaylist;
+    });
+  }
+
   Future<void> chooseStartTime(BuildContext context) async {
 
-    startTime = (await showTimePicker(
+    final chosenTime = (await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     ))!;
+
+    setState(() {
+      startTime = chosenTime;
+    });
 
   }
 
   Future<void> chooseEndTime(BuildContext context) async {
 
-    endTime = (await showTimePicker(
+    final chosenTime = (await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     ))!;
 
+    setState(() {
+      endTime = chosenTime;
+    });
+
   }
 
   void createTimeEvent(PriorityQueue events) {
-    Playlist playlist = Playlist();
     String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [ClockEvent(displayTime(startTime).substring(0,5), displayTime(endTime).substring(0,5))];
 
@@ -127,10 +168,21 @@ class BuildTimeEvent extends StatelessWidget {
       period = 'PM';
     }
 
-    if (time.hour > 12) {
-      hour = (time.hour%12).toString();
+    if (time.hour == 00) {
+      hour = '12';
     }
-    else {hour = time.hour.toString();}
+    else if (time.hour > 12) {
+      if (time.hour%12 < 10) {
+        hour = (time.hour%12).toString().padLeft(2, '0');
+      }
+      else {hour = (time.hour%12).toString();}
+    }
+    else {
+      if (time.hour < 10) {
+        hour = (time.hour).toString().padLeft(2, '0');
+      }
+      else {hour = (time.hour).toString();}
+    }
 
     if (time.minute < 10) {
       minute = time.minute.toString().padLeft(2, "0");
