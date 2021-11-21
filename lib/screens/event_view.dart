@@ -3,12 +3,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:sound_trek/models/slideable_actions.dart';
 import 'package:sound_trek/models/soundtrack_item.dart';
-import 'package:sound_trek/screens/location_event_builder.dart';
-import 'package:sound_trek/screens/time_event_builder.dart';
-import 'package:sound_trek/screens/weather_event_builder.dart';
+import 'package:sound_trek/screens/event_builders/location_event_builder.dart';
+import 'package:sound_trek/screens/event_builders/time_event_builder.dart';
+import 'package:sound_trek/screens/event_builders/weather_event_builder.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:sound_trek/screens/date_event_builder.dart';
+import 'package:sound_trek/screens/event_builders/date_event_builder.dart';
 
 class EventsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -67,9 +67,11 @@ class EventsPage extends StatelessWidget {
         foregroundColor: Colors.white,
         overlayColor: Colors.black,
         overlayOpacity: 0.5,
+        spacing: 10,
+        spaceBetweenChildren: 5,
         children: [
           SpeedDialChild(
-              child: Icon(Icons.location_on_sharp),
+              child: Icon(Icons.location_on_rounded),
               backgroundColor: Colors.white,
               labelBackgroundColor: Colors.white,
               label: 'Location',

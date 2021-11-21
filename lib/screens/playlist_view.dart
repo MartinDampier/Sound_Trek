@@ -21,23 +21,10 @@ class PlaylistsPage extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 149, 215, 201),
         // automaticallyImplyLeading: true,
         title: Text('Playlists'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Icon(
-                Icons.add_rounded,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          )
-        ],
         centerTitle: true,
         elevation: 4,
       ),
-      backgroundColor: Color(0xFFDADADA),
+      backgroundColor: Colors.white,
       body: ListView.builder(
         itemCount: user.usersPlaylists.length,
         itemBuilder: (context, index) {
@@ -50,14 +37,12 @@ class PlaylistsPage extends StatelessWidget {
               children: [
                 SlidableAction(
                   onPressed: edit,
-                  backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
                   label: 'Edit',
                 ),
                 SlidableAction(
                   onPressed: delete,
-                  backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
                   label: 'Delete',
@@ -67,6 +52,11 @@ class PlaylistsPage extends StatelessWidget {
             child: buildListTile(playlist, eventsPriorityQueue),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromARGB(255, 149, 215, 201),
+        child: Icon(Icons.add),
+        onPressed: () {},
       ),
     );
   }
@@ -85,7 +75,6 @@ class PlaylistsPage extends StatelessWidget {
         color: Color(0xFF303030),
         size: 20,
       ),
-      tileColor: Color(0xFFDADADA),
       dense: false,
     );
   }
