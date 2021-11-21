@@ -18,8 +18,8 @@ class BuildDateEvent extends StatefulWidget {
 
 class BuildDateEventState extends State<BuildDateEvent> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  TimeOfDay startDate = TimeOfDay.now();
-  TimeOfDay endDate = TimeOfDay.now();
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
   Playlist playlist = Playlist();
 
   @override
@@ -122,39 +122,43 @@ class BuildDateEventState extends State<BuildDateEvent> {
 
   Future<void> chooseStartDate(BuildContext context) async {
 
-    final chosenTime = (await showTimePicker(
+    final DateTime chosenDate = (await showDatePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialDate: startDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
     ))!;
 
     setState(() {
-      startDate = chosenTime;
+      startDate = chosenDate;
     });
 
   }
 
   Future<void> chooseEndDate(BuildContext context) async {
 
-    final chosenTime = (await showTimePicker(
+    final DateTime chosenDate = (await showDatePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialDate: endDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
     ))!;
 
     setState(() {
-      endDate = chosenTime;
+      endDate = chosenDate;
     });
 
   }
 
   void createDateEvent(PriorityQueue events) {
     String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
-    List<Event> eventList = [];
+    List<Event> eventList = [DateEvent()];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
     events.addItem(item);
   }
 
-  String displayDate(TimeOfDay time) {
-    return 'date';
+  String displayDate(DateTime date) {
+    return date.toString().substring(0,10);
   }
 }

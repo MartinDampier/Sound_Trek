@@ -160,7 +160,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   void createLocationEvent(PriorityQueue events) {
     String eventListName =
         'Event ' + (events.possibilities.length + 1).toString();
-    List<Event> eventList = [];
+    List<Event> eventList = [LocationEvent(_location.toString())];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
     events.addItem(item);
