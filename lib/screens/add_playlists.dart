@@ -52,7 +52,7 @@ class AddPlaylistsState extends State<AddPlaylists> {
         onPressed: () {
           Navigator.pop(context, playlistList.elementAt(0));
         },
-        child: Text('Done'),
+        child: Text('Add Playlists'),
       ),
     );
   }
