@@ -8,6 +8,7 @@ import 'package:sound_trek/models/priority_queue.dart';
 import 'package:sound_trek/models/playlist.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sound_trek/models/user.dart';
 
 class BuildWeatherEvent extends StatefulWidget {
   const BuildWeatherEvent({Key? key}) : super(key: key);
@@ -21,12 +22,13 @@ class BuildWeatherEvent extends StatefulWidget {
 class BuildWeatherEventState extends State<BuildWeatherEvent> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   WeatherCondition weatherCondition = WeatherCondition.clear;
-  Playlist playlist = Playlist();
+  late Playlist playlist;
   String weatherIcon = 'assets/weather_icons/clear.svg';
 
   @override
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+    final user = Provider.of<User>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -119,7 +121,7 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
                   backgroundColor: const Color.fromARGB(255, 149, 215, 201),
                 ),
                 onPressed: () {
-                  createWeatherEvent(eventsPriorityQueue);
+                  createWeatherEvent(eventsPriorityQueue, user);
                   Navigator.pop(context);
                 },
                 child: Text('Create Event'),
@@ -142,7 +144,8 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
     });
   }
 
-  void createWeatherEvent(PriorityQueue events) {
+  void createWeatherEvent(PriorityQueue events, user) {
+    playlist = user.usersPlaylists.elementAt(3);
     String eventListName =
         'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [WeatherEvent(displayWeather(weatherCondition))];

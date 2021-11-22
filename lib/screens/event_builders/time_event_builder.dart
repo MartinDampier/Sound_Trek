@@ -6,6 +6,7 @@ import 'package:sound_trek/models/events/clock_event.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:sound_trek/models/playlist.dart';
 import 'package:sound_trek/models/events/event.dart';
+import 'package:sound_trek/models/user.dart';
 
 class BuildTimeEvent extends StatefulWidget {
   const BuildTimeEvent({Key? key}) : super(key: key);
@@ -20,11 +21,12 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
-  Playlist playlist = Playlist();
+  late Playlist playlist;
 
   @override
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+    final user = Provider.of<User>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -98,7 +100,7 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
                 ),
                 onPressed: () {
                   // checkTimesValidity();
-                  createTimeEvent(eventsPriorityQueue);
+                  createTimeEvent(eventsPriorityQueue, user);
                   Navigator.pop(context);
                 },
                 child: Text('Create Event'),
@@ -147,7 +149,8 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
 
   }
 
-  void createTimeEvent(PriorityQueue events) {
+  void createTimeEvent(PriorityQueue events, User user) {
+    playlist = user.usersPlaylists.elementAt(2);
     String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [ClockEvent(displayTime(startTime).substring(0,5), displayTime(endTime).substring(0,5))];
 

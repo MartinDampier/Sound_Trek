@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +10,7 @@ import 'package:sound_trek/models/events/event.dart';
 import 'package:sound_trek/models/events/location_event.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:sound_trek/models/user.dart';
 
 class BuildLocationEvent extends StatefulWidget {
   const BuildLocationEvent({Key? key}) : super(key: key);
@@ -30,8 +30,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   late PermissionStatus _permissionStatus;
   late LocationData _locationData;
   bool _isListenLocation = false, _isGetLocation = false;
-  Playlist playlist = Playlist();
-  double eventRadius = 0.5;
+  late Playlist playlist;
+  double eventRadius = 100;
   Set<Marker> _markers = HashSet<Marker>();
 
   static CameraPosition _initialPosition = CameraPosition(
@@ -40,7 +40,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   );
 
   LatLng _markerPosition = LatLng(30.40766724145041, -91.17953531915799);
-
+  int _circleIdCounter = 1;
 
   @override
   void initState() {
@@ -51,6 +51,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   @override
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+    final user = Provider.of<User>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -76,6 +77,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                   onMapCreated: _onMapCreated,
                   myLocationEnabled: true,
                   markers: _markers,
+                  circles: user.getCircles(),
                 ),
               ),
               Padding(
@@ -87,7 +89,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 100 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 100
+                            ? Colors.teal
+                            : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius(100);
@@ -98,8 +102,10 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 200 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
-                            // const Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 200
+                            ? Colors.teal
+                            : Color.fromARGB(255, 149, 215, 201),
+                        // const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius(200);
@@ -110,7 +116,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 500 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 500
+                            ? Colors.teal
+                            : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius(500);
@@ -141,7 +149,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                   backgroundColor: const Color.fromARGB(255, 149, 215, 201),
                 ),
                 onPressed: () {
-                  createLocationEvent(eventsPriorityQueue);
+                  createLocationEvent(eventsPriorityQueue, user);
                   Navigator.pop(context);
                 },
                 child: Text('Create Event'),
@@ -164,7 +172,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     });
   }
 
-  void createLocationEvent(PriorityQueue events) {
+  void createLocationEvent(PriorityQueue events, User user) {
+    _setCircles(user);
+    playlist = user.usersPlaylists.elementAt(0);
     String eventListName =
         'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [LocationEvent(_location.toString())];
@@ -222,9 +232,42 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
         zoom: 15,
       );
 
-      _markerPosition = LatLng(_locationData.latitude as double,
-          _locationData.longitude as double);
+      _markerPosition = LatLng(
+          _locationData.latitude as double, _locationData.longitude as double);
+    });
+  }
 
+  Circle _displayCircles(user, lat, lng, rad) {
+    final String circleIdVal = "$_circleIdCounter";
+    _circleIdCounter++;
+    return Circle(
+        circleId: CircleId(circleIdVal),
+        center: LatLng(lat.toDouble(), lng.toDouble()),
+        radius: rad,
+        //measured in meters
+        fillColor: Color.fromRGBO(149, 215, 201, .4),
+        strokeWidth: 2,
+        strokeColor: Color.fromRGBO(149, 215, 201, 1));
+  }
+
+  void _setCircles(User user) {
+    final String circleIdVal = "$_circleIdCounter";
+    _circleIdCounter++;
+    user.addCircle(
+      Circle(
+          circleId: CircleId(circleIdVal),
+          center: _markerPosition,
+          radius: eventRadius,
+          //measured in meters
+          fillColor: Color.fromRGBO(149, 215, 201, .4),
+          strokeWidth: 2,
+          strokeColor: Color.fromRGBO(149, 215, 201, 1)),
+    );
+  }
+
+  void setMarkerLocation(LatLng location) {
+    setState(() {
+      _markerPosition = location;
     });
   }
 }

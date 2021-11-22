@@ -9,6 +9,7 @@ import 'package:sound_trek/screens/event_builders/weather_event_builder.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:sound_trek/screens/event_builders/date_event_builder.dart';
+import 'package:sound_trek/models/user.dart';
 
 class EventsPage extends StatelessWidget {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -16,6 +17,7 @@ class EventsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+    final user = Provider.of<User>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -38,7 +40,7 @@ class EventsPage extends StatelessWidget {
               motion: DrawerMotion(),
               children: [
                 SlidableAction(
-                  onPressed: (context) => edit(eventsPriorityQueue, index),
+                  onPressed: (context) => edit(eventsPriorityQueue, user, index),
                   backgroundColor: Color(0xFF6B6B6B),
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
@@ -134,9 +136,10 @@ class EventsPage extends StatelessWidget {
     );
   }
 
-  void edit(PriorityQueue events, int index) {}
+  void edit(PriorityQueue events, User user, int index) {}
 
   void delete(PriorityQueue events, int index) {
     events.deleteItem(index);
+
   }
 }

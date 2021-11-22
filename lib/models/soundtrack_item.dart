@@ -4,7 +4,7 @@ import 'package:sound_trek/screens/musicplayer.dart';
 
 class SoundtrackItem{
 
-  Playlist _playlist = Playlist();
+  late Playlist _playlist;
   List<Event> _eventList = [];
 
   SoundtrackItem(Playlist musicIn,List<Event> eventListIn){

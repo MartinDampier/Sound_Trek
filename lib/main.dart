@@ -1,6 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:just_audio/just_audio.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +5,13 @@ import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:sound_trek/screens/event_view.dart';
-import 'package:sound_trek/screens/musicplayer.dart';
 import 'package:sound_trek/screens/playlist_view.dart';
 import 'package:location/location.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:sound_trek/models/user.dart';
-import 'package:sound_trek/widgets/musicplayer_buttons.dart';
+import 'package:sound_trek/models/playlist.dart';
+import 'package:just_audio/just_audio.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -68,8 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool playMusicToggle = false;
   String _title = 'Welcome to Sound Trek';
-  String _currentSong = '';
-  late final AudioPlayer _audioPlayer;
+  String _currentSongTitle = '';
+  late Playlist _currentSong;
 
   Timer? timer;
   final Duration checkEventsInterval = Duration(seconds: 5);
@@ -79,30 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _requestLocationPerms();
     WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context)});
-    _audioPlayer = AudioPlayer();
-    _audioPlayer.setAudioSource(ConcatenatingAudioSource(children: [
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/water.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3'),),
-      AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3'),),
-    ]))
-        .catchError((error){
-      print("An error has occurred");
-    });
-    // checkForCurrentEvent(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
     final user = Provider.of<User>(context);
-    final PageController controller = PageController(initialPage: 0);
 
     return Scaffold(
       key: _drawerKey,
@@ -138,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(_currentSong,
+                            Text(_currentSongTitle,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -213,6 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
         initialCameraPosition: _ourClass,
         onMapCreated: _onMapCreated,
         myLocationEnabled: true,
+        circles: user.getCircles(),
       ),
       bottomNavigationBar: BottomAppBar(
         color: const Color.fromARGB(255, 149, 215, 201),
@@ -220,18 +200,51 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              PlayerButtons(_audioPlayer),
               IconButton(
-                icon: Icon(
-                  Icons.music_note_rounded,
-                  color: Color.fromARGB(255, 98, 98, 98),
+                icon: const Icon(
+                  Icons.skip_previous_rounded,
+                  color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return MusicPlayer();
-                  }));
-                },
+                onPressed: () {},
+              ),
+              IconButton(
+                  icon: playMusicToggle
+                      ? const Icon(
+                          Icons.pause_rounded,
+                          color: Colors.white,
+                          size: 30,
+                        )
+                      : const Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                  onPressed: () {
+                    setState(() {
+                      playMusicToggle = !playMusicToggle;
+                      if (playMusicToggle) {
+                        _title = 'Currently playing...';
+                        if(_currentSongTitle == '') {
+                          _currentSong = user.usersPlaylists.elementAt(0);
+                          user.usersPlaylists.elementAt(0).passToMusicPlayer(user);
+                        }
+                        user.playMusic();
+                        _currentSongTitle = _currentSong.title;
+                      } else {
+                        user.pauseMusic();
+                        _title = 'Music paused';
+                        _currentSongTitle = '--';
+                      }
+                    });
+                  }),
+              IconButton(
+                icon: const Icon(
+                  Icons.skip_next_rounded,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {},
               ),
             ]),
       ),
@@ -279,6 +292,66 @@ class _MyHomePageState extends State<MyHomePage> {
     eventsPriorityQueue.FindStarterEvent();
     timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
   }
+
+ // void loadPlaylists(User user) {
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/water.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
+//       ]),
+//         'Playlist 1'
+//   ));
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
+//       ]),
+//       'Playlist 2'
+//   ));
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
+//       ]),
+//       'Playlist 3'
+//   ));
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
+//       ]),
+//       'Playlist 4'
+//   ));
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
+//       ]),
+//       'Playlist 5'
+//   ));
+//
+// }
 
 
 // Future<void> _goToTheLake() async {

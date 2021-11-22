@@ -70,7 +70,7 @@ class PlaylistsPage extends StatelessWidget {
         horizontal: 20,
         vertical: 20,
       ),
-      title: Text('${playlist}'),
+      title: Text('${playlist.title}'),
       subtitle: Text('${associatedEvent}'),
       trailing: Icon(
         Icons.arrow_forward,
