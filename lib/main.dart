@@ -206,7 +206,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  user.previousMusic();
+                },
               ),
               IconButton(
                   icon: playMusicToggle
@@ -244,7 +246,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  user.nextMusic();
+                },
               ),
             ]),
       ),

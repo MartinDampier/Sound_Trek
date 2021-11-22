@@ -80,6 +80,14 @@ class User with ChangeNotifier {
     _audioPlayer.pause();
   }
 
+  void previousMusic() {
+    _audioPlayer.seekToNext();
+  }
+
+  void nextMusic() {
+    _audioPlayer.seekToPrevious();
+  }
+
   Set<Circle> getCircles() {
     return _circles;
   }
