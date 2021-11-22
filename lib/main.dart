@@ -190,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
         initialCameraPosition: _ourClass,
         onMapCreated: _onMapCreated,
         myLocationEnabled: true,
+        circles: user.getCircles(),
       ),
       bottomNavigationBar: BottomAppBar(
         color: const Color.fromARGB(255, 149, 215, 201),
