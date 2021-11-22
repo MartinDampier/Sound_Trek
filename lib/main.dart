@@ -202,6 +202,17 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               IconButton(
                 icon: const Icon(
+                  Icons.loop_rounded,
+                  color: Colors.white,
+                    size: 30,
+                ),
+                onPressed: () {
+                  user.repeatMusicAll();
+                  //TODO: Make condition to alternate all LoopModes (refer to musicplayer_buttons.dart if it helps)
+                },
+              ),
+              IconButton(
+                icon: const Icon(
                   Icons.skip_previous_rounded,
                   color: Colors.white,
                   size: 30,
@@ -250,6 +261,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   user.nextMusic();
                 },
               ),
+              IconButton(
+                icon: const Icon(
+                  Icons.shuffle_rounded,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {
+                  user.shuffleMusic();
+                }
+              )
             ]),
       ),
     );

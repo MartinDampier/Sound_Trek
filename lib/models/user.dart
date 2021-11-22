@@ -88,6 +88,22 @@ class User with ChangeNotifier {
     _audioPlayer.seekToPrevious();
   }
 
+  void repeatMusicOff() {
+    _audioPlayer.setLoopMode(LoopMode.off);
+  }
+
+  void repeatMusicAll() {
+    _audioPlayer.setLoopMode(LoopMode.all);
+  }
+
+  void repeatMusicOne() {
+    _audioPlayer.setLoopMode(LoopMode.one);
+  }
+
+  void shuffleMusic() {
+    _audioPlayer.setShuffleModeEnabled(true);
+  }
+
   Set<Circle> getCircles() {
     return _circles;
   }
