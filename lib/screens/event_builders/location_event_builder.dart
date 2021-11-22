@@ -85,7 +85,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 0.5 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 100 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius(100);
@@ -96,7 +96,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 1.0 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 200 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                             // const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
@@ -108,7 +108,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 25),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 5.0 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 500 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius(500);

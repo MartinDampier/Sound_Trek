@@ -56,9 +56,11 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
                 child: DropdownButton<WeatherCondition>(
                   value: weatherCondition,
                   icon: const Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 16,
+                  iconSize: 20,
+                  elevation: 1,
                   style: const TextStyle(color: Color(0xFF6B6B6B)),
+                  alignment: Alignment.center,
+                  focusColor: Colors.grey,
                   underline: Container(
                     height: 2,
                     color: const Color.fromARGB(255, 149, 215, 201),
@@ -85,7 +87,13 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
                       (WeatherCondition option) {
                     return DropdownMenuItem<WeatherCondition>(
                       value: option,
-                      child: Text(displayWeather(option)),
+                      child: Text(
+                        displayWeather(option),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
                     );
                   }).toList(),
                 ),
@@ -177,5 +185,4 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
 
     return weatherText;
   }
-
 }
