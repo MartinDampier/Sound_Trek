@@ -83,9 +83,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                         backgroundColor: eventRadius == 0.5 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius(0.5);
+                        setEventRadius(100);
                       },
-                      child: Text('500 ft'),
+                      child: Text('100 m'),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
@@ -95,9 +95,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                             // const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius(1.0);
+                        setEventRadius(200);
                       },
-                      child: Text('1 mile'),
+                      child: Text('200 m'),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
@@ -106,9 +106,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                         backgroundColor: eventRadius == 5.0 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius(5.0);
+                        setEventRadius(500);
                       },
-                      child: Text('5 miles'),
+                      child: Text('500 m'),
                     ),
                   ],
                 ),
