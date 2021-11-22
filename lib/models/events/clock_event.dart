@@ -1,4 +1,3 @@
-
 import 'package:sound_trek/models/events/event.dart';
 import 'package:flutter/services.dart';
 
