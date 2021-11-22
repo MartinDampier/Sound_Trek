@@ -12,7 +12,7 @@ class AddPlaylists extends StatelessWidget {
     final user = Provider.of<User>(context);
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
 
-    Playlist playlist = Playlist();
+    Playlist playlist = user.usersPlaylists.elementAt(0);
     List<Playlist> playlistList = [];
 
     return Scaffold(

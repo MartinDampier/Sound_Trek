@@ -10,6 +10,8 @@ import 'package:location/location.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:sound_trek/models/user.dart';
+import 'package:sound_trek/models/playlist.dart';
+import 'package:just_audio/just_audio.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -63,7 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool playMusicToggle = false;
   String _title = 'Welcome to Sound Trek';
-  String _currentSong = '';
+  String _currentSongTitle = '';
+  late Playlist _currentSong;
 
   Timer? timer;
   final Duration checkEventsInterval = Duration(seconds: 5);
@@ -73,7 +76,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _requestLocationPerms();
     WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context)});
-    // checkForCurrentEvent(context);
   }
 
   @override
@@ -115,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(_currentSong,
+                            Text(_currentSongTitle,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -223,10 +225,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       playMusicToggle = !playMusicToggle;
                       if (playMusicToggle) {
                         _title = 'Currently playing...';
-                        _currentSong = 'YTCracker - Bitcoin Baron';
+                        if(_currentSongTitle == '') {
+                          _currentSong = user.usersPlaylists.elementAt(0);
+                          user.usersPlaylists.elementAt(0).passToMusicPlayer(user);
+                        }
+                        user.playMusic();
+                        _currentSongTitle = _currentSong.title;
                       } else {
+                        user.pauseMusic();
                         _title = 'Music paused';
-                        _currentSong = '--';
+                        _currentSongTitle = '--';
                       }
                     });
                   }),
@@ -284,6 +292,66 @@ class _MyHomePageState extends State<MyHomePage> {
     eventsPriorityQueue.FindStarterEvent();
     timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
   }
+
+ // void loadPlaylists(User user) {
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/water.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
+//       ]),
+//         'Playlist 1'
+//   ));
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
+//       ]),
+//       'Playlist 2'
+//   ));
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
+//       ]),
+//       'Playlist 3'
+//   ));
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
+//       ]),
+//       'Playlist 4'
+//   ));
+//
+//   user.addPlaylist(Playlist(
+//       ConcatenatingAudioSource(children: [
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
+//         AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
+//       ]),
+//       'Playlist 5'
+//   ));
+//
+// }
 
 
 // Future<void> _goToTheLake() async {

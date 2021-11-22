@@ -30,7 +30,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   late PermissionStatus _permissionStatus;
   late LocationData _locationData;
   bool _isListenLocation = false, _isGetLocation = false;
-  Playlist playlist = Playlist();
+  late Playlist playlist;
   double eventRadius = 100;
   Set<Marker> _markers = HashSet<Marker>();
 
@@ -41,7 +41,6 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
   LatLng _markerPosition = LatLng(30.40766724145041, -91.17953531915799);
   int _circleIdCounter = 1;
-
 
   @override
   void initState() {
@@ -90,7 +89,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 100 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 100
+                            ? Colors.teal
+                            : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius(100);
@@ -101,8 +102,10 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 200 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
-                            // const Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 200
+                            ? Colors.teal
+                            : Color.fromARGB(255, 149, 215, 201),
+                        // const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius(200);
@@ -113,7 +116,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
-                        backgroundColor: eventRadius == 500 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
+                        backgroundColor: eventRadius == 500
+                            ? Colors.teal
+                            : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
                         setEventRadius(500);
@@ -169,6 +174,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
   void createLocationEvent(PriorityQueue events, User user) {
     _setCircles(user);
+    playlist = user.usersPlaylists.elementAt(0);
     String eventListName =
         'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [LocationEvent(_location.toString())];
@@ -226,23 +232,22 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
         zoom: 15,
       );
 
-      _markerPosition = LatLng(_locationData.latitude as double,
-          _locationData.longitude as double);
-
+      _markerPosition = LatLng(
+          _locationData.latitude as double, _locationData.longitude as double);
     });
   }
 
   Circle _displayCircles(user, lat, lng, rad) {
     final String circleIdVal = "$_circleIdCounter";
     _circleIdCounter++;
-      return Circle(
-          circleId: CircleId(circleIdVal),
-          center: LatLng(lat.toDouble(), lng.toDouble()),
-          radius: rad, //measured in meters
-          fillColor: Color.fromRGBO(149, 215, 201, .4),
-          strokeWidth: 2,
-          strokeColor: Color.fromRGBO(149, 215, 201, 1)
-      );
+    return Circle(
+        circleId: CircleId(circleIdVal),
+        center: LatLng(lat.toDouble(), lng.toDouble()),
+        radius: rad,
+        //measured in meters
+        fillColor: Color.fromRGBO(149, 215, 201, .4),
+        strokeWidth: 2,
+        strokeColor: Color.fromRGBO(149, 215, 201, 1));
   }
 
   void _setCircles(User user) {
@@ -252,12 +257,17 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
       Circle(
           circleId: CircleId(circleIdVal),
           center: _markerPosition,
-          radius: eventRadius, //measured in meters
+          radius: eventRadius,
+          //measured in meters
           fillColor: Color.fromRGBO(149, 215, 201, .4),
           strokeWidth: 2,
-          strokeColor: Color.fromRGBO(149, 215, 201, 1)
-      ),
+          strokeColor: Color.fromRGBO(149, 215, 201, 1)),
     );
   }
 
+  void setMarkerLocation(LatLng location) {
+    setState(() {
+      _markerPosition = location;
+    });
+  }
 }

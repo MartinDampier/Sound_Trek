@@ -7,6 +7,7 @@ import 'package:sound_trek/models/priority_queue.dart';
 import 'package:sound_trek/models/playlist.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:intl/intl.dart';
+import 'package:sound_trek/models/user.dart';
 
 class BuildDateEvent extends StatefulWidget {
   const BuildDateEvent({Key? key}) : super(key: key);
@@ -21,11 +22,12 @@ class BuildDateEventState extends State<BuildDateEvent> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
-  Playlist playlist = Playlist();
+  late Playlist playlist;
 
   @override
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+    final user = Provider.of<User>(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -98,7 +100,7 @@ class BuildDateEventState extends State<BuildDateEvent> {
                   backgroundColor: const Color.fromARGB(255, 149, 215, 201),
                 ),
                 onPressed: () {
-                  createDateEvent(eventsPriorityQueue);
+                  createDateEvent(eventsPriorityQueue, user);
                   Navigator.pop(context);
                 },
                 child: Text('Create Event'),
@@ -151,7 +153,8 @@ class BuildDateEventState extends State<BuildDateEvent> {
 
   }
 
-  void createDateEvent(PriorityQueue events) {
+  void createDateEvent(PriorityQueue events, User user) {
+    playlist = user.usersPlaylists.elementAt(1);
     String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [DateEvent()];
 
