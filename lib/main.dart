@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sound Trek',
       theme: ThemeData(
-        primaryColor: const Color.fromARGB(255, 98, 98, 98),
+        primaryColor: Colors.white,
         primarySwatch: Colors.blue,
         canvasColor: Colors.white,
       ),
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     Text(_title,
                         style: const TextStyle(
-                          color: Color.fromARGB(255, 98, 98, 98),
+                          color: Colors.white,
                         )),
                   ]),
               leading: Transform.scale(
@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const ImageIcon(
                     AssetImage('assets/logos/SoundTrek_Simplified.png'),
                     size: 150,
-                    color: Color.fromARGB(255, 98, 98, 98),
+                    color: Colors.white,
                   ),
                   onPressed: () => _drawerKey.currentState?.openDrawer(),
                 ),
@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: <Widget>[
                             Text(_currentSong,
                                 style: const TextStyle(
-                                  color: const Color.fromARGB(255, 98, 98, 98),
+                                  color: Colors.white,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 )),
@@ -133,11 +133,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   backgroundColor: const Color.fromARGB(255, 98, 98, 98),
                 ),
                 accountEmail: Text('${user.email}',
-                  style: TextStyle(color: const Color.fromARGB(255, 98, 98, 98),),
+                  style: TextStyle(color: Colors.white,),
                 ),
                 accountName: Text(
                   '${user.name}',
-                  style: TextStyle(fontSize: 24.0, color: const Color.fromARGB(255, 98, 98, 98),),
+                  style: TextStyle(fontSize: 24.0, color: Colors.white,),
                 ),
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 149, 215, 201),
@@ -200,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
               IconButton(
                 icon: const Icon(
                   Icons.skip_previous_rounded,
-                  color: Color.fromARGB(255, 98, 98, 98),
+                  color: Colors.white,
                   size: 30,
                 ),
                 onPressed: () {},
@@ -209,12 +209,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: playMusicToggle
                       ? const Icon(
                           Icons.pause_rounded,
-                          color: Color.fromARGB(255, 98, 98, 98),
+                          color: Colors.white,
                           size: 30,
                         )
                       : const Icon(
                           Icons.play_arrow_rounded,
-                          color: Color.fromARGB(255, 98, 98, 98),
+                          color: Colors.white,
                           size: 30,
                         ),
                   onPressed: () {
@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
               IconButton(
                 icon: const Icon(
                   Icons.skip_next_rounded,
-                  color: Color.fromARGB(255, 98, 98, 98),
+                  color: Colors.white,
                   size: 30,
                 ),
                 onPressed: () {},
