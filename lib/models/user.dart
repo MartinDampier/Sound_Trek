@@ -81,11 +81,11 @@ class User with ChangeNotifier {
   }
 
   void previousMusic() {
-    _audioPlayer.seekToNext();
+    _audioPlayer.seekToPrevious();
   }
 
   void nextMusic() {
-    _audioPlayer.seekToPrevious();
+    _audioPlayer.seekToNext();
   }
 
   void repeatMusicOff() {
