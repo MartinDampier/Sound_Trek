@@ -5,11 +5,11 @@ import 'package:sound_trek/widgets/musicplayer_buttons.dart';
 
 class Playlist {
   late String title;
-  late AudioPlayer _audioPlayer;
+  late AudioPlayer _Playlist;
 
   void initState(){
-    _audioPlayer = AudioPlayer();
-    _audioPlayer.setAudioSource(ConcatenatingAudioSource(children: [
+    _Playlist = AudioPlayer();
+    _Playlist.setAudioSource(ConcatenatingAudioSource(children: [
       AudioSource.uri(Uri.parse('asset:///assets/musicsample/water.mp3'),),
       AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3'),),
       AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3'),),
