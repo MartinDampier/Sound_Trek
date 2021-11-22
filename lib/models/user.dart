@@ -4,62 +4,11 @@ import 'package:sound_trek/models/events/event.dart';
 import 'package:sound_trek/models/playlist.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:collection';
+import 'package:sound_trek/utilities/playlist_init.dart';
 
 class User with ChangeNotifier {
   Set<Circle> _circles = HashSet<Circle>();
-  List<Playlist> usersPlaylists = [
-    Playlist(
-        ConcatenatingAudioSource(children: [
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/water.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
-        ]),
-        'Playlist 1'
-    ),
-    Playlist(
-        ConcatenatingAudioSource(children: [
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
-        ]),
-        'Playlist 2'
-    ),
-    Playlist(
-        ConcatenatingAudioSource(children: [
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/piano.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
-        ]),
-        'Playlist 3'
-    ),
-    Playlist(
-        ConcatenatingAudioSource(children: [
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/lofi.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/acoustic.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
-        ]),
-        'Playlist 4'
-    ),
-    Playlist(
-        ConcatenatingAudioSource(children: [
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/techno.mp3')),
-          AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
-        ]),
-        'Playlist 5'
-    )
-  ];
+  List<Playlist> usersPlaylists = PlaylistInit.getUserPlaylists();
   AudioPlayer _audioPlayer = AudioPlayer();
   String name = 'Lukas Frick';
   String email = 'lfrick3@lsu.edu';

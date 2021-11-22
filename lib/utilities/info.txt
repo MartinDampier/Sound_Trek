@@ -1,3 +1,0 @@
-placeholder file
-delete me when you add a new file
-this directory holds logical functions used in the app

@@ -194,84 +194,88 @@ class _MyHomePageState extends State<MyHomePage> {
         myLocationEnabled: true,
         circles: user.getCircles(),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: const Color.fromARGB(255, 149, 215, 201),
-        child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(
-                  Icons.loop_rounded,
-                  color: Colors.white,
-                    size: 30,
-                ),
-                onPressed: () {
-                  user.repeatMusicAll();
-                  //TODO: Make condition to alternate all LoopModes (refer to musicplayer_buttons.dart if it helps)
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.skip_previous_rounded,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                onPressed: () {
-                  user.previousMusic();
-                },
-              ),
-              IconButton(
-                  icon: playMusicToggle
-                      ? const Icon(
-                          Icons.pause_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        )
-                      : const Icon(
-                          Icons.play_arrow_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        ),
+      bottomNavigationBar: SizedBox(
+        height: 65,
+        child: BottomAppBar(
+          color: const Color.fromARGB(255, 149, 215, 201),
+          child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                IconButton(
+                  icon: const Icon(
+                    Icons.loop_rounded,
+                    color: Colors.white,
+                      size: 45,
+                  ),
                   onPressed: () {
-                    setState(() {
-                      playMusicToggle = !playMusicToggle;
-                      if (playMusicToggle) {
-                        _title = 'Currently playing...';
-                        if(_currentSongTitle == '') {
-                          _currentSong = user.usersPlaylists.elementAt(0);
-                          user.usersPlaylists.elementAt(0).passToMusicPlayer(user);
+                    user.repeatMusicAll();
+                    //TODO: Make condition to alternate all LoopModes (refer to musicplayer_buttons.dart if it helps)
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.skip_previous_rounded,
+                    color: Colors.white,
+                    size: 45,
+                  ),
+                  onPressed: () {
+                    user.previousMusic();
+                  },
+                ),
+                IconButton(
+                    icon: playMusicToggle
+                        ? const Icon(
+                            Icons.pause_rounded,
+                            color: Colors.white,
+                            size: 45,
+                          )
+                        : const Icon(
+                            Icons.play_arrow_rounded,
+                            color: Colors.white,
+                            size: 45,
+                          ),
+                    onPressed: () {
+                      setState(() {
+                        playMusicToggle = !playMusicToggle;
+                        if (playMusicToggle) {
+                          _title = 'Currently playing...';
+                          if(_currentSongTitle == '') {
+                            _currentSong = user.usersPlaylists.elementAt(0);
+                            user.usersPlaylists.elementAt(0).passToMusicPlayer(user);
+                          }
+                          user.playMusic();
+                          _currentSongTitle = _currentSong.title;
+                        } else {
+                          user.pauseMusic();
+                          _title = 'Music paused';
+                          _currentSongTitle = '--';
                         }
-                        user.playMusic();
-                        _currentSongTitle = _currentSong.title;
-                      } else {
-                        user.pauseMusic();
-                        _title = 'Music paused';
-                        _currentSongTitle = '--';
-                      }
-                    });
-                  }),
-              IconButton(
-                icon: const Icon(
-                  Icons.skip_next_rounded,
-                  color: Colors.white,
-                  size: 30,
+                      });
+                    }),
+                IconButton(
+                  icon: const Icon(
+                    Icons.skip_next_rounded,
+                    color: Colors.white,
+                    size: 45,
+                  ),
+                  onPressed: () {
+                    user.nextMusic();
+                  },
                 ),
-                onPressed: () {
-                  user.nextMusic();
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.shuffle_rounded,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                onPressed: () {
-                  user.shuffleMusic();
-                }
-              )
-            ]),
+                IconButton(
+                  icon: const Icon(
+                    Icons.shuffle_rounded,
+                    color: Colors.white,
+                    size: 45,
+                  ),
+                  onPressed: () {
+                    user.shuffleMusic();
+                  }
+                )
+              ]),
+        ),
       ),
     );
   }
