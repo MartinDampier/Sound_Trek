@@ -114,9 +114,9 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
   }
 
   Future<void> addPlaylists (BuildContext context) async {
-    final chosenPlaylist = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddPlaylists();
-    }));
+    final Playlist chosenPlaylist =
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlaylists()),
+    );
 
     setState(() {
       playlist = chosenPlaylist;
@@ -150,7 +150,6 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
   }
 
   void createTimeEvent(PriorityQueue events, User user) {
-    playlist = user.usersPlaylists.elementAt(2);
     String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [ClockEvent(displayTime(startTime).substring(0,5), displayTime(endTime).substring(0,5))];
 

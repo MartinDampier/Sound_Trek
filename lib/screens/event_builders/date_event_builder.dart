@@ -114,9 +114,9 @@ class BuildDateEventState extends State<BuildDateEvent> {
   }
 
   Future<void> addPlaylists (BuildContext context) async {
-    final chosenPlaylist = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddPlaylists();
-    }));
+    final Playlist chosenPlaylist =
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlaylists()),
+    );
 
     setState(() {
       playlist = chosenPlaylist;
@@ -154,7 +154,6 @@ class BuildDateEventState extends State<BuildDateEvent> {
   }
 
   void createDateEvent(PriorityQueue events, User user) {
-    playlist = user.usersPlaylists.elementAt(1);
     String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [DateEvent()];
 

@@ -134,10 +134,9 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
   }
 
   Future<void> addPlaylists(BuildContext context) async {
-    final chosenPlaylist =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddPlaylists();
-    }));
+    final Playlist chosenPlaylist =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlaylists()),
+        );
 
     setState(() {
       playlist = chosenPlaylist;
@@ -145,7 +144,6 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
   }
 
   void createWeatherEvent(PriorityQueue events, user) {
-    playlist = user.usersPlaylists.elementAt(3);
     String eventListName =
         'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [WeatherEvent(displayWeather(weatherCondition))];

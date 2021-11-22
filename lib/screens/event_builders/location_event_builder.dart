@@ -162,10 +162,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   }
 
   Future<void> addPlaylists(BuildContext context) async {
-    final chosenPlaylist =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return AddPlaylists();
-    }));
+    final Playlist chosenPlaylist =
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => AddPlaylists()),
+    );
 
     setState(() {
       playlist = chosenPlaylist;
@@ -174,7 +173,6 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
   void createLocationEvent(PriorityQueue events, User user) {
     _setCircles(user);
-    playlist = user.usersPlaylists.elementAt(0);
     String eventListName =
         'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [LocationEvent(_location.toString())];
