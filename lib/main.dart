@@ -115,12 +115,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Container(
                       height: 30,
                       child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(_currentSongTitle,
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 12,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 )),
                           ]))))),
