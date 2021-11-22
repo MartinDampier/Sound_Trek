@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -30,11 +32,13 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   bool _isListenLocation = false, _isGetLocation = false;
   Playlist playlist = Playlist();
   double eventRadius = 0.5;
+  Set<Marker> _markers = HashSet<Marker>();
 
   static CameraPosition _initialPosition = CameraPosition(
     target: LatLng(30.40766724145041, -91.17953531915799),
     zoom: 14.4746,
   );
+
 
   @override
   void initState() {
@@ -69,6 +73,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                   initialCameraPosition: _initialPosition,
                   onMapCreated: _onMapCreated,
                   myLocationEnabled: true,
+                  markers: _markers,
                 ),
               ),
               Padding(
@@ -83,9 +88,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                         backgroundColor: eventRadius == 0.5 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius(0.5);
+                        setEventRadius(100);
                       },
-                      child: Text('500 ft'),
+                      child: Text('100 meters'),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
@@ -95,9 +100,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                             // const Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius(1.0);
+                        setEventRadius(200);
                       },
-                      child: Text('1 mile'),
+                      child: Text('200 meters'),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
@@ -106,9 +111,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                         backgroundColor: eventRadius == 5.0 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
                       onPressed: () {
-                        setEventRadius(5.0);
+                        setEventRadius(500);
                       },
-                      child: Text('5 miles'),
+                      child: Text('500 meters'),
                     ),
                   ],
                 ),
@@ -178,6 +183,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
+
   }
 
   Future<void> _requestLocationPerms() async {
@@ -203,6 +209,17 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
         target: LatLng(_locationData.latitude as double,
             _locationData.longitude as double),
         zoom: 15,
+      );
+      _markers.add(
+          Marker(
+              markerId: MarkerId("0"),
+              position: LatLng(_locationData.latitude as double,
+                  _locationData.longitude as double),
+              infoWindow: InfoWindow(
+                title: "Your Event",
+              ),
+          draggable: true,
+          )
       );
     });
   }

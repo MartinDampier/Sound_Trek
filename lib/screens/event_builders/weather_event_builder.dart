@@ -7,6 +7,7 @@ import 'package:sound_trek/models/events/weather_handler.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:sound_trek/models/playlist.dart';
 import 'package:sound_trek/models/events/event.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BuildWeatherEvent extends StatefulWidget {
   const BuildWeatherEvent({Key? key}) : super(key: key);
@@ -19,8 +20,9 @@ class BuildWeatherEvent extends StatefulWidget {
 
 class BuildWeatherEventState extends State<BuildWeatherEvent> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  WeatherCondition weatherCondition = WeatherCondition.unknown;
+  WeatherCondition weatherCondition = WeatherCondition.clear;
   Playlist playlist = Playlist();
+  String weatherIcon = 'assets/weather_icons/clear.svg';
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,13 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 200,
+                width: 200,
+                child: SvgPicture.asset(
+                  weatherIcon,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
                 child: DropdownButton<WeatherCondition>(
@@ -57,6 +66,9 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
                   onChanged: (WeatherCondition? selectedCond) {
                     setState(() {
                       weatherCondition = selectedCond!;
+                      weatherIcon = 'assets/weather_icons/' +
+                          weatherCondition.toString().split('.').last +
+                          '.svg';
                     });
                   },
                   items: <WeatherCondition>[
@@ -123,7 +135,8 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
   }
 
   void createWeatherEvent(PriorityQueue events) {
-    String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
+    String eventListName =
+        'Event ' + (events.possibilities.length + 1).toString();
     List<Event> eventList = [WeatherEvent(displayWeather(weatherCondition))];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
@@ -131,6 +144,38 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
   }
 
   String displayWeather(WeatherCondition weather) {
-    return weather.toString().split('.').last;
+    String weatherText = weather.toString().split('.').last;
+
+    switch (weatherText) {
+      case 'thunderstorm':
+        weatherText = 'Thunderstorm';
+        break;
+      case 'drizzle':
+        weatherText = 'Drizzle';
+        break;
+      case 'rain':
+        weatherText = 'Rain';
+        break;
+      case 'snow':
+        weatherText = 'Snow';
+        break;
+      case 'clear':
+        weatherText = 'Clear';
+        break;
+      case 'heavyCloud':
+        weatherText = 'Heavy Clouds';
+        break;
+      case 'lightCloud':
+        weatherText = 'Light Clouds';
+        break;
+      case 'fog':
+        weatherText = 'Fog';
+        break;
+      default:
+        weatherText = 'Unknown';
+    }
+
+    return weatherText;
   }
+
 }
