@@ -39,6 +39,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     zoom: 14.4746,
   );
 
+  LatLng _markerPosition = LatLng(30.40766724145041, -91.17953531915799);
+
 
   @override
   void initState() {
@@ -83,7 +85,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                   children: [
                     TextButton(
                       style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 25),
+                        textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
                         backgroundColor: eventRadius == 100 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
@@ -94,7 +96,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 25),
+                        textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
                         backgroundColor: eventRadius == 200 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                             // const Color.fromARGB(255, 149, 215, 201),
@@ -106,7 +108,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 25),
+                        textStyle: const TextStyle(fontSize: 20),
                         primary: Colors.white,
                         backgroundColor: eventRadius == 500 ? Colors.teal : Color.fromARGB(255, 149, 215, 201),
                       ),
@@ -183,7 +185,16 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
-
+    _markers.add(
+        Marker(
+          markerId: MarkerId("0"),
+          position: _markerPosition,
+          infoWindow: InfoWindow(
+            title: "Your Event",
+          ),
+          draggable: true,
+        )
+    );
   }
 
   Future<void> _requestLocationPerms() async {
@@ -210,17 +221,10 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
             _locationData.longitude as double),
         zoom: 15,
       );
-      _markers.add(
-          Marker(
-              markerId: MarkerId("0"),
-              position: LatLng(_locationData.latitude as double,
-                  _locationData.longitude as double),
-              infoWindow: InfoWindow(
-                title: "Your Event",
-              ),
-          draggable: true,
-          )
-      );
+
+      _markerPosition = LatLng(_locationData.latitude as double,
+          _locationData.longitude as double);
+
     });
   }
 }
