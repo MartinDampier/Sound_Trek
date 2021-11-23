@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sound_trek/models/events/event.dart';
@@ -19,6 +20,14 @@ class User with ChangeNotifier {
       songs,
       preload: false,
     );
+  }
+
+  String getSongTitle() {
+    int? index = _audioPlayer.currentIndex;
+    if(index != null) {
+      return _audioPlayer.sequence![index].tag.title;
+    }
+    else {return '';}
   }
 
   void playMusic() {
