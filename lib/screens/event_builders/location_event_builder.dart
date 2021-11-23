@@ -175,7 +175,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     _setCircles(user);
     String eventListName =
         'Event ' + (events.possibilities.length + 1).toString();
-    List<Event> eventList = [LocationEvent(_location.toString())];
+    List<Event> eventList = [LocationEvent(_locationData.latitude as double, _locationData.longitude as double, _eventRadius,'My Location Event', _circleIdCounter.toString())];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
     events.addItem(item);

@@ -5,14 +5,21 @@ import 'package:sound_trek/models/playlist.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:collection';
 import 'package:sound_trek/utilities/playlist_init.dart';
+import 'package:location/location.dart';
 
 class User with ChangeNotifier {
   Set<Circle> _circles = HashSet<Circle>();
   List<Playlist> usersPlaylists = PlaylistInit.getUserPlaylists();
   AudioPlayer _audioPlayer = AudioPlayer();
+  late LatLng _currentLocation;
   String name = 'Lukas Frick';
   String email = 'lfrick3@lsu.edu';
   String image = 'assets/pictures/lukas.png';
+
+  //new code
+  void setCurrentLocation (LatLng coordinates) {
+    _currentLocation = coordinates;
+  }
 
   void setMusicPlayer(ConcatenatingAudioSource songs) {
     _audioPlayer.setAudioSource(
