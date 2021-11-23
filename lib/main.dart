@@ -75,7 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _requestLocationPerms();
-    //WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context), _requestLocationPerms(context)});
   }
 
   @override
@@ -325,7 +324,9 @@ class _MyHomePageState extends State<MyHomePage> {
     print('check has run');
 
       eventsPriorityQueue.FindStarterEvent(user);
-      timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update(user));
+      if(timer == null) {
+        timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update(user));
+      }
 
     _locationData = await _location.getLocation();
     _location.onLocationChanged.listen((event) {
