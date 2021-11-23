@@ -23,9 +23,14 @@ class LocationEvent implements Event{
 
   @override
   bool isHappening(User user){
+    LatLng userLocation = user.getCurrentLocation();
     final GDistance distance = new GDistance();
-    _location;
-    return true;
+    num meter = distance(
+        GeoLatLng(userLocation.latitude, userLocation.longitude),
+        GeoLatLng(_location.latitude, _location.longitude)
+    );
+    print(meter.toDouble().toString()+ " " + _radius.toString());
+    return ((meter.toDouble()).abs() < _radius);
   }
 
   void setLocation(double latIn, double longIn){

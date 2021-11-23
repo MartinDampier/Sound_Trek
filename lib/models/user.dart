@@ -28,6 +28,10 @@ class User with ChangeNotifier {
     );
   }
 
+  LatLng getCurrentLocation(){
+    return _currentLocation;
+  }
+
   void playMusic() {
     _audioPlayer.play();
   }
