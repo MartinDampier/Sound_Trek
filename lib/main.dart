@@ -356,11 +356,15 @@ class _MyHomePageState extends State<MyHomePage> {
     SoundtrackItem item = queueIn.Update(user);
 
     if(item.getEventList().elementAt(0).getInitialized()){
-      print("Updated");
-      setState(() {
-        _currentSong = item.getPlaylist();
-        _currentSong.passToMusicPlayer(user);
-      });
+      print("Trying Update");
+      if(!identical(_currentSong, item.getPlaylist())) {
+        setState(() {
+          _currentSong = item.getPlaylist();
+          _currentSong.passToMusicPlayer(user);
+        });
+      }else{
+        print("same song");
+      }
     }else{
       print("beartrap");
     }
