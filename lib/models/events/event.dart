@@ -1,3 +1,5 @@
+import 'package:sound_trek/models/user.dart';
+
 enum EventType{
   Time,
   Weather,
@@ -7,7 +9,7 @@ enum EventType{
 
 abstract class Event{
 
-  bool isHappening(){
+  bool isHappening(User user){
     throw Exception("Generic event handler was not overridden");
   }
 

@@ -1,4 +1,5 @@
 import 'package:sound_trek/models/events/event.dart';
+import 'package:sound_trek/models/user.dart';
 
 class WeatherEvent implements Event{
 
@@ -14,7 +15,7 @@ class WeatherEvent implements Event{
   String currentWeather = ""; //Something like WeatherAPI.getWeather or whatever we end up using, this varible is here to prevent the check from nulling out below in isHappening
 
   @override
-  bool isHappening(){
+  bool isHappening(User user){
     if(currentWeather==_weather){
       return true;
     } else{
@@ -37,6 +38,6 @@ class WeatherEvent implements Event{
 
   @override
   String toString(){
-    return "Weather: " + _weather.toString() + " " + isHappening().toString();
+    return "Weather: " + _weather.toString();
   }
 }

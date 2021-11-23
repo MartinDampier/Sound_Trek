@@ -1,9 +1,10 @@
 import 'package:sound_trek/models/events/event.dart';
+import 'package:sound_trek/models/user.dart';
 
 class DateEvent implements Event {
 
   @override
-  bool isHappening() {
+  bool isHappening(User user) {
     // TODO: implement isHappening
     throw UnimplementedError();
   }

@@ -2,6 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:geopointer/geopointer.dart';
+import 'package:sound_trek/models/user.dart';
 
 class LocationEvent implements Event{
 
@@ -21,7 +22,7 @@ class LocationEvent implements Event{
   }
 
   @override
-  bool isHappening(){
+  bool isHappening(User user){
     final GDistance distance = new GDistance();
     _location;
     return true;
@@ -66,7 +67,7 @@ class LocationEvent implements Event{
 
   @override
   String toString(){
-    return _name + " Location: " + _location.toString() + " Occuring:" + isHappening().toString();
+    return _name + " Location: " + _location.toString() + " Occuring:";
   }
 
 }

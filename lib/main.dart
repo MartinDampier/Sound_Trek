@@ -322,9 +322,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void checkForCurrentEvent(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+    final user = Provider.of<User>(context);
 
-    eventsPriorityQueue.FindStarterEvent();
-    timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update());
+    eventsPriorityQueue.FindStarterEvent(user);
+    timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update(user));
   }
 
 }

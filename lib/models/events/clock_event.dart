@@ -1,5 +1,6 @@
 import 'package:sound_trek/models/events/event.dart';
 import 'package:flutter/services.dart';
+import 'package:sound_trek/models/user.dart';
 
 class ClockEvent implements Event{
 
@@ -14,7 +15,7 @@ class ClockEvent implements Event{
   }
 
   @override
-  bool isHappening(){
+  bool isHappening(User user){
     var now = DateTime.now();
     var startTimeUpdated = _buildTime(_startTime);
     var endTimeUpdated = startTimeUpdated.add(_calculateDuration());

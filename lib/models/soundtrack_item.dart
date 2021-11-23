@@ -1,5 +1,6 @@
 import 'package:sound_trek/models/events/event.dart';
 import 'package:sound_trek/models/playlist.dart';
+import 'package:sound_trek/models/user.dart';
 
 class SoundtrackItem{
 
@@ -11,9 +12,9 @@ class SoundtrackItem{
     _eventList = eventListIn;
   }
 
-  bool isHappening(){
+  bool isHappening(User user){
     for(int i = 0; i<_eventList.length; i++){
-      if(!_eventList.elementAt(i).isHappening()){
+      if(!_eventList.elementAt(i).isHappening(user)){
         return false;
       }
     }
