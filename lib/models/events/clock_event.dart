@@ -55,4 +55,14 @@ class ClockEvent implements Event{
   String toString(){
     return "Start Time: " + _startTime + "\nEnd Time: " + _endTime + "\nDuration: " + _duration.toString();
   }
+
+  @override
+  bool getInitialized() {
+    return true;
+  }
+
+  @override
+  void setInitialized(initializedIn) {
+  }
+
 }

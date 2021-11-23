@@ -40,4 +40,13 @@ class WeatherEvent implements Event{
   String toString(){
     return "Weather: " + _weather.toString();
   }
+
+  @override
+  bool getInitialized() {
+    return true;
+  }
+
+  @override
+  void setInitialized(initializedIn) {
+  }
 }

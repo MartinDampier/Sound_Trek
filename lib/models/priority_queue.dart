@@ -20,7 +20,17 @@ class PriorityQueue with ChangeNotifier{
 
   int currentEventIndex = 0;
 
+  SoundtrackItem Update(User user) {
+    for(int i =0; i<possibilities.length;i++) {
+      if (possibilities.elementAt(i).isHappening(user)) {
+        return possibilities.elementAt(i);
+      }
+    }
+    return possibilities.elementAt(0);
+  }
+  /*
   void FindStarterEvent(User user){
+    print("Fell back on find starter");
     for(int i = 0; i< possibilities.length; i++){
       if(possibilities.elementAt(i).isHappening(user)){
         currentEventIndex = i;
@@ -30,22 +40,32 @@ class PriorityQueue with ChangeNotifier{
   }
 
   void Update(User user){
+    print('Updating...');
+    print(currentEventIndex.toString()+":" +"Current Event: " + possibilities.elementAt(currentEventIndex).getEventList().elementAt(0).toString());
     bool verifyEventOccurance = false;
     for(int i = 0; i<currentEventIndex+1; i++){
       if(possibilities.elementAt(i).isHappening(user)){
+        print("isHappening: " + possibilities.elementAt(i).isHappening(user).toString() + "\n" + possibilities.elementAt(i).getEventList().toString());
         currentEventIndex = i;
-        i = possibilities.length;
+        print(currentEventIndex.toString()+":"+possibilities.elementAt(currentEventIndex).getEventList().elementAt(0).toString() + " Is the new current");
         verifyEventOccurance = true;
-        print('Updating...');
+        break;
       }
     }
+
+    print("BADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBAD "+ possibilities.length.toString());
+    for(int i = 0; i <possibilities.length; i++){
+      print(i.toString() + ": "+ possibilities.elementAt(i).getEventList().elementAt(0).toString());
+    }
+    print("BADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBADBAD");
 
     if(verifyEventOccurance == false){
       FindStarterEvent(user);
     }
   }
-
+*/
   void addItem(SoundtrackItem newItem) {
+    print("Added Item");
     possibilities.insert(0, newItem);
     notifyListeners();
   }

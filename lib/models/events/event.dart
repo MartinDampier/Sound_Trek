@@ -1,12 +1,5 @@
 import 'package:sound_trek/models/user.dart';
 
-enum EventType{
-  Time,
-  Weather,
-  Location
-}
-
-
 abstract class Event{
 
   bool isHappening(User user){
@@ -15,6 +8,12 @@ abstract class Event{
 
   String getType(){
     return "Invalid Type";
+  }
+
+  void setInitialized(initializedIn){}
+
+  bool getInitialized(){
+    return false;
   }
 
 

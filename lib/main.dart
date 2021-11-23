@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,10 @@ import 'package:provider/provider.dart';
 import 'package:sound_trek/models/user.dart';
 import 'package:sound_trek/models/playlist.dart';
 import 'package:just_audio/just_audio.dart';
+
+import 'models/events/default_event.dart';
+import 'models/events/event.dart';
+import 'models/soundtrack_item.dart';
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -242,14 +247,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         playMusicToggle = !playMusicToggle;
                         if (playMusicToggle) {
                           _title = 'Currently playing...';
-                          if(_currentSongTitle == '') {
-                            setState(() {
-                              _currentSong = eventsPriorityQueue.possibilities[eventsPriorityQueue.currentEventIndex].getPlaylist();
-                              _currentSong.passToMusicPlayer(user);
-                            });
-                          }
-                          user.playMusic();
-                          _currentSongTitle = _currentSong.title;
+                          setState(() {
+                            user.playMusic();
+                            _currentSongTitle = _currentSong.title;
+                          });
                         } else {
                           user.pauseMusic();
                           _title = 'Music paused';
@@ -324,14 +325,45 @@ class _MyHomePageState extends State<MyHomePage> {
     final user = Provider.of<User>(context);
     print('check has run');
 
-      eventsPriorityQueue.FindStarterEvent(user);
-      timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update(user));
+    if(timer==null) {
+        timer = Timer.periodic(checkEventsInterval, (Timer t) => encapsulation(eventsPriorityQueue, user));
+
+
+        DefaultEvent defaultev = DefaultEvent();
+        defaultev.setInitialized(true);
+
+        List<Event> Startevent = [defaultev];
+        eventsPriorityQueue.possibilities.insert(0, SoundtrackItem(Playlist(ConcatenatingAudioSource(children: [
+          AudioSource.uri(Uri.parse('asset:///assets/musicsample/town.mp3')),
+          AudioSource.uri(Uri.parse('asset:///assets/musicsample/kleinstadt.mp3')),
+          AudioSource.uri(Uri.parse('asset:///assets/musicsample/sadge.mp3')),
+          AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
+          AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
+        ]),
+            'Playlist Default'), Startevent));
+    }
 
     _locationData = await _location.getLocation();
     _location.onLocationChanged.listen((event) {
       user.setCurrentLocation(LatLng(event.latitude as double, event.longitude as double));
       print(user.getCurrentLocation().latitude.toString() + " " + user.getCurrentLocation().longitude.toString());
     });
+
+
+  }
+
+  Future<void> encapsulation(PriorityQueue queueIn, User user) async {
+    SoundtrackItem item = queueIn.Update(user);
+
+    if(item.getEventList().elementAt(0).getInitialized()){
+      print("Updated");
+      setState(() {
+        _currentSong = item.getPlaylist();
+        _currentSong.passToMusicPlayer(user);
+      });
+    }else{
+      print("beartrap");
+    }
 
   }
 

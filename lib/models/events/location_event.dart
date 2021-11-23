@@ -1,5 +1,4 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:geopointer/geopointer.dart';
 import 'package:sound_trek/models/user.dart';
@@ -19,6 +18,7 @@ class LocationEvent implements Event{
     _radius = radiusIn;
     _name = nameIn;
     _circleId = circleIDIn;
+    print("Constructing Location Event");
   }
 
   @override
@@ -29,7 +29,7 @@ class LocationEvent implements Event{
         GeoLatLng(userLocation.latitude, userLocation.longitude),
         GeoLatLng(_location.latitude, _location.longitude)
     );
-    print(meter.toDouble().toString()+ " " + _radius.toString());
+    print("Distance: " +meter.toDouble().toString()+ " " + _radius.toString());
     return ((meter.toDouble()).abs() < _radius);
   }
 
@@ -72,7 +72,16 @@ class LocationEvent implements Event{
 
   @override
   String toString(){
-    return _name + " Location: " + _location.toString() + " Occuring:";
+    return _name + " Location: " + _location.toString() + " Occuring: ";
+  }
+
+  @override
+  bool getInitialized() {
+    return true;
+  }
+
+  @override
+  void setInitialized(initializedIn) {
   }
 
 }

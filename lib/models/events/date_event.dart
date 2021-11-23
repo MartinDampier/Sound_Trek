@@ -14,4 +14,13 @@ class DateEvent implements Event {
     return "Date";
   }
 
+  @override
+  bool getInitialized() {
+    return true;
+  }
+
+  @override
+  void setInitialized(initializedIn) {
+  }
+
 }
