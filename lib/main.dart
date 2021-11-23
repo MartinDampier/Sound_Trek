@@ -74,13 +74,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context), _requestLocationPerms(context)});
+    _requestLocationPerms();
+    //WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context), _requestLocationPerms(context)});
   }
 
   @override
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
     final user = Provider.of<User>(context);
+    checkForCurrentEvent(context);
 
     return Scaffold(
       key: _drawerKey,
@@ -241,8 +243,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         if (playMusicToggle) {
                           _title = 'Currently playing...';
                           if(_currentSongTitle == '') {
-                            _currentSong = eventsPriorityQueue.possibilities[eventsPriorityQueue.currentEventIndex].getPlaylist();
-                            _currentSong.passToMusicPlayer(user);
+                            setState(() {
+                              _currentSong = eventsPriorityQueue.possibilities[eventsPriorityQueue.currentEventIndex].getPlaylist();
+                              _currentSong.passToMusicPlayer(user);
+                            });
                           }
                           user.playMusic();
                           _currentSongTitle = _currentSong.title;
@@ -293,8 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-  Future<void> _requestLocationPerms(BuildContext context) async {
-    final user = Provider.of<User>(context);
+  Future<void> _requestLocationPerms() async {
     _isServiceEnabled = await _location.serviceEnabled();
 
     if (!_isServiceEnabled) {
@@ -313,19 +316,23 @@ class _MyHomePageState extends State<MyHomePage> {
       _isGetLocation = true;
     });
 
-    //new code
+    print('request has run');
+  }
+
+  Future<void> checkForCurrentEvent(BuildContext context) async {
+    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
+    final user = Provider.of<User>(context);
+    print('check has run');
+
+      eventsPriorityQueue.FindStarterEvent(user);
+      timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update(user));
+
     _locationData = await _location.getLocation();
     _location.onLocationChanged.listen((event) {
       user.setCurrentLocation(LatLng(event.latitude as double, event.longitude as double));
+      print(user.getCurrentLocation().latitude.toString() + " " + user.getCurrentLocation().longitude.toString());
     });
-  }
 
-  void checkForCurrentEvent(BuildContext context) {
-    final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
-    final user = Provider.of<User>(context);
-
-    eventsPriorityQueue.FindStarterEvent(user);
-    timer = Timer.periodic(checkEventsInterval, (Timer t) => eventsPriorityQueue.Update(user));
   }
 
 }
