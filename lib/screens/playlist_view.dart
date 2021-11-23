@@ -64,7 +64,7 @@ class PlaylistsPage extends StatelessWidget {
   }
 
   Widget buildListTile(Playlist playlist, PriorityQueue events) {
-    String associatedEvent = findAssociatedEvent(playlist, events);
+    String associatedEvent = Playlist.findAssociatedEvent(playlist, events);
     return ListTile(
       contentPadding: EdgeInsets.symmetric(
         horizontal: 20,
@@ -79,19 +79,6 @@ class PlaylistsPage extends StatelessWidget {
       ),
       dense: false,
     );
-  }
-
-  String findAssociatedEvent(Playlist playlist, PriorityQueue events) {
-
-    SoundtrackItem? associatedEvent = events.possibilities.firstWhereOrNull(
-        ((item) => item.getPlaylist().title == playlist.title));
-
-    if (associatedEvent == null) {
-      return 'No event associated';
-    } else {
-      return associatedEvent.getEventList().elementAt(0).toString();
-    }
-
   }
 
   void edit(BuildContext context) {}

@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'package:sound_trek/models/user.dart';
 import 'package:sound_trek/models/playlist.dart';
 import 'package:just_audio/just_audio.dart';
-
 import 'models/events/default_event.dart';
 import 'models/events/event.dart';
 import 'models/soundtrack_item.dart';
@@ -249,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           _title = 'Currently playing...';
                           setState(() {
                             user.playMusic();
-                            _currentSongTitle = _currentSong.title;
+                            _currentSongTitle = Playlist.findAssociatedEvent(_currentSong, eventsPriorityQueue) + ' - ' + _currentSong.title;
                           });
                         } else {
                           user.pauseMusic();
@@ -359,7 +358,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _currentSong = item.getPlaylist();
           _currentSong.passToMusicPlayer(user);
-          _currentSongTitle = _currentSong.title;
+          _currentSongTitle = Playlist.findAssociatedEvent(_currentSong, queueIn) + ' - ' + _currentSong.title;
         });
       }else{
         print("same song");

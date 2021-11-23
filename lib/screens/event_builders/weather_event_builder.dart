@@ -145,8 +145,8 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
 
   void createWeatherEvent(PriorityQueue events, user) {
     String eventListName =
-        'Event ' + (events.possibilities.length + 1).toString();
-    List<Event> eventList = [WeatherEvent(displayWeather(weatherCondition))];
+        'Event ' + (events.possibilities.length).toString();
+    List<Event> eventList = [WeatherEvent(displayWeather(weatherCondition), eventListName)];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
     events.addItem(item);

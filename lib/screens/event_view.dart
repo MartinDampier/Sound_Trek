@@ -125,8 +125,8 @@ class EventsPage extends StatelessWidget {
         horizontal: 20,
         vertical: 20,
       ),
-      title: Text('${item.getEventList().elementAt(0)}'),
-      subtitle: Text('event type here...'),
+      title: Text(item.getEventList().elementAt(0).getName()),
+      subtitle: Text(item.getEventList().elementAt(0).getType()),
       trailing: Icon(
         Icons.arrow_forward,
         color: Color(0xFF303030),
