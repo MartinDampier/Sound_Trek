@@ -128,6 +128,9 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
     final chosenTime = (await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return Theme(data: ThemeData.light().copyWith(colorScheme: ColorScheme.light(primary: Colors.teal)), child: child!);
+      }
     ))!;
 
     setState(() {
@@ -141,6 +144,9 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
     final chosenTime = (await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
+      builder: (context,child) {
+        return Theme(data: ThemeData.light().copyWith(colorScheme: ColorScheme.light(primary:Colors.teal)), child: child!);
+      }
     ))!;
 
     setState(() {
