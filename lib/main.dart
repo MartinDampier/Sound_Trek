@@ -341,6 +341,7 @@ class _MyHomePageState extends State<MyHomePage> {
           AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
         ]),
             'Playlist Default'), Startevent));
+        _currentSong = eventsPriorityQueue.possibilities.elementAt(1).getPlaylist();
     }
 
     _locationData = await _location.getLocation();
