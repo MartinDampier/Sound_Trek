@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool playMusicToggle = false;
   String _title = 'Welcome to Sound Trek';
   String _currentSongTitle = '';
-  late Playlist _currentPlaylist;
+  late Playlist _currentSong;
 
   Timer? timer;
   final Duration checkEventsInterval = Duration(seconds: 5);
@@ -223,9 +223,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () {
                     user.previousMusic();
-                    setState(() {
-                      _currentSongTitle = _currentPlaylist.title + ' - ' + user.getSongTitle();
-                    });
                   },
                 ),
                 IconButton(
@@ -252,7 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             });
                           }
                           user.playMusic();
-                          _currentSongTitle = _currentPlaylist.title + ' - ' + user.getSongTitle();
+                          _currentSongTitle = _currentSong.title;
                         } else {
                           user.pauseMusic();
                           _title = 'Music paused';
@@ -268,9 +265,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () {
                     user.nextMusic();
-                    setState(() {
-                      _currentSongTitle = _currentPlaylist.title + ' - ' + user.getSongTitle();
-                    });
                   },
                 ),
                 IconButton(
@@ -281,9 +275,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () {
                     user.shuffleMusic();
-                    // setState(() {
-                    //   _currentSongTitle = _currentPlaylist.title + ' - ' + user.getSongTitle();
-                    // });
                   }
                 )
               ]),
