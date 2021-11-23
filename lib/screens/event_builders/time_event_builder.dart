@@ -213,31 +213,5 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
 
   }
 
-  // AlertDialog checkTimesValidity() {
-  //   double startCheck = (startTime.hour + startTime.minute)/60.0;
-  //   double endCheck = (endTime.hour + endTime.minute)/60.0;
-  //
-  //   if((endTime.period == DayPeriod.am && startTime.period == DayPeriod.pm) || (startTime.period == endTime.period && endCheck > startCheck)) {
-  //     return AlertDialog (
-  //       title: const Text('Invalid Times'),
-  //       content: SingleChildScrollView(
-  //         child: ListBody(
-  //           children: const <Widget>[
-  //             Text('Please choose an end time later than the start time.')
-  //           ],
-  //         ),
-  //       ),
-  //       actions: <Widget>[
-  //         TextButton(
-  //           child: const Text('Close'),
-  //           onPressed: () {
-  //             Navigator.of(context).pop();
-  //           },
-  //         ),
-  //       ]
-  //     );
-  //   }
-  //   else {}
-  // }
 
 }

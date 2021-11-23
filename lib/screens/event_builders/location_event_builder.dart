@@ -9,7 +9,6 @@ import 'package:sound_trek/models/playlist.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:sound_trek/models/events/location_event.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:sound_trek/models/user.dart';
 
 class BuildLocationEvent extends StatefulWidget {
@@ -272,6 +271,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   }
 
   void _onCameraMove(CameraPosition position) {
-    _markerPosition = position.target;
+    setState(() {
+      _markerPosition = position.target;
+    });
   }
 }

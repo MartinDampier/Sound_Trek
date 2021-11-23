@@ -85,7 +85,9 @@ class User with ChangeNotifier {
     _circles.add(newCircle);
   }
 
-  void removeCircle(int index) {}
+  void removeCircle(int index) {
+   // _circles.removeWhere(_circles.);
+  }
 
   void editEvent(int index) {
     notifyListeners();

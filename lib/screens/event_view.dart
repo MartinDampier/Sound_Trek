@@ -140,6 +140,6 @@ class EventsPage extends StatelessWidget {
 
   void delete(PriorityQueue events, int index) {
     events.deleteItem(index);
-
   }
+
 }
