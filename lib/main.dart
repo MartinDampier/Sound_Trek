@@ -74,8 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _requestLocationPerms();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context)});
+    WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context), _requestLocationPerms(context)});
   }
 
   @override
@@ -211,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () {
                     user.repeatMusicAll();
-                    //TODO: Make condition to alternate all LoopModes (refer to musicplayer_buttons.dart if it helps)
+                    //TODO: Make condition to alternate all LoopModes (refer to musicplayer_buttons.dart if it helps) ive made a change
                   },
                 ),
                 IconButton(
@@ -293,7 +292,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> _requestLocationPerms() async {
+
+  Future<void> _requestLocationPerms(BuildContext context) async {
+    final user = Provider.of<User>(context);
     _isServiceEnabled = await _location.serviceEnabled();
 
     if (!_isServiceEnabled) {
@@ -308,10 +309,14 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_isServiceEnabled != PermissionStatus.granted) return;
     }
 
-    _locationData = await _location.getLocation();
-
     setState(() {
       _isGetLocation = true;
+    });
+
+    //new code
+    _locationData = await _location.getLocation();
+    _location.onLocationChanged.listen((event) {
+      user.setCurrentLocation(LatLng(event.latitude as double, event.longitude as double));
     });
   }
 
