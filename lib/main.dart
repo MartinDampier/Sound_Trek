@@ -328,7 +328,6 @@ class _MyHomePageState extends State<MyHomePage> {
     if(timer==null) {
         timer = Timer.periodic(checkEventsInterval, (Timer t) => encapsulation(eventsPriorityQueue, user));
 
-
         DefaultEvent defaultev = DefaultEvent();
         defaultev.setInitialized(true);
 
@@ -349,8 +348,6 @@ class _MyHomePageState extends State<MyHomePage> {
       user.setCurrentLocation(LatLng(event.latitude as double, event.longitude as double));
       print(user.getCurrentLocation().latitude.toString() + " " + user.getCurrentLocation().longitude.toString());
     });
-
-
   }
 
   Future<void> encapsulation(PriorityQueue queueIn, User user) async {

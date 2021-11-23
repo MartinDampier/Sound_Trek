@@ -7,7 +7,7 @@ class LocationEvent implements Event{
 
   //TODO: Replace String location with location relevant objects
 
-  String _name = "default";
+  String _name = "My Location Event";
   LatLng _location = LatLng(0,0);
   double _radius = 100;
   String _circleId = "";
@@ -53,6 +53,7 @@ class LocationEvent implements Event{
     _name = nameIn;
   }
 
+  @override
   String getName(){
     return _name;
   }

@@ -6,9 +6,11 @@ class WeatherEvent implements Event{
   //TODO: Replace String weather with weather relevant objects
 
   String _weather  = "";
+  String _name = "My Weather Event";
 
-  WeatherEvent(weatherIn){
+  WeatherEvent(weatherIn, String nameIn){
     _weather = weatherIn;
+    _name = nameIn;
   }
 
   //TODO: Replace this with real data, preferably a global variable that can be accessed from this object
@@ -39,6 +41,11 @@ class WeatherEvent implements Event{
   @override
   String toString(){
     return "Weather: " + _weather.toString();
+  }
+
+  @override
+  String getName(){
+    return _name;
   }
 
   @override

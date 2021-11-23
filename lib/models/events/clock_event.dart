@@ -1,60 +1,59 @@
+import 'package:flutter/material.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:flutter/services.dart';
 import 'package:sound_trek/models/user.dart';
 
 class ClockEvent implements Event{
 
-  String _startTime = "00:00";
-  String _endTime = "00:00";
-  Duration _duration = const Duration(minutes: 0);
+  late DateTime _startTime;
+  late DateTime _endTime;
+  String _name = "My Time of Day Event";
 
-  ClockEvent(String startTimeIn, String endTimeIn){
-    _startTime = startTimeIn;
-    _endTime = endTimeIn;
-    _duration = _calculateDuration();
+  ClockEvent(TimeOfDay startTimeIn, TimeOfDay endTimeIn, String nameIn){
+    var now = DateTime.now();
+    DateTime a =  DateTime(now.year, now.month, now.day, startTimeIn.hour, startTimeIn.minute);
+    DateTime b =  DateTime(now.year, now.month, now.day, endTimeIn.hour, endTimeIn.minute);
+    if(a.isBefore(b)){
+      _startTime = a;
+      _endTime = b;
+    }else{
+      _startTime = b;
+      _endTime = a;
+    }
+    _name = nameIn;
   }
 
   @override
   bool isHappening(User user){
     var now = DateTime.now();
-    var startTimeUpdated = _buildTime(_startTime);
-    var endTimeUpdated = startTimeUpdated.add(_calculateDuration());
-    if(now.isAfter(startTimeUpdated) && now.isBefore(endTimeUpdated)){
+    if(now.isAfter(_startTime) && now.isBefore(_endTime)){
       return true;
     }
     return false;
   }
 
-  Duration _calculateDuration(){
-    var startTimeUpdated = _buildTime(_startTime);
-    var endTimeUpdated = _buildTime(_endTime);
-    return startTimeUpdated.difference(endTimeUpdated);
-  }
-
-  DateTime _buildTime(String timeIn){
-    var now = DateTime.now();
-    return DateTime(now.year, now.month, now.day, int.parse(_startTime.substring(0, timeIn.indexOf(":"))), int.parse(timeIn.substring(timeIn.indexOf(":")+1)), 0, 0);
-  }
-
-  int getDuration(){
-    return _duration.inMinutes;
-  }
-
-  void setTimes(String startTimeIn, String endTimeIn){
-    _startTime = startTimeIn;
-    _endTime = endTimeIn;
-    _duration = _calculateDuration();
-  }
-
   @override
   String getType(){
-    return "Clock";
+    return "Time of Day Event";
   }
 
   @override
   String toString(){
-    return "Start Time: " + _startTime + "\nEnd Time: " + _endTime + "\nDuration: " + _duration.toString();
+    return "Start Time: " + _startTime.toString() + "\nEnd Time: " + _endTime.toString();
   }
+
+  @override
+  String getName(){
+    return _name;
+  }
+
+  void setName(String nameIn){
+    _name = nameIn;
+  }
+
+
+
+
 
   @override
   bool getInitialized() {
@@ -64,5 +63,6 @@ class ClockEvent implements Event{
   @override
   void setInitialized(initializedIn) {
   }
+
 
 }

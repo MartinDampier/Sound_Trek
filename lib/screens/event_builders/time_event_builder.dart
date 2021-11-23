@@ -151,7 +151,7 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
 
   void createTimeEvent(PriorityQueue events, User user) {
     String eventListName = 'Event ' + (events.possibilities.length + 1).toString();
-    List<Event> eventList = [ClockEvent(displayTime(startTime).substring(0,5), displayTime(endTime).substring(0,5))];
+    List<Event> eventList = [ClockEvent(startTime, endTime)];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
     events.addItem(item);

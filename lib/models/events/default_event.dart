@@ -5,21 +5,19 @@ class DefaultEvent implements Event {
 
 
   bool _initialized = false;
+  String _name = "Default Event";
 
   DefaultEvent();
-
 
   @override
   bool isHappening(User user) {
     return true;
   }
 
-
   @override
   String getType(){
     return "Default";
   }
-
 
   @override
   String toString(){
@@ -36,7 +34,9 @@ class DefaultEvent implements Event {
     _initialized = initializedIn;
   }
 
-
-
+  @override
+  String getName(){
+    return _name;
+  }
 
 }

@@ -10,6 +10,10 @@ abstract class Event{
     return "Invalid Type";
   }
 
+  String getName(){
+    return "Unimplemented Event";
+  }
+
   void setInitialized(initializedIn){}
 
   bool getInitialized(){
