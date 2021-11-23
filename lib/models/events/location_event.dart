@@ -1,38 +1,72 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:sound_trek/models/events/event.dart';
+import 'package:geopointer/geopointer.dart';
 
 class LocationEvent implements Event{
 
   //TODO: Replace String location with location relevant objects
 
-  String _location  = "";
+  String _name = "default";
+  LatLng _location = LatLng(0,0);
+  double _radius = 100;
+  String _circleId = "";
 
-  LocationEvent(locationIn){
-    _location = locationIn;
+  LocationEvent(double latIn, double longIn, double radiusIn, String nameIn, String circleIDIn){
+    //_location = locationIn;
+    _location = LatLng(latIn, longIn);
+    _radius = radiusIn;
+    _name = nameIn;
+    _circleId = circleIDIn;
   }
-
-  //TODO: Replace this with real data, preferably a global variable that can be accessed from this object
-  String currentLocation = "";
 
   @override
   bool isHappening(){
-    if(currentLocation==_location){ //TODO: Verify this check runs
-      return true;
-    } else{
-      return false;
-    }
+    final GDistance distance = new GDistance();
+    _location;
+    return true;
   }
 
-  void setLocation(String locationIn){
-    _location = locationIn;
+  void setLocation(double latIn, double longIn){
+    _location = LatLng(latIn, longIn);
   }
 
-  String getLocation(){
+  LatLng getLocation(){
     return _location;
+  }
+
+  void setRadius(double radiusIn){
+    _radius = radiusIn;
+  }
+
+  double getRadius(){
+    return _radius;
+  }
+
+  void setName(String nameIn){
+    _name = nameIn;
+  }
+
+  String getName(){
+    return _name;
+  }
+
+  @override
+  String getType(){
+    return "Location";
+  }
+
+  String getCircleID(){
+    return _circleId;
+  }
+
+  void setCircleID(circleIDIn){
+    _circleId = circleIDIn;
   }
 
   @override
   String toString(){
-    return "Location: " + _location.toString() + " " + isHappening().toString();
+    return _name + " Location: " + _location.toString() + " Occuring:" + isHappening().toString();
   }
 
 }

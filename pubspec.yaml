@@ -45,6 +45,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   just_audio: ^0.9.18
   audio_service: ^0.18.1
+  geopointer: ^0.0.2
 
 dev_dependencies:
   build_runner: ^2.1.2

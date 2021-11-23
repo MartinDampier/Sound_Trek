@@ -31,6 +31,11 @@ class WeatherEvent implements Event{
   }
 
   @override
+  String getType(){
+    return "Weather";
+  }
+
+  @override
   String toString(){
     return "Weather: " + _weather.toString() + " " + isHappening().toString();
   }

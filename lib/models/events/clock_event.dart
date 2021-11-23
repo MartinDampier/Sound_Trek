@@ -17,7 +17,7 @@ class ClockEvent implements Event{
   bool isHappening(){
     var now = DateTime.now();
     var startTimeUpdated = _buildTime(_startTime);
-    var endTimeUpdated = startTimeUpdated.add(_duration);
+    var endTimeUpdated = startTimeUpdated.add(_calculateDuration());
     if(now.isAfter(startTimeUpdated) && now.isBefore(endTimeUpdated)){
       return true;
     }
@@ -43,6 +43,11 @@ class ClockEvent implements Event{
     _startTime = startTimeIn;
     _endTime = endTimeIn;
     _duration = _calculateDuration();
+  }
+
+  @override
+  String getType(){
+    return "Clock";
   }
 
   @override

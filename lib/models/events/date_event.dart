@@ -8,4 +8,9 @@ class DateEvent implements Event {
     throw UnimplementedError();
   }
 
+  @override
+  String getType(){
+    return "Date";
+  }
+
 }
