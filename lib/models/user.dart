@@ -41,6 +41,10 @@ class User with ChangeNotifier {
     else {return '';}
   }
 
+  AudioPlayer getAudioPlayer() {
+    return _audioPlayer;
+  }
+
   void playMusic() {
     _audioPlayer.play();
   }
