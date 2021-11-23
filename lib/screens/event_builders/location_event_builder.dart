@@ -40,6 +40,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   );
 
   LatLng _markerPosition = LatLng(30.40766724145041, -91.17953531915799);
+  late LatLng _lastMapPosition;
   int _circleIdCounter = 1;
 
   @override
@@ -77,6 +78,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                   onMapCreated: _onMapCreated,
                   myLocationEnabled: true,
                   markers: _markers,
+                  onCameraMove: _onCameraMove,
                   circles: user.getCircles(),
                 ),
               ),
@@ -175,7 +177,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     _setCircles(user);
     String eventListName =
         'Event ' + (events.possibilities.length + 1).toString();
-    List<Event> eventList = [LocationEvent(_locationData.latitude as double, _locationData.longitude as double, eventRadius,'My Location Event', _circleIdCounter.toString())];
+    List<Event> eventList = [LocationEvent(_markerPosition.latitude as double, _markerPosition.longitude as double, eventRadius,'My Location Event', _circleIdCounter.toString())];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
     events.addItem(item);
@@ -195,12 +197,12 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     _controller = _cntlr;
     _markers.add(
         Marker(
+          draggable: true, // was set to true
           markerId: MarkerId("0"),
           position: _markerPosition,
           infoWindow: InfoWindow(
             title: "Your Event",
           ),
-          draggable: true,
         )
     );
   }
@@ -267,5 +269,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     setState(() {
       _markerPosition = location;
     });
+  }
+
+  void _onCameraMove(CameraPosition position) {
+    _markerPosition = position.target;
   }
 }

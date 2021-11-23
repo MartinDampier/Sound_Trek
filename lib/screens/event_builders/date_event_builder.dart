@@ -130,6 +130,16 @@ class BuildDateEventState extends State<BuildDateEvent> {
       initialDate: startDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.teal,
+            ),
+          ),
+          child: child!,
+        );
+      },
     ))!;
 
     setState(() {
@@ -145,6 +155,16 @@ class BuildDateEventState extends State<BuildDateEvent> {
       initialDate: endDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.teal,
+            ),
+          ),
+          child: child!,
+        );
+      },
     ))!;
 
     setState(() {
