@@ -6,12 +6,12 @@ import 'package:sound_trek/models/user.dart';
 class PriorityQueue with ChangeNotifier{
 
   List<SoundtrackItem> possibilities = [];
-  int _currentEventIndex = 0;
+  int currentEventIndex = 0;
 
   void FindStarterEvent(User user){
     for(int i = 0; i< possibilities.length; i++){
       if(possibilities.elementAt(i).isHappening(user)){
-        _currentEventIndex = i;
+        currentEventIndex = i;
         i = possibilities.length;
       }
     }
@@ -19,9 +19,9 @@ class PriorityQueue with ChangeNotifier{
 
   void Update(User user){
     bool verifyEventOccurance = false;
-    for(int i = 0; i<_currentEventIndex+1; i++){
+    for(int i = 0; i<currentEventIndex+1; i++){
       if(possibilities.elementAt(i).isHappening(user)){
-        _currentEventIndex = i;
+        currentEventIndex = i;
         i = possibilities.length;
         verifyEventOccurance = true;
       }

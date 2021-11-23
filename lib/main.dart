@@ -241,8 +241,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         if (playMusicToggle) {
                           _title = 'Currently playing...';
                           if(_currentSongTitle == '') {
-                            _currentSong = user.usersPlaylists.elementAt(0);
-                            user.usersPlaylists.elementAt(0).passToMusicPlayer(user);
+                            _currentSong = eventsPriorityQueue.possibilities[eventsPriorityQueue.currentEventIndex].getPlaylist();
+                            _currentSong.passToMusicPlayer(user);
                           }
                           user.playMusic();
                           _currentSongTitle = _currentSong.title;
