@@ -359,6 +359,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _currentSong = item.getPlaylist();
           _currentSong.passToMusicPlayer(user);
+          _currentSongTitle = _currentSong.title;
         });
       }else{
         print("same song");
