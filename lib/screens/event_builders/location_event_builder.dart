@@ -33,13 +33,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   double eventRadius = 100;
   Set<Marker> _markers = HashSet<Marker>();
 
-  static CameraPosition _initialPosition = CameraPosition(
-    target: LatLng(30.40766724145041, -91.17953531915799),
-    zoom: 14.4746,
-  );
-
+  late CameraPosition _initialPosition;
   LatLng _markerPosition = LatLng(30.40766724145041, -91.17953531915799);
-  late LatLng _lastMapPosition;
   int _circleIdCounter = 1;
 
   @override
@@ -52,6 +47,8 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   Widget build(BuildContext context) {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
     final user = Provider.of<User>(context);
+    initializeCamera(user);
+
 
     return Scaffold(
       key: _scaffoldKey,
@@ -194,16 +191,6 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
-    _markers.add(
-        Marker(
-          draggable: true, // was set to true
-          markerId: MarkerId("0"),
-          position: _markerPosition,
-          infoWindow: InfoWindow(
-            title: "Your Event",
-          ),
-        )
-    );
   }
 
   Future<void> _requestLocationPerms() async {
@@ -233,6 +220,16 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
       _markerPosition = LatLng(
           _locationData.latitude as double, _locationData.longitude as double);
+      _markers.add(
+          Marker(
+            draggable: true, // was set to true
+            markerId: MarkerId("0"),
+            position: _markerPosition,
+            infoWindow: InfoWindow(
+              title: "Your Event Center",
+            ),
+          )
+      );
     });
   }
 
@@ -264,15 +261,16 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     );
   }
 
-  void setMarkerLocation(LatLng location) {
-    setState(() {
-      _markerPosition = location;
-    });
-  }
-
   void _onCameraMove(CameraPosition position) {
     setState(() {
       _markerPosition = position.target;
     });
+  }
+
+  void initializeCamera(User user) {
+    _initialPosition = CameraPosition(
+      target: LatLng(user.getCurrentLocation().latitude, user.getCurrentLocation().longitude),
+      zoom: 15,
+    );
   }
 }

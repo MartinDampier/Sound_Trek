@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         canvasColor: Colors.white,
       ),
-      home: MyHomePage(title: 'Welcome to Sound Trek'),
+      home: MyHomePage(title: 'Welcome to SoundTrek'),
     );
   }
 }
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
   );
 
   bool playMusicToggle = false;
-  String _title = 'Welcome to Sound Trek';
+  String _title = 'Welcome to SoundTrek';
   String _currentSongTitle = '';
   late Playlist _currentSong;
 
@@ -79,7 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _requestLocationPerms();
-    //WidgetsBinding.instance?.addPostFrameCallback((_) => {checkForCurrentEvent(context), _requestLocationPerms(context)});
   }
 
   @override
@@ -325,7 +324,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print('check has run');
 
     if(timer==null) {
-        timer = Timer.periodic(checkEventsInterval, (Timer t) => encapsulation(eventsPriorityQueue, user));
+        timer = Timer.periodic(checkEventsInterval, (Timer t) => receivingCurrentPlaylist(eventsPriorityQueue, user));
 
         DefaultEvent defaultev = DefaultEvent();
         defaultev.setInitialized(true);
@@ -349,7 +348,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> encapsulation(PriorityQueue queueIn, User user) async {
+  Future<void> receivingCurrentPlaylist(PriorityQueue queueIn, User user) async {
     SoundtrackItem item = queueIn.Update(user);
 
     if(item.getEventList().elementAt(0).getInitialized()){
@@ -358,7 +357,9 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _currentSong = item.getPlaylist();
           _currentSong.passToMusicPlayer(user);
-          _currentSongTitle = Playlist.findAssociatedEvent(_currentSong, queueIn) + ' - ' + _currentSong.title;
+          if(_title != 'Welcome to SoundTrek') {
+            _currentSongTitle = Playlist.findAssociatedEvent(_currentSong, queueIn) + ' - ' + _currentSong.title;
+          }
         });
       }else{
         print("same song");

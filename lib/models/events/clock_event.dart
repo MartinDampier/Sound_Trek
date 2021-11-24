@@ -26,7 +26,7 @@ class ClockEvent implements Event{
   @override
   bool isHappening(User user){
     var now = DateTime.now();
-    if(now.isAfter(_startTime) && now.isBefore(_endTime)){
+    if(now.isAfter(_startTime) && now.isBefore(_endTime.add(const Duration(minutes: 1)))){
       return true;
     }
     return false;
