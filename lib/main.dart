@@ -103,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(100.0),
             child: AppBar(
+                systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.white.withOpacity(0.4)),
                 backgroundColor: Colors.transparent,
                 centerTitle: true,
                 title: Column(
@@ -297,7 +298,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
-   // _setMapStyles(_cntlr);
+    //_controller.setMapStyle(_aubergineMapStyle);
     _location.onLocationChanged.listen((l) {
       _controller.animateCamera(
         CameraUpdate.newCameraPosition(
