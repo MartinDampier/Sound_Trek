@@ -52,107 +52,125 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black38,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+        backgroundColor: Colors.transparent,
         title: const Text("Choose a Location and Radius"),
         centerTitle: true,
         elevation: 4,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 0, 0.0, 0.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 420,
-                child: GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: _initialPosition,
-                  onMapCreated: _onMapCreated,
-                  myLocationEnabled: true,
-                  markers: _markers,
-                  onCameraMove: _onCameraMove,
-                  circles: user.getCircles(),
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [
+                  0.4,
+                  1.0,
+                ],
+                colors: [Colors.black54, Color.fromARGB(255, 149, 215, 201)])),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 0, 0.0, 0.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: 420,
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition: _initialPosition,
+                    onMapCreated: _onMapCreated,
+                    myLocationEnabled: true,
+                    markers: _markers = {Marker(
+                      draggable: false, // was set to true
+                      markerId: MarkerId("0"),
+                      position: _markerPosition,
+                      infoWindow: InfoWindow(
+                        title: "Your Event Center",
+                      ),
+                    )},
+                    onCameraMove: _onCameraMove,
+                    circles: user.getCircles(),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
-                        primary: Colors.white,
-                        backgroundColor: eventRadius == 100
-                            ? Colors.teal
-                            : Color.fromARGB(255, 149, 215, 201),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                          primary: Colors.white,
+                          backgroundColor: eventRadius == 100
+                              ? Colors.teal
+                              : Color.fromARGB(255, 149, 215, 201),
+                        ),
+                        onPressed: () {
+                          setEventRadius(100);
+                        },
+                        child: Text('100 meters'),
                       ),
-                      onPressed: () {
-                        setEventRadius(100);
-                      },
-                      child: Text('100 meters'),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
-                        primary: Colors.white,
-                        backgroundColor: eventRadius == 200
-                            ? Colors.teal
-                            : Color.fromARGB(255, 149, 215, 201),
-                        // const Color.fromARGB(255, 149, 215, 201),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                          primary: Colors.white,
+                          backgroundColor: eventRadius == 200
+                              ? Colors.teal
+                              : Color.fromARGB(255, 149, 215, 201),
+                          // const Color.fromARGB(255, 149, 215, 201),
+                        ),
+                        onPressed: () {
+                          setEventRadius(200);
+                        },
+                        child: Text('200 meters'),
                       ),
-                      onPressed: () {
-                        setEventRadius(200);
-                      },
-                      child: Text('200 meters'),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
-                        primary: Colors.white,
-                        backgroundColor: eventRadius == 500
-                            ? Colors.teal
-                            : Color.fromARGB(255, 149, 215, 201),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                          primary: Colors.white,
+                          backgroundColor: eventRadius == 500
+                              ? Colors.teal
+                              : Color.fromARGB(255, 149, 215, 201),
+                        ),
+                        onPressed: () {
+                          setEventRadius(500);
+                        },
+                        child: Text('500 meters'),
                       ),
-                      onPressed: () {
-                        setEventRadius(500);
-                      },
-                      child: Text('500 meters'),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
-                child: TextButton(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 25),
+                      primary: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                    ),
+                    onPressed: () {
+                      addPlaylists(context);
+                    },
+                    child: Text('Add Playlists'),
+                  ),
+                ),
+                TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                     primary: Colors.white,
                     backgroundColor: const Color.fromARGB(255, 149, 215, 201),
                   ),
                   onPressed: () {
-                    addPlaylists(context);
+                    createLocationEvent(eventsPriorityQueue, user);
+                    Navigator.pop(context);
                   },
-                  child: Text('Add Playlists'),
+                  child: Text('Create Event'),
                 ),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 25),
-                  primary: Colors.white,
-                  backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-                ),
-                onPressed: () {
-                  createLocationEvent(eventsPriorityQueue, user);
-                  Navigator.pop(context);
-                },
-                child: Text('Create Event'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -220,16 +238,16 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
       _markerPosition = LatLng(
           _locationData.latitude as double, _locationData.longitude as double);
-      _markers.add(
-          Marker(
-            draggable: true, // was set to true
-            markerId: MarkerId("0"),
-            position: _markerPosition,
-            infoWindow: InfoWindow(
-              title: "Your Event Center",
-            ),
-          )
-      );
+      // _markers.add(
+      //     Marker(
+      //       draggable: false, // was set to true
+      //       markerId: MarkerId("0"),
+      //       position: _markerPosition,
+      //       infoWindow: InfoWindow(
+      //         title: "Your Event Center",
+      //       ),
+      //     )
+      // );
     });
   }
 

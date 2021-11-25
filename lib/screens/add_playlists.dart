@@ -28,20 +28,31 @@ class AddPlaylistsState extends State<AddPlaylists> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 149, 215, 201),
+        backgroundColor: Colors.transparent,
         // automaticallyImplyLeading: true,
         title: Text('Playlists'),
         centerTitle: true,
         elevation: 4,
       ),
-      backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: user.usersPlaylists.length,
-        itemBuilder: (context, index) {
-          final playlist = user.usersPlaylists[index];
+      backgroundColor: Colors.black38,
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [
+                  0.4,
+                  1.0,
+                ],
+                colors: [Colors.black54, Color.fromARGB(255, 149, 215, 201)])),
+        child: ListView.builder(
+          itemCount: user.usersPlaylists.length,
+          itemBuilder: (context, index) {
+            final playlist = user.usersPlaylists[index];
 
-          return buildListTile(playlist, selected, playlistList, index);
-        },
+            return buildListTile(playlist, selected, playlistList, index);
+          },
+        ),
       ),
       floatingActionButton: TextButton(
         style: TextButton.styleFrom(
@@ -59,33 +70,39 @@ class AddPlaylistsState extends State<AddPlaylists> {
 
   Widget buildListTile(Playlist playlist, List<bool> selected,
       List<Playlist> playlistList, int index) {
-    return SwitchListTile(
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
       ),
-      title: Text(
-        '${playlist.title}',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black54,
-          fontSize: 20,
+      color: Colors.white.withOpacity(0.15),
+      child: SwitchListTile(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
         ),
+        title: Text(
+          '${playlist.title}',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontSize: 20,
+          ),
+        ),
+        value: selected.elementAt(index),
+        activeTrackColor: const Color.fromARGB(255, 149, 215, 201),
+        activeColor: Colors.teal,
+        onChanged: (bool value) {
+          setState(() {
+            if (value) {
+              playlistList.add(playlist);
+            } else {
+              playlistList.remove(playlist);
+            }
+            selected[index] = value;
+          });
+        },
+        dense: false,
       ),
-      value: selected.elementAt(index),
-      activeTrackColor: const Color.fromARGB(255, 149, 215, 201),
-      activeColor: Colors.teal,
-      onChanged: (bool value) {
-        setState(() {
-          if (value) {
-            playlistList.add(playlist);
-          } else {
-            playlistList.remove(playlist);
-          }
-          selected[index] = value;
-        });
-      },
-      dense: false,
     );
   }
 }

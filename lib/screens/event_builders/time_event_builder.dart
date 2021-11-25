@@ -30,83 +30,106 @@ class BuildTimeEventState extends State<BuildTimeEvent> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black38,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+        backgroundColor: Colors.transparent,
         title: const Text("Choose a Time"),
         centerTitle: true,
         elevation: 4,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Start Time:',
-                textScaleFactor: 2,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 50),
-                    primary: Colors.black,
-                  ),
-                  onPressed: () {
-                    chooseStartTime(context);
-                  },
-                  child: Text('${displayTime(startTime)}'),
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [
+                  0.4,
+                  1.0,
+                ],
+                colors: [Colors.black54, Color.fromARGB(255, 149, 215, 201)])),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 75.0, 0.0, 0.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Start Time:',
+                  textScaleFactor: 2,
                 ),
-              ),
-              Text(
-                'End Time:',
-                textScaleFactor: 2,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 75.0),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 50),
-                    primary: Colors.black,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 30.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    color: Colors.white.withOpacity(0.15),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 50),
+                        primary: Colors.white,
+                      ),
+                      onPressed: () {
+                        chooseStartTime(context);
+                      },
+                      child: Text('${displayTime(startTime)}'),
+                    ),
                   ),
-                  onPressed: () {
-                    chooseEndTime(context);
-                  },
-                  child: Text('${displayTime(endTime)}'),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
-                child: TextButton(
+                Text(
+                  'End Time:',
+                  textScaleFactor: 2,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 70.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    color: Colors.white.withOpacity(0.15),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 50),
+                        primary: Colors.white,
+                      ),
+                      onPressed: () {
+                        chooseEndTime(context);
+                      },
+                      child: Text('${displayTime(endTime)}'),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 25),
+                      primary: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+                    ),
+                    onPressed: () {
+                      addPlaylists(context);
+                    },
+                    child: Text('Add Playlists'),
+                  ),
+                ),
+                TextButton(
                   style: TextButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 25),
                     primary: Colors.white,
                     backgroundColor: const Color.fromARGB(255, 149, 215, 201),
                   ),
                   onPressed: () {
-                    addPlaylists(context);
+                    // checkTimesValidity();
+                    createTimeEvent(eventsPriorityQueue, user);
+                    Navigator.pop(context);
                   },
-                  child: Text('Add Playlists'),
+                  child: Text('Create Event'),
                 ),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 25),
-                  primary: Colors.white,
-                  backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-                ),
-                onPressed: () {
-                  // checkTimesValidity();
-                  createTimeEvent(eventsPriorityQueue, user);
-                  Navigator.pop(context);
-                },
-                child: Text('Create Event'),
-              ),
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

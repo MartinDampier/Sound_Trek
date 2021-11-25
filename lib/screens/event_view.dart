@@ -20,51 +20,65 @@ class EventsPage extends StatelessWidget {
     final user = Provider.of<User>(context);
 
     return Scaffold(
+      backgroundColor: Colors.black54,
       key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-        // automaticallyImplyLeading: true,
-        title: const Text('Events'),
-        centerTitle: true,
-        elevation: 4,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(75.0),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          // automaticallyImplyLeading: true,
+          title: const Text('Events'),
+          centerTitle: true,
+          elevation: 4,
+        ),
       ),
-      backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: eventsPriorityQueue.possibilities.length,
-        itemBuilder: (context, index) {
-          final soundtrackItem = eventsPriorityQueue.possibilities[index];
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [
+                  0.4,
+                  1.0,
+                ],
+                colors: [Colors.black54, Color.fromARGB(255, 149, 215, 201)])),
+        child: ListView.builder(
+          itemCount: eventsPriorityQueue.possibilities.length,
+          itemBuilder: (context, index) {
+            final soundtrackItem = eventsPriorityQueue.possibilities[index];
 
-          return Slidable(
-            key: const ValueKey(0),
-            endActionPane: ActionPane(
-              motion: DrawerMotion(),
-              children: [
-                SlidableAction(
-                  onPressed: (context) => edit(eventsPriorityQueue, user, index),
-                  backgroundColor: Color(0xFF6B6B6B),
-                  foregroundColor: Colors.white,
-                  icon: Icons.edit,
-                  label: 'Edit',
-                ),
-                SlidableAction(
-                  onPressed: (context) => delete(eventsPriorityQueue, index),
-                  backgroundColor: Color(0xFF6B6B6B),
-                  foregroundColor: Colors.white,
-                  icon: Icons.delete,
-                  label: 'Delete',
-                ),
-              ],
-            ),
-            child: buildListTile(soundtrackItem),
-          );
-        },
+            return Slidable(
+              key: const ValueKey(0),
+              endActionPane: ActionPane(
+                motion: DrawerMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) => edit(eventsPriorityQueue, user, index),
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.white,
+                    icon: Icons.edit,
+                    label: 'Edit',
+                  ),
+                  SlidableAction(
+                    onPressed: (context) => delete(eventsPriorityQueue, index),
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  ),
+                ],
+              ),
+              child: buildListTile(soundtrackItem),
+            );
+          },
+        ),
       ),
       floatingActionButton: SpeedDial(
         icon: Icons.add,
-        backgroundColor: Color.fromARGB(255, 149, 215, 201),
-        activeBackgroundColor: Color.fromARGB(255, 149, 215, 201),
-        activeForegroundColor: Colors.black26,
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.white.withOpacity(0.7),
+        activeBackgroundColor: Colors.white.withOpacity(0.5),
+        activeForegroundColor: Colors.black54,
+        foregroundColor: Colors.black,
         overlayColor: Colors.black,
         overlayOpacity: 0.5,
         spacing: 10,
@@ -72,9 +86,11 @@ class EventsPage extends StatelessWidget {
         children: [
           SpeedDialChild(
               child: Icon(Icons.location_on_rounded),
-              backgroundColor: Colors.white,
-              labelBackgroundColor: Colors.white,
+              backgroundColor: Colors.white.withOpacity(0.7),
+              labelBackgroundColor: Colors.white.withOpacity(0.7),
+              foregroundColor: Colors.black,
               label: 'Location',
+              labelStyle: TextStyle(color: Colors.black),
               onTap: () => {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
@@ -83,9 +99,11 @@ class EventsPage extends StatelessWidget {
                   }),
           SpeedDialChild(
             child: Icon(Icons.access_time_filled_rounded),
-            backgroundColor: Colors.white,
-            labelBackgroundColor: Colors.white,
+            backgroundColor: Colors.white.withOpacity(0.7),
+            labelBackgroundColor: Colors.white.withOpacity(0.7),
+            foregroundColor: Colors.black,
             label: 'Time',
+            labelStyle: TextStyle(color: Colors.black),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return BuildTimeEvent();
@@ -94,9 +112,11 @@ class EventsPage extends StatelessWidget {
           ),
           SpeedDialChild(
             child: Icon(Icons.event_note_rounded),
-            backgroundColor: Colors.white,
-            labelBackgroundColor: Colors.white,
+            backgroundColor: Colors.white.withOpacity(0.7),
+            labelBackgroundColor: Colors.white.withOpacity(0.7),
+            foregroundColor: Colors.black,
             label: 'Date',
+            labelStyle: TextStyle(color: Colors.black),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return BuildDateEvent();
@@ -105,9 +125,11 @@ class EventsPage extends StatelessWidget {
           ),
           SpeedDialChild(
             child: Icon(Icons.wb_sunny_rounded),
-            backgroundColor: Colors.white,
-            labelBackgroundColor: Colors.white,
+            backgroundColor: Colors.white.withOpacity(0.7),
+            labelBackgroundColor: Colors.white.withOpacity(0.7),
+            foregroundColor: Colors.black,
             label: 'Weather',
+            labelStyle: TextStyle(color: Colors.black),
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return BuildWeatherEvent();
@@ -120,7 +142,12 @@ class EventsPage extends StatelessWidget {
   }
 
   Widget buildListTile(SoundtrackItem item) {
-    return ListTile(
+    return Card (
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      color: Colors.white.withOpacity(0.15),
+      child: ListTile(
       contentPadding: EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 20,
@@ -129,11 +156,11 @@ class EventsPage extends StatelessWidget {
       subtitle: Text(item.getEventList().elementAt(0).getType()),
       trailing: Icon(
         Icons.arrow_forward,
-        color: Color(0xFF303030),
+        color: Colors.white,
         size: 20,
       ),
       dense: false,
-    );
+    ));
   }
 
   void edit(PriorityQueue events, User user, int index) {}

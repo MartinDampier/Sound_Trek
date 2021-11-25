@@ -17,46 +17,60 @@ class PlaylistsPage extends StatelessWidget {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 149, 215, 201),
-        // automaticallyImplyLeading: true,
-        title: Text('Playlists'),
-        centerTitle: true,
-        elevation: 4,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(75.0),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          // automaticallyImplyLeading: true,
+          title: Text('Playlists'),
+          centerTitle: true,
+          elevation: 4,
+        ),
       ),
-      backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: user.usersPlaylists.length,
-        itemBuilder: (context, index) {
-          final playlist = user.usersPlaylists[index];
+      backgroundColor: Colors.black54,
+      body: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [
+                  0.4,
+                  1.0,
+                ],
+                colors: [Colors.black54, Color.fromARGB(255, 149, 215, 201)])),
+        child: ListView.builder(
+          itemCount: user.usersPlaylists.length,
+          itemBuilder: (context, index) {
+            final playlist = user.usersPlaylists[index];
 
-          return Slidable(
-            key: const ValueKey(0),
-            endActionPane: ActionPane(
-              motion: DrawerMotion(),
-              children: [
-                SlidableAction(
-                  onPressed: edit,
-                  backgroundColor: Color(0xFF6B6B6B),
-                  foregroundColor: Colors.white,
-                  icon: Icons.edit,
-                  label: 'Edit',
-                ),
-                SlidableAction(
-                  onPressed: delete,
-                  backgroundColor: Color(0xFF6B6B6B),
-                  foregroundColor: Colors.white,
-                  icon: Icons.delete,
-                  label: 'Delete',
-                ),
-              ],
-            ),
-            child: buildListTile(playlist, eventsPriorityQueue),
-          );
-        },
+            return Slidable(
+              key: const ValueKey(0),
+              endActionPane: ActionPane(
+                motion: DrawerMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: edit,
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.white,
+                    icon: Icons.edit,
+                    label: 'Edit',
+                  ),
+                  SlidableAction(
+                    onPressed: delete,
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                  ),
+                ],
+              ),
+              child: buildListTile(playlist, eventsPriorityQueue),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 149, 215, 201),
+        backgroundColor: Colors.white.withOpacity(0.7),
         child: Icon(Icons.add),
         onPressed: () {},
       ),
@@ -65,19 +79,25 @@ class PlaylistsPage extends StatelessWidget {
 
   Widget buildListTile(Playlist playlist, PriorityQueue events) {
     String associatedEvent = Playlist.findAssociatedEvent(playlist, events);
-    return ListTile(
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
       ),
-      title: Text('${playlist.title}'),
-      subtitle: Text('${associatedEvent}'),
-      trailing: Icon(
-        Icons.arrow_forward,
-        color: Color(0xFF303030),
-        size: 20,
+      color: Colors.white.withOpacity(0.15),
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
+        title: Text('${playlist.title}'),
+        subtitle: Text('${associatedEvent}'),
+        trailing: Icon(
+          Icons.arrow_forward,
+          color: Colors.white,
+          size: 20,
+        ),
+        dense: false,
       ),
-      dense: false,
     );
   }
 

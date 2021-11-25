@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +17,7 @@ import 'package:just_audio/just_audio.dart';
 import 'models/events/default_event.dart';
 import 'models/events/event.dart';
 import 'models/soundtrack_item.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
 
@@ -36,13 +38,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Sound Trek',
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        primarySwatch: Colors.blue,
-        canvasColor: Colors.white,
-      ),
-      home: MyHomePage(title: 'Welcome to SoundTrek'),
+      title: 'SoundTrek',
+      theme: ThemeData.dark(),
+      home: MyHomePage(title: ''),
     );
   }
 }
@@ -66,9 +64,10 @@ class _MyHomePageState extends State<MyHomePage> {
     target: LatLng(30.40766724145041, -91.17953531915799),
     zoom: 14.4746,
   );
+  late String _aubergineMapStyle;
 
   bool playMusicToggle = false;
-  String _title = 'Welcome to SoundTrek';
+  String _title = '';
   String _currentSongTitle = '';
   late Playlist _currentSong;
 
@@ -79,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _requestLocationPerms();
+    _loadMapStyles();
   }
 
   @override
@@ -87,196 +87,209 @@ class _MyHomePageState extends State<MyHomePage> {
     final user = Provider.of<User>(context);
     checkForCurrentEvent(context);
 
-    return Scaffold(
-      key: _drawerKey,
-      backgroundColor: Color.fromARGB(255, 149, 215, 201),
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
-          child: AppBar(
-              backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-              centerTitle: true,
-              title: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(_title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        )),
-                  ]),
-              leading: Transform.scale(
-                scale: 1.4,
-                child: IconButton(
-                  icon: const ImageIcon(
-                    AssetImage('assets/logos/SoundTrek_Simplified.png'),
-                    size: 150,
-                    color: Colors.white,
-                  ),
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [
+                0.4,
+                1.0,
+              ],
+              colors: [Colors.black54, Color.fromARGB(255, 149, 215, 201)])),
+      child: Scaffold(
+        backgroundColor: Colors.black38,
+        key: _drawerKey,
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(100.0),
+            child: AppBar(
+                backgroundColor: Colors.transparent,
+                centerTitle: true,
+                title: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(_title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          )),
+                    ]),
+                leading: IconButton(
+                  icon: const Icon(Icons.menu),
                   onPressed: () => _drawerKey.currentState?.openDrawer(),
                 ),
-              ),
-              bottom: PreferredSize(
-                  preferredSize: Size(30.0, 30.0),
-                  child: Container(
-                      height: 30,
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(_currentSongTitle,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          ]))))),
-      drawer: Drawer(
-        child: Container(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              UserAccountsDrawerHeader(
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage('${user.image}'),
-                  backgroundColor: const Color.fromARGB(255, 98, 98, 98),
+                bottom: PreferredSize(
+                    preferredSize: Size(30.0, 30.0),
+                    child: Container(
+                        height: 30,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text(_currentSongTitle,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ]))))),
+        drawer: Drawer(
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: [
+                      0.6,
+                      1.0,
+                    ],
+                    colors: [Colors.black87, Color.fromARGB(255, 149, 215, 201)])),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                UserAccountsDrawerHeader(
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: AssetImage('${user.image}'),
+                    backgroundColor: Colors.black54,
+                  ),
+                  accountEmail: Text('${user.email}',
+                    style: TextStyle(color: Colors.white,),
+                  ),
+                  accountName: Text(
+                    '${user.name}',
+                    style: TextStyle(fontSize: 24.0, color: Colors.white,),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black38,
+                  ),
                 ),
-                accountEmail: Text('${user.email}',
-                  style: TextStyle(color: Colors.white,),
+                ListTile(
+                  leading: const Icon(Icons.event_note),
+                  title: const Text('Events',
+                      style: TextStyle(
+                        color: Colors.white,
+                      )),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return EventsPage();
+                    }));
+                  },
                 ),
-                accountName: Text(
-                  '${user.name}',
-                  style: TextStyle(fontSize: 24.0, color: Colors.white,),
+                ListTile(
+                  leading: const Icon(Icons.library_music),
+                  title: const Text('Playlists',
+                      style: TextStyle(
+                        color: Colors.white,
+                      )),
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return PlaylistsPage();
+                    }));
+                  },
                 ),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 149, 215, 201),
+                const ListTile(
+                  leading: Icon(Icons.account_circle_rounded),
+                  title: Text('Account',
+                      style: TextStyle(
+                        color: Colors.white,
+                      )),
                 ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.event_note),
-                title: const Text('Events',
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 98, 98, 98),
-                    )),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return EventsPage();
-                  }));
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.library_music),
-                title: const Text('Playlists',
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 98, 98, 98),
-                    )),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return PlaylistsPage();
-                  }));
-                },
-              ),
-              const ListTile(
-                leading: Icon(Icons.account_circle_rounded),
-                title: Text('Account',
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 98, 98, 98),
-                    )),
-              ),
-              const ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Settings',
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 98, 98, 98),
-                    )),
-              ),
-            ],
+                const ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Settings',
+                      style: TextStyle(
+                        color: Colors.white,
+                      )),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _ourClass,
-        onMapCreated: _onMapCreated,
-        myLocationEnabled: true,
-        circles: user.getCircles(),
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 65,
-        child: BottomAppBar(
-          color: const Color.fromARGB(255, 149, 215, 201),
-          child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                IconButton(
-                  icon: const Icon(
-                    Icons.loop_rounded,
-                    color: Colors.white,
-                      size: 45,
-                  ),
-                  onPressed: () {
-                    user.repeatMusicAll();
-                    //TODO: Make condition to alternate all LoopModes (refer to musicplayer_buttons.dart if it helps) ive made a change
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.skip_previous_rounded,
-                    color: Colors.white,
-                    size: 45,
-                  ),
-                  onPressed: () {
-                    user.previousMusic();
-                  },
-                ),
-                IconButton(
-                    icon: playMusicToggle
-                        ? const Icon(
-                            Icons.pause_rounded,
-                            color: Colors.white,
-                            size: 45,
-                          )
-                        : const Icon(
-                            Icons.play_arrow_rounded,
-                            color: Colors.white,
-                            size: 45,
-                          ),
+        body: GoogleMap(
+          mapType: MapType.normal,
+          initialCameraPosition: _ourClass,
+          onMapCreated: _onMapCreated,
+          myLocationEnabled: true,
+          circles: user.getCircles(),
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 65,
+          child: BottomAppBar(
+            color: Colors.transparent,
+            child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  IconButton(
+                    icon: const Icon(
+                      Icons.loop_rounded,
+                      color: Colors.white,
+                        size: 45,
+                    ),
                     onPressed: () {
-                      setState(() {
-                        playMusicToggle = !playMusicToggle;
-                        if (playMusicToggle) {
-                          _title = 'Currently playing...';
-                          setState(() {
-                            user.playMusic();
-                            _currentSongTitle = Playlist.findAssociatedEvent(_currentSong, eventsPriorityQueue) + ' - ' + _currentSong.title;
-                          });
-                        } else {
-                          user.pauseMusic();
-                          _title = 'Music paused';
-                          _currentSongTitle = '--';
-                        }
-                      });
-                    }),
-                IconButton(
-                  icon: const Icon(
-                    Icons.skip_next_rounded,
-                    color: Colors.white,
-                    size: 45,
+                      user.repeatMusicAll();
+                      //TODO: Make condition to alternate all LoopModes (refer to musicplayer_buttons.dart if it helps) ive made a change
+                    },
                   ),
-                  onPressed: () {
-                    user.nextMusic();
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.shuffle_rounded,
-                    color: Colors.white,
-                    size: 45,
+                  IconButton(
+                    icon: const Icon(
+                      Icons.skip_previous_rounded,
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                    onPressed: () {
+                      user.previousMusic();
+                    },
                   ),
-                  onPressed: () {
-                    user.shuffleMusic();
-                  }
-                )
-              ]),
+                  IconButton(
+                      icon: playMusicToggle
+                          ? const Icon(
+                              Icons.pause_rounded,
+                              color: Colors.white,
+                              size: 45,
+                            )
+                          : const Icon(
+                              Icons.play_arrow_rounded,
+                              color: Colors.white,
+                              size: 45,
+                            ),
+                      onPressed: () {
+                        setState(() {
+                          playMusicToggle = !playMusicToggle;
+                          if (playMusicToggle) {
+                            _title = 'Currently playing...';
+                            setState(() {
+                              user.playMusic();
+                              _currentSongTitle = Playlist.findAssociatedEvent(_currentSong, eventsPriorityQueue) + ' - ' + _currentSong.title;
+                            });
+                          } else {
+                            user.pauseMusic();
+                            _title = 'Music paused';
+                            _currentSongTitle = '--';
+                          }
+                        });
+                      }),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.skip_next_rounded,
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                    onPressed: () {
+                      user.nextMusic();
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.shuffle_rounded,
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                    onPressed: () {
+                      user.shuffleMusic();
+                    }
+                  )
+                ]),
+          ),
         ),
       ),
     );
@@ -284,6 +297,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
+   // _setMapStyles(_cntlr);
     _location.onLocationChanged.listen((l) {
       _controller.animateCamera(
         CameraUpdate.newCameraPosition(
@@ -342,8 +356,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     _locationData = await _location.getLocation();
-    _location.onLocationChanged.listen((event) {
-      user.setCurrentLocation(LatLng(event.latitude as double, event.longitude as double));
+    _location.onLocationChanged.listen((loc) {
+      user.setCurrentLocation(LatLng(loc.latitude as double, loc.longitude as double));
       print(user.getCurrentLocation().latitude.toString() + " " + user.getCurrentLocation().longitude.toString());
     });
   }
@@ -357,7 +371,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _currentSong = item.getPlaylist();
           _currentSong.passToMusicPlayer(user);
-          if(_title != 'Welcome to SoundTrek') {
+          if(_title != '') {
             _currentSongTitle = Playlist.findAssociatedEvent(_currentSong, queueIn) + ' - ' + _currentSong.title;
           }
         });
@@ -370,4 +384,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
+  Future<void> _loadMapStyles() async {
+      rootBundle.loadString('assets/map_styles/aubergine.txt').then((string) {
+        _aubergineMapStyle = string;
+      });
+    // _aubergineMapStyle = await rootBundle.loadString('assets/map_styles/aubergine.txt');
+  }
+
+  void _setMapStyles(GoogleMapController controller) {
+      controller.setMapStyle(_aubergineMapStyle);
+  }
+
 }
+
