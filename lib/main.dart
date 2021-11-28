@@ -205,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 IconButton(
                   icon: const Icon(
-                    Icons.loop_rounded,
+                    Icons.repeat,
                     color: Colors.white,
                       size: 45,
                   ),
