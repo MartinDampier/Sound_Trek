@@ -84,20 +84,27 @@ class PlaylistsPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       color: Colors.white.withOpacity(0.15),
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
+      child: Container(
+        foregroundDecoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/album_covers/${playlist.coverName}'),
+            fit: BoxFit.fitHeight,
+            alignment: Alignment.centerLeft,
+          ),
+          borderRadius: BorderRadius.circular(15.0),
         ),
-        title: Text('${playlist.title}'),
-        subtitle: Text('${associatedEvent}'),
-        leading: Image(image: AssetImage('assets/album_covers/${playlist.coverName}')),
-        trailing: Icon(
-          Icons.arrow_forward,
-          color: Colors.white,
-          size: 20,
+        child: ListTile(
+          contentPadding: EdgeInsets.fromLTRB(125, 20, 20, 20),
+          title: Text('${playlist.title}'),
+          subtitle: Text('${associatedEvent}'),
+          //leading: Image(image: AssetImage('assets/album_covers/${playlist.coverName}')),
+          trailing: Icon(
+            Icons.arrow_forward,
+            color: Colors.white,
+            size: 20,
+          ),
+          dense: false,
         ),
-        dense: false,
       ),
     );
   }
