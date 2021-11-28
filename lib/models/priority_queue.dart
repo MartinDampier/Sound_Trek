@@ -16,7 +16,7 @@ class PriorityQueue with ChangeNotifier{
     AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
     AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
   ]),
-      'Playlist Default'), <Event> [DefaultEvent()])];
+      'Playlist Default', 'default.png'), <Event> [DefaultEvent()])];
 
   int currentEventIndex = 0;
 

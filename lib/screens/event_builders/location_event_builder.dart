@@ -29,6 +29,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   late PermissionStatus _permissionStatus;
   late LocationData _locationData;
   bool _isListenLocation = false, _isGetLocation = false;
+  String _aubergineMapStyle = '';
   late Playlist playlist;
   double eventRadius = 100;
   Set<Marker> _markers = HashSet<Marker>();
@@ -209,6 +210,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
+    _loadMapStyles();
   }
 
   Future<void> _requestLocationPerms() async {
@@ -238,16 +240,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
       _markerPosition = LatLng(
           _locationData.latitude as double, _locationData.longitude as double);
-      // _markers.add(
-      //     Marker(
-      //       draggable: false, // was set to true
-      //       markerId: MarkerId("0"),
-      //       position: _markerPosition,
-      //       infoWindow: InfoWindow(
-      //         title: "Your Event Center",
-      //       ),
-      //     )
-      // );
+
     });
   }
 
@@ -290,5 +283,10 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
       target: LatLng(user.getCurrentLocation().latitude, user.getCurrentLocation().longitude),
       zoom: 15,
     );
+  }
+
+  Future<void> _loadMapStyles() async {
+    _aubergineMapStyle = await DefaultAssetBundle.of(context).loadString('assets/map_styles/aubergine.json');
+    _controller.setMapStyle(_aubergineMapStyle);
   }
 }

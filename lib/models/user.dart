@@ -83,6 +83,7 @@ class User with ChangeNotifier {
 
   void addCircle(Circle newCircle) {
     _circles.add(newCircle);
+    notifyListeners();
   }
 
   void removeCircle(int index) {

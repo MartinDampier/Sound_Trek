@@ -91,6 +91,7 @@ class PlaylistsPage extends StatelessWidget {
         ),
         title: Text('${playlist.title}'),
         subtitle: Text('${associatedEvent}'),
+        leading: Image(image: AssetImage('assets/album_covers/${playlist.coverName}')),
         trailing: Icon(
           Icons.arrow_forward,
           color: Colors.white,

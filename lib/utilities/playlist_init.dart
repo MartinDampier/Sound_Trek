@@ -25,7 +25,8 @@ class PlaylistInit {
               tag: AudioMetadata(title: "Kleinstadt"),
             ),
           ]),
-          'Playlist 1'
+          'Flowing Vibes',
+        'water.jpg'
       ),
       Playlist(
           ConcatenatingAudioSource(children: [
@@ -45,7 +46,8 @@ class PlaylistInit {
               tag: AudioMetadata(title: "Irish"),
             ),
           ]),
-          'Playlist 2'
+          'Classy Acoustics',
+        'acoustic.png'
       ),
       Playlist(
           ConcatenatingAudioSource(children: [
@@ -65,7 +67,8 @@ class PlaylistInit {
               tag: AudioMetadata(title: "Irish"),
             ),
           ]),
-          'Playlist 3'
+          'Techno Beats',
+        'techno.png'
       ),
       Playlist(
           ConcatenatingAudioSource(children: [
@@ -88,7 +91,8 @@ class PlaylistInit {
               tag: AudioMetadata(title: "Life"),
             ),
           ]),
-          'Playlist 4'
+          'Chillfi',
+        'lofi.png'
       ),
       Playlist(
           ConcatenatingAudioSource(children: [
@@ -108,9 +112,10 @@ class PlaylistInit {
               tag: AudioMetadata(title: "Life"),
             ),
           ]),
-          'Playlist 5'
+          'German Jams',
+        'kleinstadt.png'
       )
-    ];;
+    ];
   }
 
 }

@@ -7,11 +7,13 @@ import 'package:sound_trek/models/priority_queue.dart';
 class Playlist {
 
   String title = 'Unnamed';
+  String coverName = 'Image';
   late ConcatenatingAudioSource _songs;
 
-  Playlist(ConcatenatingAudioSource songs, String name) {
+  Playlist(ConcatenatingAudioSource songs, String name, String imageName) {
     _songs = songs;
     title = name;
+    coverName = imageName;
   }
 
   void passToMusicPlayer (User user) {

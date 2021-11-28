@@ -74,11 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Timer? timer;
   final Duration checkEventsInterval = Duration(seconds: 5);
 
+  double appbarSize = 57.0;
+
   @override
   void initState() {
     super.initState();
     _requestLocationPerms();
-    _loadMapStyles();
   }
 
   @override
@@ -101,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.black38,
         key: _drawerKey,
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100.0),
+            preferredSize: Size.fromHeight(appbarSize),
             child: AppBar(
                 systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.white.withOpacity(0.4)),
                 backgroundColor: Colors.transparent,
@@ -259,6 +260,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           if (playMusicToggle) {
                             _title = 'Currently playing...';
                             setState(() {
+                              appbarSize = 100.0;
                               user.playMusic();
                               _currentSongTitle = Playlist.findAssociatedEvent(_currentSong, eventsPriorityQueue) + ' - ' + _currentSong.title;
                             });
@@ -298,7 +300,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
-    //_controller.setMapStyle(_aubergineMapStyle);
     _location.onLocationChanged.listen((l) {
       _controller.animateCamera(
         CameraUpdate.newCameraPosition(
@@ -308,6 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     });
+    _loadMapStyles();
   }
 
 
@@ -352,7 +354,7 @@ class _MyHomePageState extends State<MyHomePage> {
           AudioSource.uri(Uri.parse('asset:///assets/musicsample/life.mp3')),
           AudioSource.uri(Uri.parse('asset:///assets/musicsample/irish.mp3')),
         ]),
-            'Playlist Default'), Startevent));
+            'Playlist Default', 'default.png'), Startevent));
         _currentSong = eventsPriorityQueue.possibilities.elementAt(1).getPlaylist();
     }
 
@@ -386,14 +388,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _loadMapStyles() async {
-      rootBundle.loadString('assets/map_styles/aubergine.txt').then((string) {
-        _aubergineMapStyle = string;
-      });
-    // _aubergineMapStyle = await rootBundle.loadString('assets/map_styles/aubergine.txt');
-  }
-
-  void _setMapStyles(GoogleMapController controller) {
-      controller.setMapStyle(_aubergineMapStyle);
+    _aubergineMapStyle = await DefaultAssetBundle.of(context).loadString('assets/map_styles/aubergine.json');
+    _controller.setMapStyle(_aubergineMapStyle);
   }
 
 }
