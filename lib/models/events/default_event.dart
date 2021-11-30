@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:sound_trek/models/user.dart';
 
@@ -37,6 +38,10 @@ class DefaultEvent implements Event {
   @override
   String getName(){
     return _name;
+  }
+
+  CircleId getCircleId() {
+    return CircleId('none');
   }
 
 }

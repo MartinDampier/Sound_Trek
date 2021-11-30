@@ -1,3 +1,4 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:sound_trek/models/user.dart';
 
@@ -31,6 +32,10 @@ class WeatherEvent implements Event{
 
   String getWeather(){
     return _weather;
+  }
+
+  CircleId getCircleId() {
+    return CircleId('none');
   }
 
   @override

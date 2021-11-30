@@ -16,6 +16,7 @@ class User with ChangeNotifier {
   String name = 'Lukas Frick';
   String email = 'lfrick3@lsu.edu';
   String image = 'assets/pictures/lukas.png';
+  int circleIdCounter = 0;
 
   //new code
   void setCurrentLocation (LatLng coordinates) {
@@ -83,11 +84,12 @@ class User with ChangeNotifier {
 
   void addCircle(Circle newCircle) {
     _circles.add(newCircle);
+    circleIdCounter++;
     notifyListeners();
   }
 
-  void removeCircle(int index) {
-   // _circles.removeWhere(_circles.);
+  void removeCircle(CircleId thisId) {
+   _circles.removeWhere((item) => item.circleId == thisId);
   }
 
   void editEvent(int index) {

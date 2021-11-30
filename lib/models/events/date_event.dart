@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:flutter/services.dart';
 import 'package:sound_trek/models/user.dart';
@@ -31,7 +32,7 @@ class DateEvent implements Event{
 
   @override
   String getType(){
-    return "Date Event";
+    return "Date";
   }
 
   @override
@@ -49,7 +50,9 @@ class DateEvent implements Event{
     _name = nameIn;
   }
 
-
+  CircleId getCircleId() {
+    return CircleId('none');
+  }
 
   @override
   bool getInitialized() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sound_trek/models/events/event.dart';
 import 'package:flutter/services.dart';
 import 'package:sound_trek/models/user.dart';
@@ -34,7 +35,7 @@ class ClockEvent implements Event{
 
   @override
   String getType(){
-    return "Time of Day Event";
+    return "Time of Day";
   }
 
   @override
@@ -51,9 +52,9 @@ class ClockEvent implements Event{
     _name = nameIn;
   }
 
-
-
-
+  CircleId getCircleId() {
+    return CircleId('none');
+  }
 
   @override
   bool getInitialized() {
