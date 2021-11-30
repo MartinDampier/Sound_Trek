@@ -357,6 +357,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ]),
             'Playlist Default', 'default.png'), Startevent));
         _currentSong = eventsPriorityQueue.possibilities.elementAt(1).getPlaylist();
+        eventsPriorityQueue.possibilities.removeAt(1);
     }
 
     _locationData = await _location.getLocation();
