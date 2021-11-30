@@ -18,7 +18,7 @@ class AddPlaylists extends StatefulWidget {
 class AddPlaylistsState extends State<AddPlaylists> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   List<Playlist> playlistList = [];
-  List<bool> selected = List.filled(5, false);
+  List<bool> selected = List.filled(6, false);
 
   @override
   Widget build(BuildContext context) {

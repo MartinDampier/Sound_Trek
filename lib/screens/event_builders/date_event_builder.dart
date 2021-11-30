@@ -31,23 +31,14 @@ class BuildDateEventState extends State<BuildDateEvent> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.black38,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black87,
         title: const Text("Choose a Date"),
         centerTitle: true,
         elevation: 4,
       ),
       body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [
-                  0.4,
-                  1.0,
-                ],
-                colors: [Colors.black54, Color.fromARGB(255, 149, 215, 201)])),
+        color: Colors.black87,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),

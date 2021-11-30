@@ -17,6 +17,7 @@ class User with ChangeNotifier {
   String email = 'lfrick3@lsu.edu';
   String image = 'assets/pictures/lukas.png';
   int circleIdCounter = 0;
+  bool weatherClearToggle = true;
 
   //new code
   void setCurrentLocation (LatLng coordinates) {

@@ -53,23 +53,14 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.black38,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black87,
         title: const Text("Choose a Location and Radius"),
         centerTitle: true,
         elevation: 4,
       ),
       body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [
-                  0.4,
-                  1.0,
-                ],
-                colors: [Colors.black54, Color.fromARGB(255, 149, 215, 201)])),
+        color: Colors.black87,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 0, 0.0, 0.0),
@@ -79,21 +70,34 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
               children: <Widget>[
                 SizedBox(
                   height: 420,
-                  child: GoogleMap(
-                    mapType: MapType.normal,
-                    initialCameraPosition: _initialPosition,
-                    onMapCreated: _onMapCreated,
-                    myLocationEnabled: true,
-                    markers: _markers = {Marker(
-                      draggable: false, // was set to true
-                      markerId: MarkerId("0"),
-                      position: _markerPosition,
-                      infoWindow: InfoWindow(
-                        title: "Your Event Center",
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(200.0),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black87,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(200))
                       ),
-                    )},
-                    onCameraMove: _onCameraMove,
-                    circles: _radiusView.union(user.getCircles()),
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: _initialPosition,
+                        onMapCreated: _onMapCreated,
+                        myLocationEnabled: true,
+                        markers: _markers = {Marker(
+                          draggable: false, // was set to true
+                          markerId: MarkerId("0"),
+                          position: _markerPosition,
+                          infoWindow: InfoWindow(
+                            title: "Your Event Center",
+                          ),
+                        )},
+                        onCameraMove: _onCameraMove,
+                        circles: _radiusView.union(user.getCircles()),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(

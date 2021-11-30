@@ -117,7 +117,7 @@ class PlaylistInit {
             AudioSource.uri(Uri.parse('asset:///assets/musicsample/minuet.mp3'),
               tag: AudioMetadata(title: "Minuet"),
             ),
-            AudioSource.uri(Uri.parse('asset:///assets/musicsample/germanOpera.mp3'),
+            AudioSource.uri(Uri.parse('asset:///assets/musicsample/gemranOpera.mp3'),
               tag: AudioMetadata(title: "German Opera"),
             ),
             AudioSource.uri(Uri.parse('asset:///assets/musicsample/moonlightSonata.mp3'),
@@ -126,6 +126,24 @@ class PlaylistInit {
           ]),
           'German Jams',
         'kleinstadt.png'
+      ),
+      Playlist(
+          ConcatenatingAudioSource(children: [
+            AudioSource.uri(Uri.parse('asset:///assets/musicsample/otamatoneAIWFCIY.mp3'),
+              tag: AudioMetadata(title: "AIWFCIY Otamatone"),
+            ),
+            AudioSource.uri(Uri.parse('asset:///assets/musicsample/o christmas tree.mp3'),
+              tag: AudioMetadata(title: "O Christmas Tree"),
+            ),
+            AudioSource.uri(Uri.parse('asset:///assets/musicsample/christmas cinematic.mp3'),
+              tag: AudioMetadata(title: "Christmas Cinematic"),
+            ),
+            AudioSource.uri(Uri.parse('asset:///assets/musicsample/silent night.mp3'),
+              tag: AudioMetadata(title: "Silent Night"),
+            ),
+          ]),
+          'Tis the Season',
+          'christmas.png'
       )
     ];
   }
