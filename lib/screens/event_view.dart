@@ -152,6 +152,10 @@ class EventsPage extends StatelessWidget {
       contentPadding: EdgeInsets.fromLTRB(20, 16, 20, 16),
       title: Text(item.getEventList().elementAt(0).getName()),
       subtitle: Text(item.getEventList().elementAt(0).getType()),
+      leading:
+        Image.asset('assets/logos/SoundTrek_Simplified.png',
+        color: Colors.white,
+        ),
       trailing: Icon(
         Icons.arrow_forward,
         color: Colors.white,
