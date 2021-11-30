@@ -65,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     zoom: 14.4746,
   );
   late String _aubergineMapStyle;
+  Set<Circle> eventCircles = {};
 
   bool playMusicToggle = false;
   String _title = '';
@@ -210,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
           initialCameraPosition: _ourClass,
           onMapCreated: _onMapCreated,
           myLocationEnabled: true,
-          circles: user.getCircles(),
+          circles: getCircles(user),
         ),
         bottomNavigationBar: SizedBox(
           height: 65,
@@ -390,6 +391,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _loadMapStyles() async {
     _aubergineMapStyle = await DefaultAssetBundle.of(context).loadString('assets/map_styles/aubergine.json');
     _controller.setMapStyle(_aubergineMapStyle);
+  }
+
+  Set<Circle> getCircles(User user) {
+    setState(() {
+      eventCircles = user.getCircles();
+    });
+    print(eventCircles.toString());
+    return eventCircles;
   }
 
 }

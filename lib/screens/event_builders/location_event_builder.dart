@@ -33,10 +33,10 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   late Playlist playlist;
   double eventRadius = 100;
   Set<Marker> _markers = HashSet<Marker>();
+  Set<Circle> _radiusView = {};
 
   late CameraPosition _initialPosition;
   LatLng _markerPosition = LatLng(30.40766724145041, -91.17953531915799);
-  int _circleIdCounter = 1;
 
   @override
   void initState() {
@@ -93,7 +93,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                       ),
                     )},
                     onCameraMove: _onCameraMove,
-                    circles: user.getCircles(),
+                    circles: _radiusView.union(user.getCircles()),
                   ),
                 ),
                 Padding(
@@ -192,7 +192,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     _setCircles(user);
     String eventListName =
         'Event ' + (events.possibilities.length).toString();
-    List<Event> eventList = [LocationEvent(_markerPosition.latitude as double, _markerPosition.longitude as double, eventRadius, eventListName, _circleIdCounter.toString())];
+    List<Event> eventList = [LocationEvent(_markerPosition.latitude as double, _markerPosition.longitude as double, eventRadius, eventListName, CircleId('$user.circleIdCounter'))];
 
     SoundtrackItem item = SoundtrackItem(playlist, eventList);
     events.addItem(item);
@@ -245,8 +245,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   }
 
   Circle _displayCircles(user, lat, lng, rad) {
-    final String circleIdVal = "$_circleIdCounter";
-    _circleIdCounter++;
+    final String circleIdVal = "$user.circleIdCounter";
     return Circle(
         circleId: CircleId(circleIdVal),
         center: LatLng(lat.toDouble(), lng.toDouble()),
@@ -258,8 +257,7 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   }
 
   void _setCircles(User user) {
-    final String circleIdVal = "$_circleIdCounter";
-    _circleIdCounter++;
+    final String circleIdVal = "$user.circleIdCounter";
     user.addCircle(
       Circle(
           circleId: CircleId(circleIdVal),
@@ -275,6 +273,14 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
   void _onCameraMove(CameraPosition position) {
     setState(() {
       _markerPosition = position.target;
+      _radiusView.add(Circle(
+        circleId: CircleId("radius"),
+        center: _markerPosition,
+        radius: eventRadius,
+        fillColor: Color.fromARGB(149, 237, 133, 138),
+        strokeWidth: 2,
+        strokeColor: Color.fromARGB(149, 255, 166, 170),
+      ));
     });
   }
 

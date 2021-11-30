@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:sound_trek/models/events/location_event.dart';
 import 'package:sound_trek/models/priority_queue.dart';
 import 'package:sound_trek/models/slideable_actions.dart';
 import 'package:sound_trek/models/soundtrack_item.dart';
@@ -60,7 +61,7 @@ class EventsPage extends StatelessWidget {
                     label: 'Edit',
                   ),
                   SlidableAction(
-                    onPressed: (context) => delete(eventsPriorityQueue, index),
+                    onPressed: (context) => delete(eventsPriorityQueue, user, index),
                     backgroundColor: Colors.transparent,
                     foregroundColor: Colors.white,
                     icon: Icons.delete,
@@ -162,7 +163,10 @@ class EventsPage extends StatelessWidget {
 
   void edit(PriorityQueue events, User user, int index) {}
 
-  void delete(PriorityQueue events, int index) {
+  void delete(PriorityQueue events, User user, int index) {
+    if(events.possibilities[index].getEventList().elementAt(0).getType() == "Location") {
+      user.removeCircle(events.possibilities[index].getEventList().elementAt(0).getCircleId());
+    }
     events.deleteItem(index);
   }
 

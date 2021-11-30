@@ -10,9 +10,9 @@ class LocationEvent implements Event{
   String _name = "My Location Event";
   LatLng _location = LatLng(0,0);
   double _radius = 100;
-  String _circleId = "";
+  late CircleId _circleId;
 
-  LocationEvent(double latIn, double longIn, double radiusIn, String nameIn, String circleIDIn){
+  LocationEvent(double latIn, double longIn, double radiusIn, String nameIn, CircleId circleIDIn){
     //_location = locationIn;
     _location = LatLng(latIn, longIn);
     _radius = radiusIn;
@@ -63,7 +63,7 @@ class LocationEvent implements Event{
     return "Location";
   }
 
-  String getCircleID(){
+  CircleId getCircleId(){
     return _circleId;
   }
 
