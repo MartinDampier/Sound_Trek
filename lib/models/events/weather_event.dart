@@ -19,11 +19,7 @@ class WeatherEvent implements Event{
 
   @override
   bool isHappening(User user){
-    if(currentWeather==_weather){
-      return true;
-    } else{
-      return false;
-    }
+    return !user.weatherClearToggle;
   }
 
   void setWeather(String locationIn){
