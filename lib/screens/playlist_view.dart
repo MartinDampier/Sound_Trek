@@ -94,7 +94,7 @@ class PlaylistsPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: ListTile(
-          contentPadding: EdgeInsets.fromLTRB(125, 20, 20, 20),
+          contentPadding: EdgeInsets.fromLTRB(125, 16, 20, 16),
           title: Text('${playlist.title}'),
           subtitle: Text('${associatedEvent}'),
           //leading: Image(image: AssetImage('assets/album_covers/${playlist.coverName}')),
