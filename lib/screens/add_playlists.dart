@@ -75,33 +75,40 @@ class AddPlaylistsState extends State<AddPlaylists> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       color: Colors.white.withOpacity(0.15),
-      child: SwitchListTile(
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 20,
-        ),
-        title: Text(
-          '${playlist.title}',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 20,
+      child: Container(
+        foregroundDecoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/album_covers/${playlist.coverName}'),
+            fit: BoxFit.fitHeight,
+            alignment: Alignment.centerLeft,
           ),
+          borderRadius: BorderRadius.circular(15.0),
         ),
-        value: selected.elementAt(index),
-        activeTrackColor: const Color.fromARGB(255, 149, 215, 201),
-        activeColor: Colors.teal,
-        onChanged: (bool value) {
-          setState(() {
-            if (value) {
-              playlistList.add(playlist);
-            } else {
-              playlistList.remove(playlist);
-            }
-            selected[index] = value;
-          });
-        },
-        dense: false,
+        child: SwitchListTile(
+          contentPadding: EdgeInsets.fromLTRB(105, 15, 15, 15),
+          title: Text(
+            '${playlist.title}',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+          value: selected.elementAt(index),
+          activeTrackColor: const Color.fromARGB(255, 149, 215, 201),
+          activeColor: Colors.teal,
+          onChanged: (bool value) {
+            setState(() {
+              if (value) {
+                playlistList.add(playlist);
+              } else {
+                playlistList.remove(playlist);
+              }
+              selected[index] = value;
+            });
+          },
+          dense: false,
+        ),
       ),
     );
   }
