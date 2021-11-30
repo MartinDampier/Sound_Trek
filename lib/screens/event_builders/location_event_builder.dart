@@ -72,14 +72,14 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                   height: 420,
                   child: Card(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(200.0),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.black87,
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(200))
+                          borderRadius: BorderRadius.all(Radius.circular(20))
                       ),
                       child: GoogleMap(
                         mapType: MapType.normal,
@@ -101,51 +101,26 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 20),
-                          primary: Colors.white,
-                          backgroundColor: eventRadius == 100
-                              ? Colors.teal
-                              : Color.fromARGB(255, 149, 215, 201),
-                        ),
-                        onPressed: () {
-                          setEventRadius(100);
-                        },
-                        child: Text('100 meters'),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 20),
-                          primary: Colors.white,
-                          backgroundColor: eventRadius == 200
-                              ? Colors.teal
-                              : Color.fromARGB(255, 149, 215, 201),
-                          // const Color.fromARGB(255, 149, 215, 201),
-                        ),
-                        onPressed: () {
-                          setEventRadius(200);
-                        },
-                        child: Text('200 meters'),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 20),
-                          primary: Colors.white,
-                          backgroundColor: eventRadius == 500
-                              ? Colors.teal
-                              : Color.fromARGB(255, 149, 215, 201),
-                        ),
-                        onPressed: () {
-                          setEventRadius(500);
-                        },
-                        child: Text('500 meters'),
-                      ),
-                    ],
+                  padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child: Text('Event Radius',
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.white,
+                  )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
+                  child: Slider(
+                    value: eventRadius,
+                    min: 5,
+                    max: 500,
+                    divisions: 11,
+                    label: eventRadius.round().toString(),
+                    onChanged: (double value) {
+                      setState(() {
+                        eventRadius = value;
+                      });
+                    },
                   ),
                 ),
                 Padding(
