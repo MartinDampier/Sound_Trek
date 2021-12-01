@@ -104,30 +104,59 @@ class BuildWeatherEventState extends State<BuildWeatherEvent> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 50.0),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 25),
-                      primary: Colors.white,
-                      backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-                    ),
-                    onPressed: () {
-                      addPlaylists(context);
-                    },
-                    child: Text('Add Playlists'),
+                  padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 20.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              side: BorderSide(color: const Color.fromARGB(255, 149, 215, 201)),
+                            ),
+                          ),
+                          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.fromLTRB(15, 10, 12, 10)),
+                          backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 149, 215, 201)),
+                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                        ),
+                        onPressed: () {
+                          addPlaylists(context);
+                        },
+                        child: Text('+  Playlists',
+                            style: TextStyle(
+                                fontSize: 20
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0, 0, 0, 0),
+                        child: TextButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                side: BorderSide(color: const Color.fromARGB(255, 149, 215, 201)),
+                              ),
+                            ),
+                            padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.fromLTRB(15, 10, 12, 10)),
+                            backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 149, 215, 201)),
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                          ),
+                          onPressed: () {
+                            createWeatherEvent(eventsPriorityQueue, user);
+                            Navigator.pop(context);
+                          },
+                          child: Text('Create Event',
+                            style: TextStyle(
+                                fontSize: 20
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 25),
-                    primary: Colors.white,
-                    backgroundColor: const Color.fromARGB(255, 149, 215, 201),
-                  ),
-                  onPressed: () {
-                    createWeatherEvent(eventsPriorityQueue, user);
-                    Navigator.pop(context);
-                  },
-                  child: Text('Create Event'),
                 ),
               ],
             ),

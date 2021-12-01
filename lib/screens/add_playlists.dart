@@ -55,15 +55,25 @@ class AddPlaylistsState extends State<AddPlaylists> {
         ),
       ),
       floatingActionButton: TextButton(
-        style: TextButton.styleFrom(
-          textStyle: const TextStyle(fontSize: 25),
-          primary: Colors.white,
-          backgroundColor: const Color.fromARGB(255, 149, 215, 201),
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0),
+              side: BorderSide(color: Colors.white),
+            ),
+          ),
+          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.fromLTRB(15, 10, 12, 10)),
+          backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 149, 215, 201)),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         ),
         onPressed: () {
           Navigator.pop(context, playlistList.elementAt(0));
         },
-        child: Text('Add Playlists'),
+        child: Text('Done',
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
       ),
     );
   }
@@ -85,7 +95,7 @@ class AddPlaylistsState extends State<AddPlaylists> {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: SwitchListTile(
-          contentPadding: EdgeInsets.fromLTRB(105, 15, 15, 15),
+          contentPadding: EdgeInsets.fromLTRB(105, 20, 20, 20),
           title: Text(
             '${playlist.title}',
             style: TextStyle(
