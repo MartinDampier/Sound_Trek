@@ -122,6 +122,9 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
                         eventRadius = value;
                       });
                     },
+                    activeColor: Colors.teal,
+                    inactiveColor: Colors.grey.shade700,
+                    thumbColor: const Color.fromARGB(255, 149, 215, 201),
                   ),
                 ),
                 Padding(
