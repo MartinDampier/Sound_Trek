@@ -49,6 +49,14 @@ class BuildLocationEventState extends State<BuildLocationEvent> {
     final eventsPriorityQueue = Provider.of<PriorityQueue>(context);
     final user = Provider.of<User>(context);
     initializeCamera(user);
+    _radiusView.add(Circle(
+      circleId: CircleId("radius"),
+      center: _markerPosition,
+      radius: eventRadius,
+      fillColor: Color.fromARGB(149, 237, 133, 138),
+      strokeWidth: 2,
+      strokeColor: Color.fromARGB(149, 255, 166, 170),
+    ));
 
 
     return Scaffold(
