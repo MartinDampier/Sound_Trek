@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(appbarSize),
           child: AppBar(
-              systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.white.withOpacity(0.4)),
+              systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black),
               backgroundColor: Colors.transparent,
               centerTitle: true,
               title: Column(
